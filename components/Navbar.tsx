@@ -6,10 +6,9 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Manejar el efecto de scroll para cambiar el fondo
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -27,22 +26,23 @@ const Navbar: React.FC = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
+    // 1. Cerrar menú inmediatamente
     setIsOpen(false);
     
-    // Pequeño timeout para permitir que el menú empiece a cerrar y evitar bloqueos de UI en móviles
+    // 2. Ejecutar scroll en el siguiente tick para asegurar que la UI responda primero
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
-        const offset = 80; // Compensar la altura del navbar fijo
+        const headerOffset = 80;
         const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - offset;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
         window.scrollTo({
           top: offsetPosition,
           behavior: 'smooth'
         });
       }
-    }, 100);
+    }, 50);
   };
 
   const navLinks = [
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation (Centered) */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 bg-slate-100/50 p-1 rounded-full border border-slate-200/50 backdrop-blur-sm">
             {navLinks.map((link) => (
               <button
@@ -94,7 +94,7 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Right CTA */}
+          {/* Right CTA (Desktop) */}
           <div className="hidden md:flex items-center">
             <button 
               onClick={() => scrollToSection('contact')}
@@ -110,7 +110,7 @@ const Navbar: React.FC = () => {
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-              className="p-2 text-slate-600 hover:text-primary-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none"
+              className="p-2 text-slate-600 hover:text-primary-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none active:bg-slate-200"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -125,18 +125,15 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl overflow-hidden"
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-2xl overflow-hidden"
             style={{ maxHeight: '85vh', overflowY: 'auto' }}
           >
             <div className="px-4 py-6 space-y-2 flex flex-col">
               {navLinks.map((link) => (
                 <button 
                   key={link.name}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(link.id);
-                  }} 
+                  onClick={() => scrollToSection(link.id)}
                   className="block w-full text-left px-4 py-4 text-base font-medium text-slate-600 hover:text-primary-600 hover:bg-slate-50 rounded-xl transition-colors active:bg-slate-100"
                 >
                   {link.name}
@@ -144,10 +141,7 @@ const Navbar: React.FC = () => {
               ))}
               <div className="pt-4 mt-4 border-t border-slate-100">
                 <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection('contact');
-                  }} 
+                  onClick={() => scrollToSection('contact')}
                   className="block w-full text-center bg-slate-900 text-white px-5 py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-transform"
                 >
                   Contactar ahora
