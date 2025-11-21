@@ -1,6 +1,7 @@
 import { HashRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import ServiceDetails from './components/ServiceDetails';
 import Services from './components/Services';
 import Plans from './components/Plans';
 import CustomPlanBuilder from './components/CustomPlanBuilder';
@@ -13,6 +14,7 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          <ServiceDetails />
           <Services />
           <Plans />
           <CustomPlanBuilder />

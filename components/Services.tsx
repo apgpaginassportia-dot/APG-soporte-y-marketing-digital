@@ -15,10 +15,10 @@ const Services: React.FC = () => {
     <section id="services" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-primary-600 font-semibold tracking-wide uppercase text-sm mb-3">Módulos Inteligentes</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Soluciones a medida para cada necesidad</h3>
+          <h2 className="text-primary-600 font-semibold tracking-wide uppercase text-sm mb-3">Tarifas Modulares</h2>
+          <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Contratación Individual por Módulos</h3>
           <p className="max-w-2xl mx-auto text-slate-600 text-lg">
-            Contrata solo lo que necesitas. Nuestros módulos de IA se integran perfectamente con tus procesos actuales.
+            Si no necesitas un plan integral, puedes contratar nuestros servicios de IA de forma independiente.
           </p>
         </div>
 

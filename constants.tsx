@@ -1,4 +1,4 @@
-import { ServiceModule, Plan } from './types';
+import { ServiceModule, Plan, CustomFeature } from './types';
 
 export const SERVICE_MODULES: ServiceModule[] = [
   {
@@ -94,4 +94,28 @@ export const PREDEFINED_PLANS: Plan[] = [
       'Dashboard de control total'
     ]
   }
+];
+
+export const CUSTOM_PLAN_FEATURES: CustomFeature[] = [
+  // Gestión General
+  { id: 'f1', title: 'Formularios inteligentes', price: 150, category: 'Gestión' },
+  { id: 'f2', title: 'Validación de documentos', price: 120, category: 'Gestión' },
+  { id: 'f3', title: 'Base de datos de participantes', price: 100, category: 'Gestión' },
+  { id: 'f10', title: 'Dashboard de control total', price: 200, category: 'Gestión' },
+  
+  // Transporte
+  { id: 'f5', title: 'Gestión integral de autocares', price: 250, category: 'Transporte' },
+  { id: 'f6', title: 'Optimización de rutas', price: 180, category: 'Transporte' },
+  
+  // Alojamiento
+  { id: 'f8', title: 'Gestión hotelera automatizada', price: 350, category: 'Alojamiento' },
+  { id: 'f9', title: 'Rooming lists inteligentes', price: 150, category: 'Alojamiento' },
+
+  // Marketing (Nuevos)
+  { id: 'f11', title: 'Generación de contenidos RRSS', price: 150, isMonthly: true, category: 'Marketing' },
+  
+  // Soporte
+  { id: 'f12', title: 'Chatbot IA para participantes', price: 300, category: 'Soporte' },
+  { id: 'f4', title: 'Soporte por email', price: 50, isMonthly: true, category: 'Soporte' },
+  { id: 'f7', title: 'Soporte prioritario', price: 150, isMonthly: true, category: 'Soporte' },
 ];

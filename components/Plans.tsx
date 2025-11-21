@@ -1,6 +1,6 @@
 import React from 'react';
 import { PREDEFINED_PLANS } from '../constants';
-import { Check } from 'lucide-react';
+import { Check, Sliders } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Plans: React.FC = () => {
@@ -15,17 +15,17 @@ const Plans: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {PREDEFINED_PLANS.map((plan, index) => (
             <motion.div
               key={plan.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15 }}
-              className={`relative rounded-3xl p-8 ${
+              transition={{ delay: index * 0.1 }}
+              className={`relative rounded-3xl p-6 flex flex-col ${
                 plan.isPopular 
-                  ? 'bg-white text-slate-900 ring-4 ring-primary-500 ring-opacity-50 transform md:-translate-y-4' 
+                  ? 'bg-white text-slate-900 ring-4 ring-primary-500 ring-opacity-50 transform lg:-translate-y-4 z-10' 
                   : 'bg-slate-800 text-white border border-slate-700'
               }`}
             >
@@ -35,26 +35,28 @@ const Plans: React.FC = () => {
                 </div>
               )}
 
-              <div className="mb-8">
+              <div className="mb-6">
                 <h4 className={`text-xl font-bold mb-2 ${plan.isPopular ? 'text-slate-900' : 'text-white'}`}>
                   {plan.title}
                 </h4>
-                <p className={`text-sm mb-6 ${plan.isPopular ? 'text-slate-500' : 'text-slate-400'}`}>
+                <p className={`text-sm mb-4 ${plan.isPopular ? 'text-slate-500' : 'text-slate-400'}`}>
                   {plan.description}
                 </p>
                 <div className="flex items-baseline">
-                  <span className={`text-5xl font-extrabold ${plan.isPopular ? 'text-slate-900' : 'text-white'}`}>
+                  <span className={`text-4xl font-extrabold ${plan.isPopular ? 'text-slate-900' : 'text-white'}`}>
                     {plan.price}€
                   </span>
-                  <span className={`ml-2 text-sm ${plan.isPopular ? 'text-slate-500' : 'text-slate-400'}`}>
-                    /evento
-                  </span>
+                  {typeof plan.price === 'number' && (
+                    <span className={`ml-2 text-sm ${plan.isPopular ? 'text-slate-500' : 'text-slate-400'}`}>
+                      /evento
+                    </span>
+                  )}
                 </div>
               </div>
 
-              <div className={`h-px w-full mb-8 ${plan.isPopular ? 'bg-slate-200' : 'bg-slate-700'}`}></div>
+              <div className={`h-px w-full mb-6 ${plan.isPopular ? 'bg-slate-200' : 'bg-slate-700'}`}></div>
 
-              <ul className="space-y-4 mb-8">
+              <ul className="space-y-3 mb-8 flex-1">
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start">
                     <Check className={`w-5 h-5 mr-3 flex-shrink-0 ${plan.isPopular ? 'text-primary-600' : 'text-primary-400'}`} />
@@ -77,6 +79,54 @@ const Plans: React.FC = () => {
               </button>
             </motion.div>
           ))}
+
+          {/* Custom Plan Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="relative rounded-3xl p-6 flex flex-col bg-slate-800 text-white border border-slate-600 border-dashed"
+          >
+            <div className="mb-6">
+              <h4 className="text-xl font-bold mb-2 text-white">
+                A Medida
+              </h4>
+              <p className="text-sm mb-4 text-slate-400">
+                Crea una solución única adaptada a tus necesidades específicas.
+              </p>
+              <div className="flex items-baseline">
+                <span className="text-4xl font-extrabold text-white">
+                  Variable
+                </span>
+              </div>
+            </div>
+
+            <div className="h-px w-full mb-6 bg-slate-700"></div>
+
+            <ul className="space-y-3 mb-8 flex-1">
+                <li className="flex items-start">
+                  <Check className="w-5 h-5 mr-3 flex-shrink-0 text-primary-400" />
+                  <span className="text-sm text-slate-300">Selección modular</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="w-5 h-5 mr-3 flex-shrink-0 text-primary-400" />
+                  <span className="text-sm text-slate-300">Pagas solo lo que usas</span>
+                </li>
+                  <li className="flex items-start">
+                  <Check className="w-5 h-5 mr-3 flex-shrink-0 text-primary-400" />
+                  <span className="text-sm text-slate-300">Asesoramiento IA</span>
+                </li>
+            </ul>
+
+            <button 
+              className="w-full py-4 rounded-xl font-bold transition-all bg-transparent border-2 border-primary-500 text-primary-400 hover:bg-primary-500 hover:text-white flex items-center justify-center gap-2"
+              onClick={() => document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              <Sliders size={18} />
+              Configurar Pack
+            </button>
+          </motion.div>
         </div>
       </div>
     </section>

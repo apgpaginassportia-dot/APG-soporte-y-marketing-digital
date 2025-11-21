@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Cpu } from 'lucide-react';
+import { Menu, X, Cpu, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,56 +17,117 @@ const Navbar: React.FC = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const offset = 80; // Compensar la altura del navbar fijo
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
     setIsOpen(false);
   };
 
+  const navLinks = [
+    { name: 'Soluciones', id: 'solutions' },
+    { name: 'Módulos', id: 'services' },
+    { name: 'Packs', id: 'plans' },
+    { name: 'A medida', id: 'calculator' },
+  ];
+
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-md py-4' : 'bg-transparent py-6'}`}>
+    <nav 
+      className={`fixed w-full z-50 transition-all duration-500 border-b ${
+        scrolled 
+          ? 'bg-white/80 backdrop-blur-md border-slate-200/50 shadow-sm py-3' 
+          : 'bg-transparent border-transparent py-6'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <div className="flex items-center cursor-pointer" onClick={() => scrollToSection('hero')}>
-            <Cpu className="h-8 w-8 text-primary-600 flex-shrink-0" />
-            <div className="ml-2 flex flex-col">
-              <span className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-tight">APG</span>
-              <span className="text-[10px] sm:text-xs font-semibold text-slate-600 uppercase tracking-wider hidden sm:block">Soporte y Marketing Deportivo Digital</span>
+          
+          {/* Logo Brand */}
+          <div 
+            className="flex items-center cursor-pointer group" 
+            onClick={() => scrollToSection('hero')}
+          >
+            <div className={`p-2 rounded-xl mr-3 transition-colors ${scrolled ? 'bg-primary-50 text-primary-600' : 'bg-white text-primary-600 shadow-sm'}`}>
+              <Cpu className="h-6 w-6" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold text-slate-900 tracking-tight leading-none group-hover:text-primary-600 transition-colors">APG</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">Soporte Digital</span>
             </div>
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollToSection('services')} className="text-slate-600 hover:text-primary-600 transition-colors font-medium">Servicios</button>
-            <button onClick={() => scrollToSection('plans')} className="text-slate-600 hover:text-primary-600 transition-colors font-medium">Planes</button>
-            <button onClick={() => scrollToSection('calculator')} className="text-slate-600 hover:text-primary-600 transition-colors font-medium">Personalizar</button>
+          {/* Desktop Navigation (Centered) */}
+          <div className="hidden md:flex items-center space-x-1 bg-slate-100/50 p-1 rounded-full border border-slate-200/50 backdrop-blur-sm">
+            {navLinks.map((link) => (
+              <button
+                key={link.name}
+                onClick={() => scrollToSection(link.id)}
+                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200"
+              >
+                {link.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Right CTA */}
+          <div className="hidden md:flex items-center">
             <button 
               onClick={() => scrollToSection('contact')}
-              className="bg-primary-600 text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/30"
+              className="group flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-600 transition-all shadow-lg shadow-slate-900/10 hover:shadow-primary-600/20"
             >
               Contactar
+              <ChevronRight size={16} className="text-slate-400 group-hover:text-white transition-colors" />
             </button>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-900 hover:text-primary-600 focus:outline-none">
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className="p-2 text-slate-600 hover:text-primary-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none"
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-t absolute w-full shadow-lg">
-          <div className="px-4 pt-2 pb-8 space-y-1">
-            <button onClick={() => scrollToSection('services')} className="block px-3 py-4 text-base font-medium text-slate-700 hover:text-primary-600 w-full text-left">Servicios</button>
-            <button onClick={() => scrollToSection('plans')} className="block px-3 py-4 text-base font-medium text-slate-700 hover:text-primary-600 w-full text-left">Planes</button>
-            <button onClick={() => scrollToSection('calculator')} className="block px-3 py-4 text-base font-medium text-slate-700 hover:text-primary-600 w-full text-left">Calculadora</button>
-            <button onClick={() => scrollToSection('contact')} className="block w-full text-center mt-4 bg-primary-600 text-white px-5 py-3 rounded-lg font-medium">Contactar</button>
-          </div>
-        </div>
-      )}
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-b border-slate-100 overflow-hidden shadow-xl absolute w-full"
+          >
+            <div className="px-4 py-6 space-y-2">
+              {navLinks.map((link) => (
+                <button 
+                  key={link.name}
+                  onClick={() => scrollToSection(link.id)} 
+                  className="block w-full text-left px-4 py-3 text-base font-medium text-slate-600 hover:text-primary-600 hover:bg-slate-50 rounded-xl transition-colors"
+                >
+                  {link.name}
+                </button>
+              ))}
+              <div className="pt-4 mt-4 border-t border-slate-100">
+                <button 
+                  onClick={() => scrollToSection('contact')} 
+                  className="block w-full text-center bg-primary-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg shadow-primary-600/20 active:scale-95 transition-transform"
+                >
+                  Contactar ahora
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

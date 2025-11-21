@@ -15,3 +15,11 @@ export interface Plan {
   isPopular?: boolean;
   description: string;
 }
+
+export interface CustomFeature {
+  id: string;
+  title: string;
+  price: number;
+  isMonthly?: boolean;
+  category: 'Gestión' | 'Transporte' | 'Alojamiento' | 'Soporte' | 'Marketing';
+}

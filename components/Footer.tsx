@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Linkedin, MessageCircle, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, MessageCircle, Send, Instagram, Twitter } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -87,8 +87,32 @@ const Footer: React.FC = () => {
             </ul>
             
             <div className="flex space-x-4 mt-8">
-              <a href="#" className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors text-slate-400 hover:text-white">
+              <a 
+                href="https://www.linkedin.com/in/alicia-pons-garc%C3%ADa-aa00a3381/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors text-slate-400 hover:text-white"
+                title="LinkedIn"
+              >
                 <Linkedin size={18} />
+              </a>
+              <a 
+                href="https://x.com/AliSportsIA" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-black transition-colors text-slate-400 hover:text-white"
+                title="Twitter / X"
+              >
+                <Twitter size={18} />
+              </a>
+              <a 
+                href="https://www.instagram.com/apg_socialmedia91/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-pink-600 transition-colors text-slate-400 hover:text-white"
+                title="Instagram"
+              >
+                <Instagram size={18} />
               </a>
             </div>
           </div>

@@ -35,10 +35,10 @@ const Hero: React.FC = () => {
                 Ver Planes y Precios <ArrowRight size={20} />
               </button>
               <button 
-                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('solutions')?.scrollIntoView({ behavior: 'smooth' })}
                 className="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center"
               >
-                Explorar Soluciones
+                ¿Cómo funciona?
               </button>
             </div>
 
