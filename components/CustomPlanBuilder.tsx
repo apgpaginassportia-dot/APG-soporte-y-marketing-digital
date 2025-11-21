@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SERVICE_MODULES } from '../constants';
-import { Check, Plus } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CustomPlanBuilder: React.FC = () => {
