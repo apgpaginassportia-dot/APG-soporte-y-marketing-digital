@@ -6,12 +6,24 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Manejar el efecto de scroll para cambiar el fondo
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Cerrar menú móvil automáticamente si la pantalla se agranda (ej. rotar tablet)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -38,10 +50,10 @@ const Navbar: React.FC = () => {
 
   return (
     <nav 
-      className={`fixed w-full z-50 transition-all duration-500 border-b ${
-        scrolled 
-          ? 'bg-white/80 backdrop-blur-md border-slate-200/50 shadow-sm py-3' 
-          : 'bg-transparent border-transparent py-6'
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled || isOpen 
+          ? 'bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm py-2' 
+          : 'bg-transparent py-4 md:py-6'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,15 +61,19 @@ const Navbar: React.FC = () => {
           
           {/* Logo Brand */}
           <div 
-            className="flex items-center cursor-pointer group" 
+            className="flex items-center cursor-pointer group relative z-50" 
             onClick={() => scrollToSection('hero')}
           >
-            <div className={`p-2 rounded-xl mr-3 transition-colors ${scrolled ? 'bg-primary-50 text-primary-600' : 'bg-white text-primary-600 shadow-sm'}`}>
+            <div className={`p-2 rounded-xl mr-3 transition-colors ${scrolled || isOpen ? 'bg-primary-50 text-primary-600' : 'bg-white text-primary-600 shadow-sm'}`}>
               <Cpu className="h-6 w-6" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-slate-900 tracking-tight leading-none group-hover:text-primary-600 transition-colors">APG</span>
-              <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">Soporte Digital</span>
+              <span className={`text-lg font-bold tracking-tight leading-none transition-colors ${scrolled || isOpen ? 'text-slate-900' : 'text-slate-900'}`}>
+                APG
+              </span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">
+                Soporte Digital
+              </span>
             </div>
           </div>
 
@@ -67,7 +83,7 @@ const Navbar: React.FC = () => {
               <button
                 key={link.name}
                 onClick={() => scrollToSection(link.id)}
-                className="px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200"
+                className="px-3 lg:px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200"
               >
                 {link.name}
               </button>
@@ -86,9 +102,10 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center relative z-50">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
+              aria-label="Abrir menú"
               className="p-2 text-slate-600 hover:text-primary-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -104,14 +121,16 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-slate-100 overflow-hidden shadow-xl absolute w-full"
+            transition={{ duration: 0.2 }}
+            className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl overflow-hidden"
+            style={{ maxHeight: '80vh', overflowY: 'auto' }}
           >
             <div className="px-4 py-6 space-y-2">
               {navLinks.map((link) => (
                 <button 
                   key={link.name}
                   onClick={() => scrollToSection(link.id)} 
-                  className="block w-full text-left px-4 py-3 text-base font-medium text-slate-600 hover:text-primary-600 hover:bg-slate-50 rounded-xl transition-colors"
+                  className="block w-full text-left px-4 py-4 text-base font-medium text-slate-600 hover:text-primary-600 hover:bg-slate-50 rounded-xl transition-colors"
                 >
                   {link.name}
                 </button>
@@ -119,7 +138,7 @@ const Navbar: React.FC = () => {
               <div className="pt-4 mt-4 border-t border-slate-100">
                 <button 
                   onClick={() => scrollToSection('contact')} 
-                  className="block w-full text-center bg-primary-600 text-white px-5 py-3 rounded-xl font-bold shadow-lg shadow-primary-600/20 active:scale-95 transition-transform"
+                  className="block w-full text-center bg-slate-900 text-white px-5 py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-transform"
                 >
                   Contactar ahora
                 </button>
