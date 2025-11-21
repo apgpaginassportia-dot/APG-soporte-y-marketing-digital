@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SERVICE_MODULES } from '../constants';
-import { Check } from 'lucide-react';
+import { Check, Send, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CustomPlanBuilder: React.FC = () => {
@@ -27,6 +27,32 @@ const CustomPlanBuilder: React.FC = () => {
   
   // Calculate one-time setup cost
   const oneTimeCost = totalPrice - monthlyCost;
+
+  const handleRequestPack = () => {
+    if (selectedModules.length === 0) return;
+
+    const selectedNames = selectedModules
+      .map(id => SERVICE_MODULES.find(m => m.id === id)?.title)
+      .filter(Boolean)
+      .join('\n- ');
+
+    const subject = encodeURIComponent("Solicitud de Pack Personalizado - APG Sportflow");
+    const body = encodeURIComponent(`Hola Alicia,
+
+Estoy interesado en contratar un pack personalizado de automatización para mi torneo deportivo con los siguientes servicios:
+
+- ${selectedNames}
+
+Resumen de costes estimados:
+- Implementación: ${oneTimeCost}€
+${monthlyCost > 0 ? `- Mensualidad soporte: ${monthlyCost}€/mes` : ''}
+
+Me gustaría agendar una reunión para concretar detalles.
+
+Un saludo.`);
+
+    window.open(`mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${body}`, '_blank');
+  };
 
   return (
     <section id="calculator" className="py-24 bg-slate-50">
@@ -80,7 +106,14 @@ const CustomPlanBuilder: React.FC = () => {
                 <div className="space-y-4 mb-8">
                   <AnimatePresence>
                     {selectedModules.length === 0 && (
-                      <p className="text-slate-400 text-sm italic">Selecciona módulos para ver el desglose.</p>
+                      <motion.div 
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }}
+                        className="flex items-center text-slate-400 text-sm italic gap-2"
+                      >
+                        <AlertCircle size={16} />
+                        <span>Selecciona módulos para comenzar</span>
+                      </motion.div>
                     )}
                     {selectedModules.map(id => {
                       const mod = SERVICE_MODULES.find(m => m.id === id);
@@ -114,12 +147,16 @@ const CustomPlanBuilder: React.FC = () => {
                   </div>
                 )}
                 <button 
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={handleRequestPack}
                   disabled={selectedModules.length === 0}
-                  className="w-full py-4 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-primary-600 text-white rounded-xl font-bold hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
+                  <Send size={20} />
                   Solicitar este Pack
                 </button>
+                <p className="text-center text-xs text-slate-500 mt-4">
+                  Se abrirá tu cliente de correo con los detalles.
+                </p>
               </div>
             </div>
 
