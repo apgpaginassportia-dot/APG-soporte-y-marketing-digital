@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PREDEFINED_PLANS } from '../constants';
 import { Check, Sliders } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Plan } from '../types';
+import ContactModal from './ContactModal';
 
 const Plans: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
+  const handleSelectPlan = (plan: Plan) => {
+    setSelectedPlan(plan);
+    setIsModalOpen(true);
+  };
+
   return (
     <section id="plans" className="py-24 bg-slate-900 text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -73,7 +83,7 @@ const Plans: React.FC = () => {
                     ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-500/30' 
                     : 'bg-slate-700 text-white hover:bg-slate-600'
                 }`}
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => handleSelectPlan(plan)}
               >
                 Elegir {plan.title}
               </button>
@@ -129,6 +139,17 @@ const Plans: React.FC = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Modal de Contacto */}
+      {selectedPlan && (
+        <ContactModal 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          planTitle={selectedPlan.title}
+          planPrice={selectedPlan.price}
+          planFeatures={selectedPlan.features}
+        />
+      )}
     </section>
   );
 };

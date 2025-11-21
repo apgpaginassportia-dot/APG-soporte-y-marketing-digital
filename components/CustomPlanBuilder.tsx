@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { CUSTOM_PLAN_FEATURES } from '../constants';
-import { Check, Send, AlertCircle, Settings, Truck, BedDouble, Headphones, Megaphone } from 'lucide-react';
+import { Check, Send, AlertCircle, Settings, Truck, BedDouble, Headphones, Megaphone, Trophy, Lightbulb } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ContactModal from './ContactModal';
 
 const CustomPlanBuilder: React.FC = () => {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleFeature = (id: string) => {
     setSelectedFeatures(prev => 
@@ -27,32 +29,23 @@ const CustomPlanBuilder: React.FC = () => {
 
   const handleRequestPack = () => {
     if (selectedFeatures.length === 0) return;
+    setIsModalOpen(true);
+  };
 
-    const selectedNames = selectedFeatures
+  const getPlanFeaturesList = () => {
+    return selectedFeatures
       .map(id => {
         const f = CUSTOM_PLAN_FEATURES.find(feat => feat.id === id);
-        return f ? `${f.title} (${f.isMonthly ? 'Mensual' : 'Pago único'})` : '';
+        return f ? `${f.title} (${f.isMonthly ? 'Mensual' : 'Pago único'}) - ${f.price}€` : '';
       })
-      .filter(Boolean)
-      .join('\n- ');
+      .filter(Boolean);
+  };
 
-    const subject = encodeURIComponent("Solicitud de Plan a Medida - APG Sportflow");
-    const body = encodeURIComponent(`Hola Alicia,
-
-He diseñado mi propia configuración de servicios en la web y me gustaría recibir una propuesta formal.
-
-Servicios seleccionados:
-- ${selectedNames}
-
-Presupuesto estimado en web:
-- Implementación (Pago único): ${oneTimeCost}€
-- Soporte Mensual: ${monthlyCost}€/mes
-
-Quedo a la espera de tu respuesta para agendar una llamada.
-
-Un saludo.`);
-
-    window.open(`mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${body}`, '_blank');
+  const getFormattedPrice = () => {
+    const parts = [];
+    if (oneTimeCost > 0) parts.push(`Pago Único: ${oneTimeCost}€`);
+    if (monthlyCost > 0) parts.push(`Mensual: ${monthlyCost}€`);
+    return parts.join(' + ');
   };
 
   const getCategoryIcon = (cat: string) => {
@@ -62,6 +55,8 @@ Un saludo.`);
       case 'Alojamiento': return <BedDouble size={18} />;
       case 'Soporte': return <Headphones size={18} />;
       case 'Marketing': return <Megaphone size={18} />;
+      case 'Competición': return <Trophy size={18} />;
+      case 'Innovación': return <Lightbulb size={18} />;
       default: return <Settings size={18} />;
     }
   };
@@ -202,6 +197,16 @@ Un saludo.`);
           </div>
         </div>
       </div>
+      
+      {/* Modal de Contacto */}
+      <ContactModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        planTitle="Plan Personalizado"
+        planPrice={getFormattedPrice()}
+        planFeatures={getPlanFeaturesList()}
+        isCustom={true}
+      />
     </section>
   );
 };
