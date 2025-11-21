@@ -27,18 +27,22 @@ const Navbar: React.FC = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80; // Compensar la altura del navbar fijo
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
     setIsOpen(false);
+    
+    // Pequeño timeout para permitir que el menú empiece a cerrar y evitar bloqueos de UI en móviles
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 80; // Compensar la altura del navbar fijo
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   const navLinks = [
@@ -105,7 +109,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden flex items-center relative z-50">
             <button 
               onClick={() => setIsOpen(!isOpen)} 
-              aria-label="Abrir menú"
+              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
               className="p-2 text-slate-600 hover:text-primary-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -121,23 +125,29 @@ const Navbar: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             className="md:hidden absolute top-full left-0 w-full bg-white border-b border-slate-100 shadow-xl overflow-hidden"
-            style={{ maxHeight: '80vh', overflowY: 'auto' }}
+            style={{ maxHeight: '85vh', overflowY: 'auto' }}
           >
-            <div className="px-4 py-6 space-y-2">
+            <div className="px-4 py-6 space-y-2 flex flex-col">
               {navLinks.map((link) => (
                 <button 
                   key={link.name}
-                  onClick={() => scrollToSection(link.id)} 
-                  className="block w-full text-left px-4 py-4 text-base font-medium text-slate-600 hover:text-primary-600 hover:bg-slate-50 rounded-xl transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(link.id);
+                  }} 
+                  className="block w-full text-left px-4 py-4 text-base font-medium text-slate-600 hover:text-primary-600 hover:bg-slate-50 rounded-xl transition-colors active:bg-slate-100"
                 >
                   {link.name}
                 </button>
               ))}
               <div className="pt-4 mt-4 border-t border-slate-100">
                 <button 
-                  onClick={() => scrollToSection('contact')} 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection('contact');
+                  }} 
                   className="block w-full text-center bg-slate-900 text-white px-5 py-4 rounded-xl font-bold shadow-lg active:scale-95 transition-transform"
                 >
                   Contactar ahora
