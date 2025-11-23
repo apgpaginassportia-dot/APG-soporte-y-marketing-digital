@@ -9,20 +9,24 @@ interface PlanModalProps {
   preselectedServices?: string[];
 }
 
-export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedPlan, preselectedServices = [] }) => {
+// Define stable default constant outside component to prevent re-render resets
+const DEFAULT_SERVICES: string[] = [];
+
+export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedPlan, preselectedServices = DEFAULT_SERVICES }) => {
   const [formData, setFormData] = useState<LeadForm>({
     name: '',
     email: '',
     phone: '',
     message: '',
-    selectedServices: []
+    selectedServices: preselectedServices
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // Reset form ONLY when the modal opens or the plan actually changes
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && selectedPlan) {
       setFormData({
         name: '',
         email: '',
@@ -202,7 +206,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         <input
                           type="text"
                           value={formData.name}
-                          onChange={e => setFormData({...formData, name: e.target.value})}
+                          onChange={e => setFormData(prev => ({...prev, name: e.target.value}))}
                           className={`block w-full border ${errors.name ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
                           placeholder="Tu nombre"
                         />
@@ -215,7 +219,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         <input
                           type="email"
                           value={formData.email}
-                          onChange={e => setFormData({...formData, email: e.target.value})}
+                          onChange={e => setFormData(prev => ({...prev, email: e.target.value}))}
                           className={`block w-full border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
                           placeholder="tu@email.com"
                         />
@@ -227,7 +231,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         <input
                           type="tel"
                           value={formData.phone}
-                          onChange={e => setFormData({...formData, phone: e.target.value})}
+                          onChange={e => setFormData(prev => ({...prev, phone: e.target.value}))}
                           className={`block w-full border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
                           placeholder="+34..."
                         />

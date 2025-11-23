@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CUSTOM_SERVICES_LIST, Icons } from '../constants';
 import { PlanModal } from './PlanModal';
 import { Plan } from '../types';
@@ -29,7 +29,8 @@ export const CustomBuilder: React.FC = () => {
     }
   };
 
-  const customPlan: Plan = {
+  // Memoize the plan object to prevent reference changes on re-renders
+  const customPlan: Plan = useMemo(() => ({
     id: 'custom',
     title: 'Plan Personalizado',
     subtitle: 'A la carta',
@@ -38,7 +39,7 @@ export const CustomBuilder: React.FC = () => {
     description: 'Configuración manual de servicios seleccionados adaptada a tus necesidades operativas.',
     features: [],
     buttonText: 'Solicitar Presupuesto'
-  };
+  }), [totalEstimated]);
 
   const isValid = selectedServices.length >= MIN_SERVICES && selectedServices.length <= MAX_SERVICES;
 

@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>APG Marketing | Gestión Deportiva Profesional</title>
-
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -13,14 +11,14 @@
           extend: {
             colors: {
               sports: {
-                navy: '#0A1A2F',     
-                dark: '#050E1A',     
-                surface: '#11223A',  
-                blue: '#176BFF',     
-                lime: '#78E08F',     
-                gray: '#2E3A45',     
-                text: '#F3F4F6',     
-                muted: '#9CA3AF'     
+                navy: '#0A1A2F',     // Main Background (Deep Navy)
+                dark: '#050E1A',     // Darker sections
+                surface: '#11223A',  // Cards
+                blue: '#176BFF',     // Sports Blue (Primary Action)
+                lime: '#78E08F',     // Lime Green (Highlights/CTA)
+                gray: '#2E3A45',     // Steel Gray (Secondary UI)
+                text: '#F3F4F6',     // Main Text
+                muted: '#9CA3AF'     // Muted Text
               }
             },
             fontFamily: {
@@ -35,13 +33,9 @@
         }
       }
     </script>
-
-    <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Estilos -->
     <style>
       body { font-family: 'Montserrat', sans-serif; background-color: #0A1A2F; color: #F3F4F6; }
       h1, h2, h3, h4, h5, h6 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
@@ -51,8 +45,6 @@
       .custom-scrollbar::-webkit-scrollbar-thumb { background: #2E3A45; border-radius: 4px; }
       .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #176BFF; }
     </style>
-
-    <!-- Import Map React -->
     <script type="importmap">
     {
       "imports": {
@@ -65,11 +57,7 @@
     }
     </script>
   </head>
-
   <body class="bg-sports-navy text-sports-text antialiased selection:bg-sports-blue selection:text-white">
     <div id="root"></div>
-
-    <!-- SCRIPT CRÍTICO PARA QUE REACT SE MONTE -->
-    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
