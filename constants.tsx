@@ -1,4 +1,3 @@
-import React from 'react';
 import { Plan, CustomServiceOption, ServiceCatalogItem } from './types';
 
 // Icon Components - Simplified for Sports Theme

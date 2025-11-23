@@ -1,5 +1,5 @@
 import React from 'react';
-import { SERVICE_CATALOG, Icons } from '../constants';
+import { Icons } from '../constants';
 
 export const VisualServices: React.FC = () => {
   const solutions = [
