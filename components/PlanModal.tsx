@@ -69,12 +69,49 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     if (!validate()) return;
     
     setIsSubmitting(true);
-    
-    // Simulate backend API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
 
-    setIsSubmitting(false);
-    setShowSuccess(true);
+    const total = calculateTotal();
+    const servicesList = selectedPlan.id === 'custom' 
+      ? getCustomServiceBreakdown().map(s => s?.label).join(', ')
+      : selectedPlan.features.join(', ');
+
+    // Datos estructurados para el email
+    const emailPayload = {
+      _subject: `Nuevo Cliente APG: ${formData.name} - Plan ${selectedPlan.title}`,
+      _template: "table",
+      _captcha: "false", // Intenta evitar captcha (puede aparecer la primera vez)
+      Plan_Seleccionado: selectedPlan.title,
+      Precio_Estimado: `${total}€`,
+      Nombre_Cliente: formData.name,
+      Email_Cliente: formData.email, // FormSubmit usará esto para responder
+      Telefono: formData.phone,
+      Servicios_Incluidos: servicesList,
+      Mensaje_Adicional: formData.message || "Sin mensaje"
+    };
+    
+    try {
+      // Envío real usando FormSubmit vía AJAX
+      const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailPayload)
+      });
+
+      if (response.ok) {
+        setShowSuccess(true);
+      } else {
+        console.error("Error en el envío:", await response.text());
+        alert("Hubo un problema técnico al enviar el correo. Por favor, intenta contactar por WhatsApp.");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+      alert("Error de conexión. Por favor, verifica tu internet o contacta por WhatsApp.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const total = calculateTotal();
@@ -94,13 +131,13 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                    </svg>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Recibida!</h3>
+                <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Enviada!</h3>
                 <div className="max-w-md mx-auto space-y-2 mb-8">
                   <p className="text-gray-300 font-body text-lg">
-                    Hemos registrado tu solicitud correctamente.
+                    Hemos enviado los detalles a tu correo y al equipo de soporte.
                   </p>
                   <p className="text-gray-400 font-body text-sm">
-                    El equipo revisará tu configuración y recibirás una respuesta detallada en un plazo de <span className="text-sports-lime font-bold">24/48 horas</span>.
+                    Revisaremos tu configuración y recibirás una respuesta detallada en un plazo de <span className="text-sports-lime font-bold">24/48 horas</span>.
                   </p>
                 </div>
                 <button 
@@ -172,10 +209,15 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                  </div>
 
                  <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* Hidden inputs for FormSubmit configuration if fallback is needed, though we use AJAX */}
+                    <input type="hidden" name="_subject" value="Nuevo Cliente Web" />
+                    <input type="hidden" name="_captcha" value="false" />
+
                     <div>
                         <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Nombre Completo</label>
                         <input
                           type="text"
+                          name="name"
                           value={formData.name}
                           onChange={e => setFormData(prev => ({...prev, name: e.target.value}))}
                           className={`block w-full border ${errors.name ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
@@ -189,6 +231,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Email</label>
                         <input
                           type="email"
+                          name="email"
                           value={formData.email}
                           onChange={e => setFormData(prev => ({...prev, email: e.target.value}))}
                           className={`block w-full border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
@@ -201,6 +244,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Teléfono</label>
                         <input
                           type="tel"
+                          name="phone"
                           value={formData.phone}
                           onChange={e => setFormData(prev => ({...prev, phone: e.target.value}))}
                           className={`block w-full border ${errors.phone ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
@@ -210,13 +254,25 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                       </div>
                     </div>
 
+                    <div>
+                      <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Mensaje (Opcional)</label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={e => setFormData(prev => ({...prev, message: e.target.value}))}
+                        rows={3}
+                        className="block w-full border border-gray-700 rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm resize-none"
+                        placeholder="Comentarios adicionales..."
+                      />
+                    </div>
+
                     <div className="pt-4">
                       <button
                         type="submit"
                         disabled={isSubmitting}
                         className="w-full flex justify-center py-4 px-4 border border-transparent rounded shadow-lg shadow-sports-blue/20 text-sm font-bold text-white bg-sports-blue hover:bg-sports-lime hover:text-sports-navy uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-wait"
                       >
-                        {isSubmitting ? 'Procesando...' : 'Enviar Solicitud'}
+                        {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
                       </button>
                       <p className="mt-4 text-center text-[10px] text-gray-500 leading-tight">
                         Al enviar, aceptas que procesemos tus datos para gestionar esta solicitud.
