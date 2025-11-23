@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: apg-marketing-portal
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: API_KEY
+        sync: false # User must provide their Gemini API Key in Render dashboard
