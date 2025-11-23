@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>APG Marketing | Gestión Deportiva Profesional</title>
+    <meta name="description" content="Automatiza la organización de tu torneo. Gestión de inscripciones, logística de autocares y hoteles.">
+    
+    <!-- Tailwind CSS (Usando CDN para mantener simplicidad en el setup visual solicitado, compatible con Vite) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -33,9 +36,12 @@
         }
       }
     </script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
       body { font-family: 'Montserrat', sans-serif; background-color: #0A1A2F; color: #F3F4F6; }
       h1, h2, h3, h4, h5, h6 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
@@ -45,19 +51,22 @@
       .custom-scrollbar::-webkit-scrollbar-thumb { background: #2E3A45; border-radius: 4px; }
       .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #176BFF; }
     </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://aistudiocdn.com/react@^19.2.0",
-        "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
-        "react/": "https://aistudiocdn.com/react@^19.2.0/",
-        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
-      }
-    }
-    </script>
-  </head>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+</head>
   <body class="bg-sports-navy text-sports-text antialiased selection:bg-sports-blue selection:text-white">
     <div id="root"></div>
+    <!-- Entry Point para Vite -->
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
