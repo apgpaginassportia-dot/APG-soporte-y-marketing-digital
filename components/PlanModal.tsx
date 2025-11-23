@@ -70,50 +70,11 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     
     setIsSubmitting(true);
     
-    // Simulate backend call
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // Simulate backend API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
+    setIsSubmitting(false);
     setShowSuccess(true);
-    
-    // After showing success, redirect
-    setTimeout(() => {
-        executeRedirection();
-    }, 2000);
-  };
-
-  const executeRedirection = () => {
-    const total = calculateTotal();
-    const services = getCustomServiceBreakdown();
-    
-    // --- Email Template (Structured Text) ---
-    const emailSubject = `Solicitud APG: ${selectedPlan.title} - ${formData.name}`;
-    
-    let emailBody = `SOLICITUD DE SERVICIOS APG MARKETING\n`;
-    emailBody += `--------------------------------------------------\n\n`;
-    emailBody += `DATOS DEL CLIENTE\n`;
-    emailBody += `Nombre: ${formData.name}\n`;
-    emailBody += `Email:  ${formData.email}\n`;
-    emailBody += `Móvil:  ${formData.phone}\n\n`;
-    emailBody += `DETALLES DEL SERVICIO\n`;
-    emailBody += `Plan Seleccionado: ${selectedPlan.title.toUpperCase()}\n`;
-    emailBody += `Total Estimado: ${total}€\n\n`;
-    
-    if (selectedPlan.id === 'custom' && services.length > 0) {
-      emailBody += `Servicios Incluidos:\n`;
-      services.forEach(s => {
-        if (s) emailBody += `- ${s.label} (${s.price}€)\n`;
-      });
-      emailBody += `\n`;
-    }
-
-    const mailtoUrl = `mailto:alicia.pons.garcia@outlook.es?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    window.location.href = mailtoUrl;
-    
-    // Optionally close modal after redirection logic
-    setTimeout(() => {
-        onClose();
-    }, 1000);
   };
 
   const total = calculateTotal();
@@ -128,16 +89,26 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
           
           {showSuccess ? (
              <div className="p-12 text-center bg-sports-surface">
-                <div className="w-16 h-16 bg-sports-lime rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-sports-lime rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(120,224,143,0.3)]">
                    <svg className="w-8 h-8 text-sports-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                    </svg>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-2 uppercase">¡Solicitud Enviada!</h3>
-                <p className="text-gray-400 font-body mb-6">Estamos redirigiéndote a tu cliente de correo para finalizar el envío.</p>
-                <div className="w-full bg-sports-navy rounded-full h-1.5 overflow-hidden">
-                   <div className="bg-sports-blue h-full animate-[progress_2s_ease-in-out]"></div>
+                <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Recibida!</h3>
+                <div className="max-w-md mx-auto space-y-2 mb-8">
+                  <p className="text-gray-300 font-body text-lg">
+                    Hemos registrado tu solicitud correctamente.
+                  </p>
+                  <p className="text-gray-400 font-body text-sm">
+                    El equipo revisará tu configuración y recibirás una respuesta detallada en un plazo de <span className="text-sports-lime font-bold">24/48 horas</span>.
+                  </p>
                 </div>
+                <button 
+                  onClick={onClose}
+                  className="px-8 py-3 bg-sports-blue hover:bg-white hover:text-sports-navy text-white font-bold uppercase tracking-wide rounded transition-colors"
+                >
+                  Entendido, cerrar
+                </button>
              </div>
           ) : (
             <div className="flex flex-col md:flex-row min-h-full">
@@ -248,7 +219,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         {isSubmitting ? 'Procesando...' : 'Enviar Solicitud'}
                       </button>
                       <p className="mt-4 text-center text-[10px] text-gray-500 leading-tight">
-                        Al enviar, se generará un correo oficial con los detalles de tu solicitud.
+                        Al enviar, aceptas que procesemos tus datos para gestionar esta solicitud.
                       </p>
                     </div>
                  </form>
