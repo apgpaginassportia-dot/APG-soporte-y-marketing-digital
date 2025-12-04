@@ -83,7 +83,7 @@ export const TeamServices: React.FC = () => {
                 {service.description}
             </p>
 
-            <ul className="space-y-3 mt-auto pt-4 border-t border-white/5">
+            <ul className="space-y-3 pt-4 border-t border-white/5 mb-6">
                 {service.features.map((feature, idx) => (
                 <li key={idx} className="flex items-start text-xs text-gray-300 font-body">
                     <span className={`mt-0.5 mr-3 flex-shrink-0 ${isSelected ? 'text-sports-blue' : 'text-gray-600'}`}>
@@ -93,6 +93,12 @@ export const TeamServices: React.FC = () => {
                 </li>
                 ))}
             </ul>
+
+            <div className="mt-auto">
+               <div className={`w-full py-3 rounded text-center text-xs font-bold uppercase tracking-widest transition-all duration-300 ${isSelected ? 'bg-sports-blue text-white shadow-lg shadow-sports-blue/20' : 'bg-white/5 text-gray-400 group-hover:bg-sports-lime group-hover:text-sports-navy'}`}>
+                  {isSelected ? 'Seleccionado' : 'Seleccionar'}
+               </div>
+            </div>
         </div>
       </div>
     );
