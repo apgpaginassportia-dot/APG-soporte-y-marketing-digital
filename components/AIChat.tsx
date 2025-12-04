@@ -6,8 +6,14 @@ interface Message {
   text: string;
 }
 
-export const AIChat: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+interface AIChatProps {
+  isOpen: boolean;
+  onToggle: () => void;
+  externalMessage: string | null;
+  onMessageHandled: () => void;
+}
+
+export const AIChat: React.FC<AIChatProps> = ({ isOpen, onToggle, externalMessage, onMessageHandled }) => {
   const [messages, setMessages] = useState<Message[]>([
     { role: 'model', text: 'Hola 👋 Soy el asistente táctico de APG. ¿Cómo puedo ayudarte a organizar tu torneo?' }
   ]);
@@ -23,10 +29,19 @@ export const AIChat: React.FC = () => {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+  // Handle external messages (e.g. from Contact form)
+  useEffect(() => {
+    if (externalMessage) {
+      handleSend(externalMessage);
+      onMessageHandled();
+    }
+  }, [externalMessage]);
 
-    const userMsg: Message = { role: 'user', text: input };
+  const handleSend = async (textOverride?: string) => {
+    const textToSend = textOverride || input;
+    if (!textToSend.trim() || isLoading) return;
+
+    const userMsg: Message = { role: 'user', text: textToSend };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setIsLoading(true);
@@ -48,7 +63,7 @@ export const AIChat: React.FC = () => {
                <div className="w-2 h-2 bg-sports-lime rounded-full animate-pulse"></div>
                <span className="text-white font-bold font-display uppercase tracking-wide">Soporte IA</span>
              </div>
-             <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white">
+             <button onClick={onToggle} className="text-gray-400 hover:text-white">
                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
              </button>
           </div>
@@ -86,7 +101,7 @@ export const AIChat: React.FC = () => {
                 className="flex-1 bg-sports-dark border border-white/10 rounded text-white px-4 py-2 text-sm focus:outline-none focus:border-sports-lime transition-colors"
               />
               <button 
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={isLoading}
                 className="bg-sports-blue text-white rounded p-2 hover:bg-blue-600 disabled:opacity-50 transition-colors"
               >
@@ -99,7 +114,7 @@ export const AIChat: React.FC = () => {
 
       {/* Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="group flex items-center gap-3 bg-sports-blue hover:bg-white hover:text-sports-navy text-white p-4 rounded-full shadow-[0_0_20px_rgba(26,115,232,0.5)] transition-all transform hover:scale-105"
       >
         <span className={`${isOpen ? 'hidden' : 'hidden sm:block'} font-bold font-display uppercase tracking-wide`}>Asistente</span>

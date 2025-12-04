@@ -23,7 +23,26 @@ export interface Plan {
 
 export interface ServiceCatalogItem {
   title: string;
+  subtitle: string;
+  description: string;
   iconName: string;
+  details: string[];
+}
+
+export interface SchoolServiceItem {
+  title: string;
+  description: string;
+  iconName: string;
+}
+
+export interface TeamServiceItem {
+  title: string;
+  price: string;
+  period: string;
+  description: string;
+  features: string[];
+  iconName: string;
+  highlight?: boolean;
 }
 
 export interface LeadForm {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PLANS, Icons } from '../constants';
+import { PLANS, Icons, INDIVIDUAL_SERVICES_RATES } from '../constants';
 import { Plan } from '../types';
 import { PlanModal } from './PlanModal';
 
@@ -23,7 +23,7 @@ export const Services: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
           {PLANS.map((plan) => (
             <div 
               key={plan.id} 
@@ -50,7 +50,10 @@ export const Services: React.FC = () => {
                   <div className="flex items-baseline gap-1 mt-4">
                      <span className="text-4xl font-display font-bold text-white">{plan.priceDisplay}</span>
                   </div>
-                  <p className="text-sm text-sports-lime uppercase tracking-widest font-semibold mt-2">
+                  <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">
+                    Precio base sin servicios adicionales
+                  </p>
+                  <p className="text-sm text-sports-lime uppercase tracking-widest font-semibold mt-3">
                     {plan.subtitle}
                   </p>
                 </div>
@@ -84,6 +87,42 @@ export const Services: React.FC = () => {
             </div>
           ))}
         </div>
+
+        {/* Pricing Table Section */}
+        <div id="services-table" className="pt-16 border-t border-white/5 scroll-mt-24">
+            <div className="text-center mb-12">
+              <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Tarifas Individuales</h2>
+              <h3 className="text-3xl font-display font-bold text-white uppercase">Servicios a la Carta</h3>
+              <p className="text-gray-400 mt-4 text-sm font-body">Contratación independiente fuera de los planes globales.</p>
+            </div>
+            
+            <div className="max-w-5xl mx-auto bg-sports-surface rounded-xl border border-white/5 overflow-hidden shadow-lg">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-sports-navy/50 border-b border-white/10">
+                      <th className="p-5 text-xs md:text-sm font-bold text-white uppercase tracking-wider">Servicio</th>
+                      <th className="p-5 text-xs md:text-sm font-bold text-white uppercase tracking-wider hidden md:table-cell">Descripción</th>
+                      <th className="p-5 text-xs md:text-sm font-bold text-white uppercase tracking-wider text-right">Rango de Precio</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
+                      <tr key={idx} className="hover:bg-white/5 transition-colors group">
+                        <td className="p-5 text-white font-bold text-sm font-display uppercase group-hover:text-sports-blue transition-colors">
+                            {item.service}
+                            <div className="md:hidden text-xs text-gray-500 font-body mt-1 font-normal normal-case">{item.description}</div>
+                        </td>
+                        <td className="p-5 text-gray-400 text-sm font-body hidden md:table-cell">{item.description}</td>
+                        <td className="p-5 text-sports-lime font-bold text-sm font-mono text-right whitespace-nowrap">{item.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+
       </div>
 
       <PlanModal 

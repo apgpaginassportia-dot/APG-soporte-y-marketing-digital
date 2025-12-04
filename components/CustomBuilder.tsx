@@ -18,7 +18,7 @@ export const CustomBuilder: React.FC = () => {
   }, [selectedServices]);
 
   const MIN_SERVICES = 2;
-  const MAX_SERVICES = 5;
+  const MAX_SERVICES = 8; // Updated limit to allow full suite
 
   const toggleService = (id: string) => {
     if (selectedServices.includes(id)) {
@@ -36,7 +36,7 @@ export const CustomBuilder: React.FC = () => {
     subtitle: 'A la carta',
     priceDisplay: `${totalEstimated}€`,
     basePrice: totalEstimated,
-    description: 'Configuración manual de servicios seleccionados adaptada a tus necesidades operativas.',
+    description: 'Configuración manual de módulos de automatización seleccionados.',
     features: [],
     buttonText: 'Solicitar Presupuesto'
   }), [totalEstimated]);
@@ -45,7 +45,7 @@ export const CustomBuilder: React.FC = () => {
 
   return (
     <section id="builder" className="py-24 bg-sports-dark border-t border-white/5 relative pb-32 md:pb-24">
-       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-12">
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col xl:flex-row gap-12">
          
          {/* Services Grid */}
          <div className="flex-1">
@@ -55,11 +55,11 @@ export const CustomBuilder: React.FC = () => {
                  Configurador Personalizado
               </h3>
               <p className="text-gray-400 mt-4 max-w-2xl font-body">
-                Elige entre {MIN_SERVICES} y {MAX_SERVICES} servicios. Precio calculado en tiempo real.
+                Selecciona entre {MIN_SERVICES} y {MAX_SERVICES} módulos de automatización. Precio calculado en tiempo real.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {CUSTOM_SERVICES_LIST.map((service) => {
                 const isSelected = selectedServices.includes(service.id);
                 const isMaxed = selectedServices.length >= MAX_SERVICES && !isSelected;
@@ -68,7 +68,7 @@ export const CustomBuilder: React.FC = () => {
                   <div 
                     key={service.id}
                     onClick={() => !isMaxed && toggleService(service.id)}
-                    className={`cursor-pointer p-6 rounded-lg border transition-all duration-200 relative overflow-hidden group ${
+                    className={`cursor-pointer p-5 rounded-lg border transition-all duration-200 relative overflow-hidden group ${
                        isSelected 
                        ? 'bg-sports-surface border-sports-blue shadow-[0_0_15px_rgba(23,107,255,0.15)]' 
                        : isMaxed
@@ -77,22 +77,23 @@ export const CustomBuilder: React.FC = () => {
                     }`}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <span className={`font-display font-bold text-lg uppercase ${isSelected ? 'text-white' : 'text-gray-300'}`}>
+                      <span className={`font-display font-bold text-base uppercase ${isSelected ? 'text-white' : 'text-gray-300'}`}>
                         {service.label}
                       </span>
-                      <div className={`w-6 h-6 rounded flex items-center justify-center border transition-colors ${
+                      <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors ${
                         isSelected ? 'bg-sports-blue border-sports-blue text-white' : 'border-gray-600 group-hover:border-sports-lime text-transparent group-hover:text-sports-lime'
                       }`}>
                         <Icons.Check />
                       </div>
                     </div>
                     
-                    <p className="text-sm text-gray-500 mb-4 font-body">{service.description}</p>
+                    <p className="text-xs text-gray-500 mb-3 font-body">{service.description}</p>
                     
-                    <div className="flex items-center gap-2">
-                       <span className={`text-xl font-bold font-display ${isSelected ? 'text-sports-blue' : 'text-white'}`}>
+                    <div className="flex items-center justify-between mt-auto">
+                       <span className={`text-lg font-bold font-display ${isSelected ? 'text-sports-blue' : 'text-white'}`}>
                          {service.price}€
                        </span>
+                       <span className="text-[10px] text-gray-600 uppercase tracking-wider">{service.unit}</span>
                     </div>
                   </div>
                 );
@@ -101,7 +102,7 @@ export const CustomBuilder: React.FC = () => {
          </div>
 
          {/* Desktop Floating Cart / Sidebar */}
-         <div className="hidden lg:block lg:w-96">
+         <div className="hidden xl:block xl:w-96">
             <div className="sticky top-24 bg-sports-surface border border-white/10 rounded-xl p-6 shadow-2xl">
                <div className="flex items-center justify-between mb-6 pb-6 border-b border-white/10">
                  <h4 className="font-display font-bold text-xl text-white uppercase">Tu Selección</h4>
@@ -118,13 +119,13 @@ export const CustomBuilder: React.FC = () => {
                  </div>
                ) : (
                  <div className="space-y-4 mb-8">
-                   <ul className="space-y-3">
+                   <ul className="space-y-3 max-h-[400px] overflow-y-auto custom-scrollbar pr-2">
                      {selectedServices.map(id => {
                        const service = CUSTOM_SERVICES_LIST.find(s => s.id === id);
                        return (
                          <li key={id} className="flex justify-between items-center text-sm group bg-sports-navy/50 p-3 rounded border border-white/5">
                            <div className="flex-1 pr-4">
-                              <div className="text-gray-200 font-medium font-body">{service?.label}</div>
+                              <div className="text-gray-200 font-medium font-body text-xs">{service?.label}</div>
                            </div>
                            <div className="flex items-center gap-3">
                               <span className="text-white font-bold">{service?.price}€</span>
@@ -165,7 +166,7 @@ export const CustomBuilder: React.FC = () => {
        </div>
 
        {/* Mobile Sticky Bottom Bar */}
-       <div className={`fixed bottom-0 left-0 right-0 bg-sports-surface border-t border-white/10 p-4 z-40 lg:hidden transition-transform duration-300 transform ${selectedServices.length > 0 ? 'translate-y-0' : 'translate-y-full'}`}>
+       <div className={`fixed bottom-0 left-0 right-0 bg-sports-surface border-t border-white/10 p-4 z-40 xl:hidden transition-transform duration-300 transform ${selectedServices.length > 0 ? 'translate-y-0' : 'translate-y-full'}`}>
           <div className="flex items-center justify-between gap-4">
              <div className="flex flex-col">
                 <span className="text-[10px] text-gray-400 uppercase tracking-wider">Total Estimado</span>

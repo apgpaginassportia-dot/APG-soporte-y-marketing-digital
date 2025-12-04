@@ -1,4 +1,6 @@
-import { Plan, CustomServiceOption, ServiceCatalogItem } from './types';
+
+
+import { Plan, CustomServiceOption, ServiceCatalogItem, SchoolServiceItem, TeamServiceItem } from './types';
 
 // Icon Components - Simplified for Sports Theme
 export const Icons = {
@@ -44,24 +46,81 @@ export const Icons = {
   ),
   Shuffle: () => (
     <svg className="w-10 h-10 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
+  ),
+  Share: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+  ),
+  Briefcase: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+  ),
+  Speaker: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+  ),
+  // New Icons for Schools
+  SchoolForm: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+  ),
+  SchoolMoney: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+  ),
+  SchoolChat: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+  ),
+  SchoolShirt: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+  ),
+  SchoolData: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+  ),
+  QR: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM6 8V4h2M4 8h2M6 20h2m-2-4h2m6 0h2M6 8H4m0 0V4m2 16H4m0 0v-4m12 0h2m-2 4h2" /><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /></svg>
+  ),
+  // Automation Icons
+  AutoForm: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+  ),
+  CalendarAI: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+  ),
+  Notification: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+  ),
+  Results: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+  ),
+  Payment: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+  ),
+  Trophy: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
   )
 };
 
-// Prices reflect market averages for calculation
+// 8 AUTOMATION FOCUSED SERVICES (Adjusted prices for market competitiveness)
 export const CUSTOM_SERVICES_LIST: CustomServiceOption[] = [
-  { id: 'inscripciones', label: 'Inscripciones', description: 'Digitalización y gestión documental.', price: 200, unit: 'base' }, // Avg of 150-250
-  { id: 'logistica_autocares', label: 'Autocares', description: 'Coordinación rutas y horarios.', price: 550, unit: 'base' }, // Avg of 400-700
-  { id: 'logistica_hoteles', label: 'Hoteles', description: 'Asignación de equipos en hoteles ya concertados.', price: 950, unit: 'base' }, // Avg of 700-1200
-  { id: 'atencion_delegaciones', label: 'Atención Delegaciones', description: 'Soporte y acompañamiento.', price: 225, unit: 'base' }, // Avg of 150-300
-  { id: 'coordinacion_horarios', label: 'Coordinación Sedes', description: 'Control de calendario deportivo.', price: 275, unit: 'base' }, // Avg of 200-350
+  { id: 'auto_forms', label: 'Registro Inteligente', description: 'Formularios con OCR y validación auto de fichas.', price: 120, unit: 'módulo' },
+  { id: 'ai_calendar', label: 'Calendarios IA', description: 'Generación de cruces y horarios sin conflictos.', price: 190, unit: 'evento' },
+  { id: 'live_results', label: 'Actas Digitales', description: 'Resultados y clasificaciones en tiempo real.', price: 150, unit: 'módulo' },
+  { id: 'push_notifs', label: 'Alertas WhatsApp', description: 'Notificaciones automáticas a delegados y árbitros.', price: 90, unit: 'pack' },
+  { id: 'access_qr', label: 'Control Acceso QR', description: 'Entradas y acreditaciones digitales automatizadas.', price: 120, unit: 'módulo' },
+  { id: 'staff_logistics', label: 'Gestión Staff', description: 'Asignación automática de turnos para voluntarios.', price: 80, unit: 'módulo' },
+  { id: 'smart_transport', label: 'Rutas Inteligentes', description: 'Optimización automática de rutas de autobús.', price: 250, unit: 'evento' },
+  { id: 'digital_awards', label: 'Trofeos Digitales', description: 'Generación y envío automático de diplomas PDF.', price: 50, unit: 'pack' },
+];
+
+export const INDIVIDUAL_SERVICES_RATES = [
+  { service: 'Gestión de Inscripciones', description: 'Validación de documentación, seguros y control de pagos por equipo.', price: '200€ - 400€' },
+  { service: 'Logística de Autocares', description: 'Diseño de rutas, control de horarios y coordinación con transportistas.', price: '350€ - 600€' },
+  { service: 'Gestión Hotelera', description: 'Rooming list, asignación de habitaciones y gestión de dietas.', price: '600€ - 1.000€' },
+  { service: 'Coordinación de Sedes', description: 'Gestión de horarios de partidos y coordinación de instalaciones.', price: '250€ - 400€' },
 ];
 
 export const PLANS: Plan[] = [
   {
     id: 'basic',
     title: 'Plan Básico',
-    priceDisplay: '550€',
-    basePrice: 550,
+    priceDisplay: '495€',
+    basePrice: 495,
     subtitle: 'Gestión Documental',
     description: 'Evita errores y ahorra horas desde el primer día.',
     details: 'Digitalización completa de fichas y control documental básico.',
@@ -76,8 +135,8 @@ export const PLANS: Plan[] = [
   {
     id: 'intermediate',
     title: 'Plan Intermedio',
-    priceDisplay: '1.250€',
-    basePrice: 1250,
+    priceDisplay: '1.150€',
+    basePrice: 1150,
     subtitle: 'Logística Terrestre',
     description: 'Planifica rutas sin estrés y sin llamadas de última hora.',
     details: 'Incluye todo lo del Plan Básico más una gestión integral de la flota de autobuses y transferencias.',
@@ -92,8 +151,8 @@ export const PLANS: Plan[] = [
   {
     id: 'advanced',
     title: 'Plan Avanzado',
-    priceDisplay: '2.200€',
-    basePrice: 2200,
+    priceDisplay: '1.950€',
+    basePrice: 1950,
     subtitle: 'Gestión Integral 360°',
     description: 'Despreocúpate por completo de la logística.',
     isRecommended: true,
@@ -103,14 +162,124 @@ export const PLANS: Plan[] = [
       'Todo lo del Plan Intermedio',
       'Gestión logística de hoteles (asignación)',
       'Asignación de habitaciones (Rooming)',
-      'Hoteles previamente contactados',
-      'Apoyo a delegaciones'
+      'Hoteles previamente contactados'
     ]
   }
 ];
 
-export const SERVICE_CATALOG: ServiceCatalogItem[] = [
-  { title: "Evita errores en la gestión de equipos", iconName: "Users" },
-  { title: "Coordino rutas y horarios sin retrasos", iconName: "Bus" },
-  { title: "Gestiono hoteles sin caos ni cambios inesperados", iconName: "Hotel" },
+// Detalle Profesional de Servicios para Torneos
+export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
+  { 
+    title: "Gestión de Inscripciones",
+    subtitle: "Tu oficina técnica virtual",
+    description: "Centralizamos la documentación para evitar errores administrativos.",
+    iconName: "Users",
+    details: [
+        "Plataforma de registro digital.",
+        "Validación de fichas y seguros.",
+        "Control de pagos por equipo.",
+        "Listados automatizados para arbitraje."
+    ]
+  },
+  { 
+    title: "Logística de Autocares",
+    subtitle: "Control total de flotas",
+    description: "Ingeniería de rutas para garantizar puntualidad en cada partido.", 
+    iconName: "Bus",
+    details: [
+        "Diseño de rutas eficientes.",
+        "Interlocución única con la empresa de transporte.",
+        "Gestión de incidencias en tiempo real.",
+        "Control de horarios de conductores."
+    ]
+  },
+  { 
+    title: "Gestión Hotelera (Rooming)", 
+    subtitle: "Experiencia 5 estrellas",
+    description: "Asignación profesional de equipos en hoteles concertados.", 
+    iconName: "Hotel",
+    details: [
+        "Distribución lógica de habitaciones.",
+        "Separación de staffs y jugadores.",
+        "Gestión de dietas especiales.",
+        "Check-in organizado para grupos masivos."
+    ]
+  },
+];
+
+// Servicios para Centros Escolares (ACTUALIZADO - Tech & Modern)
+export const SCHOOL_SERVICES: SchoolServiceItem[] = [
+    {
+        title: "Carnet Digital (Wallet)",
+        description: "El carnet de socio directamente en el móvil de los padres. Adiós al plástico.",
+        iconName: "Digital"
+    },
+    {
+        title: "Inscripción 1-Click",
+        description: "Formularios inteligentes que se autocompletan. Sin repetir datos cada año.",
+        iconName: "SchoolForm"
+    },
+    {
+        title: "App Familias",
+        description: "Todas las notificaciones, avisos y autorizaciones en la palma de la mano.",
+        iconName: "SchoolChat"
+    },
+    {
+        title: "Listados Oficiales",
+        description: "Generación automática de listas de asistencia y registro de socios.",
+        iconName: "SchoolData"
+    }
+];
+
+// Configuración Plan Colegios - ESTRATEGIA PRECIO POR ALUMNO
+export const SCHOOL_PLAN_PRICING = {
+    title: "Pack AMPA Digital 360",
+    pricePerStudent: "0,50€",
+    studentDetail: "/ alumno al año",
+    totalPrice: "290€",
+    totalDetail: "/ año por centro (Tarifa Plana)",
+    description: "Moderniza tu colegio por menos de lo que cuesta una fotocopia.",
+    features: [
+        "Carnet Digital en Wallet (iOS/Android)",
+        "App de comunicación ilimitada",
+        "Gestión de Listados de Socios",
+        "Soporte prioritario a directiva"
+    ]
+};
+
+// Servicios para Clubes de Fútbol Base (REAL MANAGEMENT SOLUTIONS - UPDATED PRICES)
+export const TEAM_SERVICES: TeamServiceItem[] = [
+  {
+    title: "Planificación de Plantillas",
+    price: "195€",
+    period: "/ temporada",
+    description: "Organiza todas tus categorías (Prebenjamín a Juvenil) visualmente. Control de fichas, subidas de categoría y ratios por equipo.",
+    iconName: "Users",
+    features: ["Mapa de categorías", "Control de ratios", "Historial de jugador"],
+    highlight: true
+  },
+  {
+    title: "Cuadrantes de Campo",
+    price: "60€",
+    period: "/ mes",
+    description: "Se acabó el Tetris. Optimizamos el uso de tu instalación para que entrenen todos los equipos sin solapamientos ni conflictos.",
+    iconName: "CalendarAI",
+    features: ["Rotación de espacios", "Asignación vestuarios", "Horarios justos"]
+  },
+  {
+    title: "Agenda de Torneos",
+    price: "150€",
+    period: "/ evento",
+    description: "Gestionamos el calendario externo. Inscripciones a torneos, control de fechas bloqueadas en liga y logística de viajes.",
+    iconName: "Trophy",
+    features: ["Calendario unificado", "Gestión de invitaciones", "Logística de viajes"]
+  },
+  {
+    title: "Coordinación de Jornada",
+    price: "90€",
+    period: "/ mes",
+    description: "El fin de semana, automatizado. Horarios de partidos, designación de autobuses y envío de convocatorias a familias.",
+    iconName: "Clock",
+    features: ["Horarios partidos", "Rutas de bus", "Avisos a familias"]
+  }
 ];

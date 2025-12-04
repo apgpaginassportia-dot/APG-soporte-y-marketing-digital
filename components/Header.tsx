@@ -13,8 +13,11 @@ export const Header: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Experiencia', id: 'benefits' },
+    { name: 'Torneos', id: 'detailed-services' },
+    { name: 'Servicios', id: 'services-table' },
     { name: 'Planes', id: 'plans' },
+    { name: 'Clubes', id: 'teams' }, // New link
+    { name: 'Colegios', id: 'schools' },
     { name: 'Configurador', id: 'builder' },
     { name: 'Contacto', id: 'contact' },
   ];
@@ -45,13 +48,13 @@ export const Header: React.FC = () => {
           </div>
           
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-10">
+          <div className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={`#${link.id}`}
                 onClick={(e) => handleScroll(e, link.id)}
-                className="relative text-sm font-bold uppercase tracking-wider text-sports-text hover:text-white transition-colors py-2 group"
+                className="relative text-xs lg:text-sm font-bold uppercase tracking-wider text-sports-text hover:text-white transition-colors py-2 group"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-sports-lime transition-all duration-300 group-hover:w-full"></span>
