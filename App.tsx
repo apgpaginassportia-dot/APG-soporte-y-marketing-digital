@@ -12,6 +12,7 @@ import { MidCTA } from './components/MidCTA';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { AIChat } from './components/AIChat';
+import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -44,6 +45,7 @@ function App() {
         externalMessage={externalChatMessage}
         onMessageHandled={() => setExternalChatMessage(null)}
       />
+      <ScrollToTop />
     </div>
   );
 }
