@@ -1,4 +1,8 @@
+
 import { GoogleGenAI } from "@google/genai";
+
+// Shim process for TypeScript in environments where @types/node is missing
+declare var process: any;
 
 // Safe initialization that doesn't crash if key is missing (handled in UI)
 const apiKey = process.env.API_KEY || '';

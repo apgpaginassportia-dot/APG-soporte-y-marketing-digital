@@ -1,7 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { Plan, LeadForm } from '../types';
+import { Plan, LeadForm, CustomServiceOption, TeamServiceItem } from '../types';
 import { CUSTOM_SERVICES_LIST, TEAM_SERVICES } from '../constants';
 
 interface PlanModalProps {
@@ -68,33 +68,25 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
 
   const getCustomServiceBreakdown = () => {
     if (selectedPlan.id === 'custom') {
-      return formData.selectedServices.map(id => CUSTOM_SERVICES_LIST.find(s => s.id === id)).filter(Boolean);
+      return formData.selectedServices.map(id => CUSTOM_SERVICES_LIST.find(s => s.id === id)).filter((s): s is CustomServiceOption => !!s);
     }
     if (selectedPlan.id === 'team_custom') {
-      return formData.selectedServices.map(id => TEAM_SERVICES.find(s => s.id === id)).filter(Boolean);
+      return formData.selectedServices.map(id => TEAM_SERVICES.find(s => s.id === id)).filter((s): s is TeamServiceItem => !!s);
     }
     return [];
   };
 
   const calculateTotal = () => {
     if (selectedPlan.id === 'custom') {
-      const services = getCustomServiceBreakdown();
-      // Fix: Ensure price is treated as number to avoid type errors when services might be inferred as containing items with string prices
-      return services.reduce((acc, curr) => {
-        const p = curr?.price;
-        return acc + (typeof p === 'number' ? p : 0);
-      }, 0);
+      const services = getCustomServiceBreakdown() as CustomServiceOption[];
+      return services.reduce((acc, curr) => acc + (curr.price || 0), 0);
     }
 
     if (selectedPlan.id === 'team_custom') {
-      // Just estimating total number for the header
-      const services = getCustomServiceBreakdown();
-      // Need to extract number from string "250€"
+      const services = getCustomServiceBreakdown() as TeamServiceItem[];
       return services.reduce((acc, curr) => {
-        // @ts-ignore - We know for team items price is a string in constants, but mapped to number in generic builder
-        // However, here we are fetching raw objects from TEAM_SERVICES constant which has string price
-        const priceStr = curr?.price || "0";
-        const priceNum = parseInt(priceStr.toString().replace(/[^\d]/g, '')) || 0;
+        const priceStr = curr.price || "0";
+        const priceNum = parseInt(priceStr.replace(/[^\d]/g, '')) || 0;
         return acc + priceNum;
       }, 0);
     }
@@ -121,12 +113,15 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     const total = calculateTotal();
     let servicesList = selectedPlan.features.join(', ');
 
+    // Type Casting to fix TS errors during build
     if (selectedPlan.id === 'custom') {
-       servicesList = getCustomServiceBreakdown().map(s => s?.label).join(', ');
+       const services = getCustomServiceBreakdown() as CustomServiceOption[];
+       servicesList = services.map(s => s.label).join(', ');
     }
 
     if (selectedPlan.id === 'team_custom') {
-       servicesList = getCustomServiceBreakdown().map(s => `${s?.title} (${s?.price}${s?.period})`).join(', ');
+       const services = getCustomServiceBreakdown() as TeamServiceItem[];
+       servicesList = services.map(s => `${s.title} (${s.price}${s.period})`).join(', ');
     }
 
     // Dynamic Plan Description
