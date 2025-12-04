@@ -1,7 +1,10 @@
-import React from 'react';
-import { Icons, SCHOOL_SERVICES, SCHOOL_PLAN_PRICING } from '../constants';
+import React, { useState } from 'react';
+import { Icons, SCHOOL_SERVICES, SCHOOL_PLAN_DATA } from '../constants';
+import { PlanModal } from './PlanModal';
 
 export const SchoolServices: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section id="schools" className="py-24 bg-[#0F1C2E] border-t border-white/5 relative">
       {/* Subtle distinction background */}
@@ -20,8 +23,8 @@ export const SchoolServices: React.FC = () => {
            </div>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {/* Services Grid (Benefits) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
            {SCHOOL_SERVICES.map((service, idx) => {
              const IconComponent = Icons[service.iconName as keyof typeof Icons] || Icons.Star;
              return (
@@ -40,79 +43,63 @@ export const SchoolServices: React.FC = () => {
            })}
         </div>
         
-        {/* Pricing Card for AMPAs - REDESIGNED */}
-        <div className="max-w-5xl mx-auto">
-            <div className="relative rounded-2xl p-0.5 overflow-hidden shadow-[0_0_50px_rgba(23,107,255,0.15)] group transition-all duration-500 hover:shadow-[0_0_80px_rgba(23,107,255,0.25)]">
-                {/* Gradient Border */}
-                <div className="absolute inset-0 bg-gradient-to-r from-sports-blue via-sports-lime to-sports-blue opacity-50 group-hover:opacity-100 transition-opacity duration-700 animate-gradient-xy"></div>
-                
-                <div className="relative bg-[#0A1A2F] rounded-[14px] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden">
-                    
-                    {/* Subtle Internal Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-sports-blue/10 via-transparent to-sports-lime/5 opacity-60 pointer-events-none"></div>
-
-                    {/* Background Glow */}
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-sports-blue/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-
-                    {/* Left: Value Prop */}
-                    <div className="flex-1 relative z-10">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-sports-lime/10 rounded-full mb-6 border border-sports-lime/20 backdrop-blur-md">
-                            <span className="w-1.5 h-1.5 rounded-full bg-sports-lime animate-pulse"></span>
-                            <span className="text-sports-lime font-bold uppercase text-[10px] tracking-widest">Tecnología Educativa</span>
-                        </div>
-                        <h4 className="text-4xl font-display font-bold text-white uppercase mb-3">
-                            {SCHOOL_PLAN_PRICING.title}
-                        </h4>
-                        <p className="text-gray-300 mb-8 font-body text-base max-w-lg">
-                            {SCHOOL_PLAN_PRICING.description}
-                        </p>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {SCHOOL_PLAN_PRICING.features.map((feat, i) => (
-                                <li key={i} className="flex items-center text-sm text-gray-300">
-                                    <div className="mr-3 p-1 rounded-full bg-sports-blue/20 text-sports-lime">
-                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                                    </div>
-                                    {feat}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Right: Price & CTA */}
-                    <div className="relative z-10 flex flex-col items-center justify-center min-w-[300px] text-center bg-white/5 rounded-xl p-8 border border-white/10 backdrop-blur-sm">
-                        <div className="mb-2">
-                            <span className="block text-gray-400 text-[10px] uppercase tracking-widest mb-1">Coste equivalente</span>
-                            <div className="flex items-baseline justify-center gap-1">
-                                <span className="text-6xl md:text-7xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-sports-lime drop-shadow-lg">
-                                    {SCHOOL_PLAN_PRICING.pricePerStudent}
-                                </span>
-                            </div>
-                            <span className="text-sports-lime text-sm font-bold uppercase tracking-wide">{SCHOOL_PLAN_PRICING.studentDetail}</span>
-                        </div>
-
-                        <div className="my-6 w-full h-px bg-white/10"></div>
-
-                        <div className="mb-6">
-                            <span className="text-gray-400 text-sm">
-                                o tarifa plana de <span className="text-white font-bold">{SCHOOL_PLAN_PRICING.totalPrice}</span> {SCHOOL_PLAN_PRICING.totalDetail}
-                            </span>
-                        </div>
-                        
-                        <a 
-                            href={`https://wa.me/34661256504?text=Hola,%20soy%20del%20AMPA/Colegio%20y%20me%20interesa%20el%20Pack%20Digital%20de%20${SCHOOL_PLAN_PRICING.totalPrice}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="w-full py-4 px-8 bg-sports-lime text-sports-navy font-bold uppercase text-sm tracking-widest rounded-lg transition-all duration-300 shadow-[0_0_20px_rgba(120,224,143,0.3)] hover:shadow-[0_0_30px_rgba(120,224,143,0.6)] hover:bg-white hover:text-sports-blue transform hover:-translate-y-1"
-                        >
-                            Contratar Ahora
-                        </a>
-                    </div>
-
+        {/* Single Pricing Plan Card */}
+        <div className="max-w-3xl mx-auto">
+          <div className="relative bg-sports-navy rounded-2xl border border-sports-blue shadow-[0_0_40px_rgba(23,107,255,0.15)] overflow-hidden">
+             <div className="absolute top-0 inset-x-0 h-1 bg-sports-blue"></div>
+             
+             <div className="p-8 md:p-12 flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                <div className="flex-1">
+                   <div className="inline-block px-3 py-1 bg-sports-blue/10 rounded text-sports-blue text-[10px] font-bold uppercase tracking-widest mb-4 border border-sports-blue/20">
+                      Tarifa Plana Anual
+                   </div>
+                   <h4 className="text-3xl font-display font-bold text-white uppercase mb-2">
+                     {SCHOOL_PLAN_DATA.title}
+                   </h4>
+                   <div className="flex items-baseline gap-2 mb-4">
+                      <span className="text-5xl font-display font-bold text-sports-lime">{SCHOOL_PLAN_DATA.priceDisplay}</span>
+                      <span className="text-gray-500 font-bold uppercase text-xs">/ año</span>
+                   </div>
+                   <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                      {SCHOOL_PLAN_DATA.description}
+                   </p>
+                   <button 
+                      onClick={() => setIsModalOpen(true)}
+                      className="inline-flex items-center justify-center px-8 py-4 bg-sports-blue text-white font-display font-bold uppercase tracking-wide rounded hover:bg-white hover:text-sports-navy transition-all shadow-lg shadow-sports-blue/20 w-full md:w-auto"
+                   >
+                      {SCHOOL_PLAN_DATA.buttonText}
+                   </button>
                 </div>
-            </div>
+
+                <div className="w-full md:w-5/12 bg-sports-surface/50 rounded-xl p-6 border border-white/5">
+                   <h5 className="text-white font-bold uppercase text-xs tracking-widest mb-4 border-b border-white/10 pb-2">
+                     Qué incluye:
+                   </h5>
+                   <ul className="space-y-3">
+                      {SCHOOL_PLAN_DATA.features.map((feat, i) => (
+                        <li key={i} className="flex items-start text-xs text-gray-300">
+                           <div className="mt-1 mr-3 w-4 h-4 rounded-full bg-sports-blue/20 flex items-center justify-center flex-shrink-0 text-sports-blue">
+                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                           </div>
+                           <span className="leading-snug">{feat}</span>
+                        </li>
+                      ))}
+                   </ul>
+                </div>
+             </div>
+          </div>
+          <p className="text-center text-gray-500 text-xs mt-6 font-body">
+            *Precio para centros estándar. Consultar para grandes volúmenes o personalizaciones a medida.
+          </p>
         </div>
 
       </div>
+
+      <PlanModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        selectedPlan={SCHOOL_PLAN_DATA} 
+      />
     </section>
   );
 };

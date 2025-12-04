@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TEAM_SERVICES, Icons } from '../constants';
+import { PlanModal } from './PlanModal';
+import { Plan, TeamServiceItem } from '../types';
 
 export const TeamServices: React.FC = () => {
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = (service: TeamServiceItem) => {
+    // Extract number from price string (e.g. "250€" -> 250)
+    const priceNumber = parseInt(service.price.replace(/[^\d]/g, '')) || 0;
+
+    const planAdapter: Plan = {
+      id: 'team',
+      title: service.title,
+      priceDisplay: service.price,
+      basePrice: priceNumber,
+      subtitle: service.period, // This will be used in Modal for label
+      description: service.description,
+      details: service.description,
+      features: service.features,
+      buttonText: 'Solicitar',
+      isRecommended: service.highlight
+    };
+
+    setSelectedPlan(planAdapter);
+    setIsModalOpen(true);
+  };
+
   return (
     <section id="teams" className="py-24 bg-[#081221] border-t border-white/5 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
         <div className="text-center mb-16">
-          <div className="inline-block px-3 py-1 bg-white/5 rounded mb-4 border border-white/10">
-             <h2 className="text-white font-bold tracking-[0.2em] uppercase text-xs">Fútbol Base y Modesto</h2>
-           </div>
+          <h2 className="text-white font-bold tracking-[0.2em] uppercase text-xs mb-3">Fútbol Base y Modesto</h2>
           <h3 className="text-3xl md:text-5xl font-display font-bold text-white uppercase tracking-tight">
-            Servicios para Clubes
+            Clubes Profesionales,<br/>Presupuesto Amateur
           </h3>
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto font-body text-lg">
-            Soluciones "Low Cost" diseñadas para equipos no profesionales. Profesionaliza tu imagen y consigue ingresos extra.
+            Soluciones SaaS de bajo coste para directivas que quieren dejar de perder tiempo y dinero.
           </p>
         </div>
 
@@ -36,11 +60,11 @@ export const TeamServices: React.FC = () => {
               >
                 {isHighlight && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-sports-lime text-sports-navy px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg">
-                        Más Popular
+                        Top Ventas
                     </div>
                 )}
 
-                <div className={`mb-4 ${isHighlight ? 'text-white' : 'text-sports-blue group-hover:text-sports-lime transition-colors'}`}>
+                <div className={`mb-4 ${isHighlight ? 'text-white' : 'text-sports-blue'}`}>
                   <IconComponent />
                 </div>
 
@@ -58,33 +82,28 @@ export const TeamServices: React.FC = () => {
                         <span className={`text-[10px] font-bold uppercase ${isHighlight ? 'text-blue-200' : 'text-gray-500'}`}>{service.period}</span>
                     </div>
 
-                    <ul className="space-y-2 mb-6">
-                        {service.features.map((feat, i) => (
-                            <li key={i} className="flex items-start text-xs">
-                                <span className="mr-2 mt-0.5">•</span>
-                                <span className={isHighlight ? 'text-blue-50' : 'text-gray-300'}>{feat}</span>
-                            </li>
-                        ))}
-                    </ul>
-
-                    <a 
-                      href={`https://wa.me/34661256504?text=Hola,%20soy%20de%20un%20club%20y%20me%20interesa:%20${service.title}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button 
+                      onClick={() => handleOpenModal(service)}
                       className={`block w-full py-3 text-center text-xs font-bold uppercase tracking-wider rounded transition-colors ${
                           isHighlight 
                           ? 'bg-white text-sports-blue hover:bg-sports-lime hover:text-sports-navy' 
                           : 'bg-white/5 text-white hover:bg-sports-blue'
                       }`}
                     >
-                        Solicitar
-                    </a>
+                        Contratar
+                    </button>
                 </div>
               </div>
             );
           })}
         </div>
       </div>
+
+      <PlanModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        selectedPlan={selectedPlan} 
+      />
     </section>
   );
 };

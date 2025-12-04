@@ -56,7 +56,6 @@ export const Icons = {
   Speaker: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
   ),
-  // New Icons for Schools
   SchoolForm: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
   ),
@@ -75,7 +74,6 @@ export const Icons = {
   QR: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM6 8V4h2M4 8h2M6 20h2m-2-4h2m6 0h2M6 8H4m0 0V4m2 16H4m0 0v-4m12 0h2m-2 4h2" /><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /></svg>
   ),
-  // Automation Icons
   AutoForm: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
   ),
@@ -93,8 +91,75 @@ export const Icons = {
   ),
   Trophy: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+  ),
+  Chart: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+  ),
+  Search: () => (
+     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+  ),
+  Settings: () => (
+     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+  ),
+  Rocket: () => (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
   )
 };
+
+// NEW: METRICS FOR AUTHORITY
+export const METRICS = [
+    { label: "Eventos Gestionados", value: "+120", icon: <Icons.Trophy /> },
+    { label: "Jugadores Digitalizados", value: "15k+", icon: <Icons.Users /> },
+    { label: "Horas Ahorradas/Torneo", value: "200h", icon: <Icons.Clock /> },
+    { label: "Errores Administrativos", value: "0%", icon: <Icons.Check /> }
+];
+
+// NEW: WORKFLOW STEPS
+export const WORKFLOW_STEPS = [
+    { 
+        step: "01", 
+        title: "Auditoría Express", 
+        desc: "Analizamos tu torneo actual: dónde pierdes dinero y dónde pierdes tiempo.",
+        icon: <Icons.Search />
+    },
+    { 
+        step: "02", 
+        title: "Plan de Acción", 
+        desc: "Diseñamos la logística de autobuses, hoteles y el flujo de inscripciones.",
+        icon: <Icons.Chart />
+    },
+    { 
+        step: "03", 
+        title: "Despliegue Tech", 
+        desc: "Implementamos las herramientas de automatización y registro en 48h.",
+        icon: <Icons.Settings />
+    },
+    { 
+        step: "04", 
+        title: "Ejecución & Control", 
+        desc: "Durante el evento, nosotros controlamos el caos. Tú disfrutas del fútbol.",
+        icon: <Icons.Rocket />
+    }
+];
+
+// NEW: TESTIMONIALS (Social Proof)
+export const TESTIMONIALS = [
+    {
+        quote: "Antes perdía semanas cuadrando autobuses. Con APG, todo fluye solo. He recuperado mi vida los fines de semana.",
+        author: "Carlos M.",
+        role: "Director de Torneo Internacional"
+    },
+    {
+        quote: "La gestión de los hoteles era una pesadilla de excels. Alicia lo profesionalizó todo desde el día uno.",
+        author: "Marta R.",
+        role: "Coordinadora de Club"
+    },
+    {
+        quote: "La inversión se paga sola solo con lo que ahorras en errores administrativos y multas.",
+        author: "Javier P.",
+        role: "Presidente de Escuela de Fútbol"
+    }
+];
 
 // 8 AUTOMATION FOCUSED SERVICES (Adjusted prices for market competitiveness)
 export const CUSTOM_SERVICES_LIST: CustomServiceOption[] = [
@@ -119,8 +184,8 @@ export const PLANS: Plan[] = [
   {
     id: 'basic',
     title: 'Plan Básico',
-    priceDisplay: '495€',
-    basePrice: 495,
+    priceDisplay: '550€',
+    basePrice: 550,
     subtitle: 'Gestión Documental',
     description: 'Evita errores y ahorra horas desde el primer día.',
     details: 'Digitalización completa de fichas y control documental básico.',
@@ -128,6 +193,7 @@ export const PLANS: Plan[] = [
     features: [
       'Gestión de inscripciones de equipos',
       'Gestión de inscripciones de jugadores',
+      'Diploma Digital de Participación',
       'Revisión documental',
       'Soporte básico'
     ]
@@ -135,11 +201,12 @@ export const PLANS: Plan[] = [
   {
     id: 'intermediate',
     title: 'Plan Intermedio',
-    priceDisplay: '1.150€',
-    basePrice: 1150,
+    priceDisplay: '1.250€',
+    basePrice: 1250,
     subtitle: 'Logística Terrestre',
     description: 'Planifica rutas sin estrés y sin llamadas de última hora.',
     details: 'Incluye todo lo del Plan Básico más una gestión integral de la flota de autobuses y transferencias.',
+    isRecommended: true,
     buttonText: 'Ver detalles',
     features: [
       'Todo lo del Plan Básico',
@@ -151,15 +218,15 @@ export const PLANS: Plan[] = [
   {
     id: 'advanced',
     title: 'Plan Avanzado',
-    priceDisplay: '1.950€',
-    basePrice: 1950,
+    priceDisplay: '2.150€',
+    basePrice: 2150,
     subtitle: 'Gestión Integral 360°',
     description: 'Despreocúpate por completo de la logística.',
-    isRecommended: true,
     details: 'La experiencia definitiva. Incluye gestión de inscripciones, transporte y alojamiento (asignación) para equipos.',
     buttonText: 'Ver detalles',
     features: [
       'Todo lo del Plan Intermedio',
+      'Diploma Digital Premium',
       'Gestión logística de hoteles (asignación)',
       'Asignación de habitaciones (Rooming)',
       'Hoteles previamente contactados'
@@ -167,42 +234,42 @@ export const PLANS: Plan[] = [
   }
 ];
 
-// Detalle Profesional de Servicios para Torneos
+// Detalle Profesional de Servicios para Torneos (COPYWRITING IMPROVED)
 export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
   { 
     title: "Gestión de Inscripciones",
-    subtitle: "Tu oficina técnica virtual",
-    description: "Centralizamos la documentación para evitar errores administrativos.",
+    subtitle: "Oficina Técnica Virtual",
+    description: "Elimina el 90% de los emails. Centralizamos toda la documentación en una nube segura.",
     iconName: "Users",
     details: [
         "Plataforma de registro digital.",
-        "Validación de fichas y seguros.",
-        "Control de pagos por equipo.",
-        "Listados automatizados para arbitraje."
+        "Validación automática de seguros.",
+        "Control de pagos en tiempo real.",
+        "Listados limpios para arbitraje."
     ]
   },
   { 
     title: "Logística de Autocares",
-    subtitle: "Control total de flotas",
-    description: "Ingeniería de rutas para garantizar puntualidad en cada partido.", 
+    subtitle: "Control Total de Flotas",
+    description: "Ingeniería de rutas para que ningún equipo llegue tarde al partido. Cero estrés.", 
     iconName: "Bus",
     details: [
         "Diseño de rutas eficientes.",
-        "Interlocución única con la empresa de transporte.",
-        "Gestión de incidencias en tiempo real.",
-        "Control de horarios de conductores."
+        "Interlocución única con proveedores.",
+        "Resolución de incidencias 24/7.",
+        "Control de tiempos de conducción."
     ]
   },
   { 
-    title: "Gestión Hotelera (Rooming)", 
-    subtitle: "Experiencia 5 estrellas",
-    description: "Asignación profesional de equipos en hoteles concertados.", 
+    title: "Gestión Hotelera", 
+    subtitle: "Experiencia 5 Estrellas",
+    description: "Convertimos el alojamiento en una ventaja competitiva, no en un problema logístico.", 
     iconName: "Hotel",
     details: [
-        "Distribución lógica de habitaciones.",
-        "Separación de staffs y jugadores.",
-        "Gestión de dietas especiales.",
-        "Check-in organizado para grupos masivos."
+        "Rooming lists inteligentes.",
+        "Separación estratégica de staffs.",
+        "Gestión de dietas y alergias.",
+        "Check-in masivo organizado."
     ]
   },
 ];
@@ -231,55 +298,63 @@ export const SCHOOL_SERVICES: SchoolServiceItem[] = [
     }
 ];
 
-// Configuración Plan Colegios - ESTRATEGIA PRECIO POR ALUMNO
-export const SCHOOL_PLAN_PRICING = {
-    title: "Pack AMPA Digital 360",
-    pricePerStudent: "0,50€",
-    studentDetail: "/ alumno al año",
-    totalPrice: "290€",
-    totalDetail: "/ año por centro (Tarifa Plana)",
-    description: "Moderniza tu colegio por menos de lo que cuesta una fotocopia.",
-    features: [
-        "Carnet Digital en Wallet (iOS/Android)",
-        "App de comunicación ilimitada",
-        "Gestión de Listados de Socios",
-        "Soporte prioritario a directiva"
-    ]
+// Configurador Plan Colegios - ÚNICO PLAN OPTIMIZADO (Market Standard)
+export const SCHOOL_PLAN_DATA: Plan = {
+  id: 'school',
+  title: "Pack Gestión AMPA 360º",
+  priceDisplay: "Desde 290€",
+  basePrice: 290,
+  subtitle: "Suscripción Flexible",
+  description: "La solución completa para digitalizar tu AMPA. Elige entre tarifa plana anual (fija) o pago flexible por número de alumnos.",
+  details: "Olvídate de las hojas de cálculo y los pagos en efectivo. Con este plan, profesionalizas la gestión del AMPA, ofreciendo a las familias una experiencia moderna (App + Carnet) y a la directiva un control total sobre socios y recibos. Puedes elegir la modalidad que mejor se adapte a tu tesorería.",
+  buttonText: "Solicitar Alta Colegio",
+  features: [
+    "Carnet de Socio Digital (Wallet iOS/Android)",
+    "Plataforma de Inscripción Online y Pagos",
+    "App de Comunicación Directa con Familias",
+    "Gestión de Recibos y Control de Impagos",
+    "Listados Automáticos para Actividades",
+    "Soporte Técnico Prioritario para Directiva"
+  ],
+  isRecommended: true
 };
 
 // Servicios para Clubes de Fútbol Base (REAL MANAGEMENT SOLUTIONS - UPDATED PRICES)
 export const TEAM_SERVICES: TeamServiceItem[] = [
   {
-    title: "Planificación de Plantillas",
-    price: "195€",
+    title: "Gestión de Fichas y Licencias",
+    price: "250€",
     period: "/ temporada",
-    description: "Organiza todas tus categorías (Prebenjamín a Juvenil) visualmente. Control de fichas, subidas de categoría y ratios por equipo.",
-    iconName: "Users",
-    features: ["Mapa de categorías", "Control de ratios", "Historial de jugador"],
+    description: "Automatiza la recogida de DNIs, fotos y pagos de mutualidad. Listados listos para la federación.",
+    iconName: "Doc",
+    features: ["Recogida doc. digital", "Diploma Digital Fin de Temporada", "Exportación a Federación"],
     highlight: true
   },
   {
-    title: "Cuadrantes de Campo",
+    title: "Confección de Plantillas",
+    price: "150€",
+    period: "/ temporada",
+    description: "Organiza tus categorías (A, B, C). Gestiona 'subidas' de jugadores y equilibra los equipos por nivel.",
+    iconName: "Users",
+    features: ["Movimientos entre equipos", "Control de ratios por equipo", "Histórico de categoría"],
+    highlight: false
+  },
+  {
+    title: "Cuadrantes de Entrenamiento",
     price: "60€",
     period: "/ mes",
-    description: "Se acabó el Tetris. Optimizamos el uso de tu instalación para que entrenen todos los equipos sin solapamientos ni conflictos.",
+    description: "Optimización matemática de espacios. Cuadra horarios de 20 equipos en un solo campo.",
     iconName: "CalendarAI",
-    features: ["Rotación de espacios", "Asignación vestuarios", "Horarios justos"]
+    features: ["Rotación de espacios", "Asignación vestuarios", "Sin solapamientos"],
+    highlight: false
   },
   {
-    title: "Agenda de Torneos",
-    price: "150€",
-    period: "/ evento",
-    description: "Gestionamos el calendario externo. Inscripciones a torneos, control de fechas bloqueadas en liga y logística de viajes.",
-    iconName: "Trophy",
-    features: ["Calendario unificado", "Gestión de invitaciones", "Logística de viajes"]
-  },
-  {
-    title: "Coordinación de Jornada",
+    title: "Coordinación de Partidos",
     price: "90€",
     period: "/ mes",
-    description: "El fin de semana, automatizado. Horarios de partidos, designación de autobuses y envío de convocatorias a familias.",
+    description: "Gestión semanal de horarios, transporte y avisos a padres. Todo centralizado.",
     iconName: "Clock",
-    features: ["Horarios partidos", "Rutas de bus", "Avisos a familias"]
+    features: ["Horarios federativos", "Logística de bus", "Convocatorias digitales"],
+    highlight: false
   }
 ];

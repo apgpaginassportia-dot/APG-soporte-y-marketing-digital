@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 export const Footer: React.FC = () => {
@@ -27,7 +28,12 @@ export const Footer: React.FC = () => {
              <h3 className="text-white font-bold mb-6 font-display uppercase tracking-widest text-sm">Contacto Directo</h3>
              <ul className="space-y-4 mb-8">
                <li>
-                 <a href="https://wa.me/34661256504" className="text-gray-400 hover:text-sports-lime transition-colors flex items-center gap-3 text-sm font-body">
+                 <a 
+                   href="https://wa.me/34661256504" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   className="text-gray-400 hover:text-sports-lime transition-colors flex items-center gap-3 text-sm font-body"
+                 >
                    <span className="w-1.5 h-1.5 bg-sports-lime rounded-full"></span>
                    +34 661 256 504
                  </a>

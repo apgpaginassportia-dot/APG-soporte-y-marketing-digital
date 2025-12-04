@@ -9,7 +9,7 @@ export interface CustomServiceOption {
 }
 
 export interface Plan {
-  id: 'basic' | 'intermediate' | 'advanced' | 'custom';
+  id: 'basic' | 'intermediate' | 'advanced' | 'custom' | 'school' | 'team';
   title: string;
   priceDisplay: string;
   basePrice: number;
@@ -51,6 +51,7 @@ export interface LeadForm {
   phone: string;
   selectedServices: string[]; // For custom plan
   message?: string;
+  pricePerStudent?: string; // Changed from difficulty to pricePerStudent
 }
 
 export interface Benefit {

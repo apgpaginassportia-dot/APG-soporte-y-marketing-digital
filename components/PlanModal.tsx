@@ -12,17 +12,25 @@ interface PlanModalProps {
 // Define stable default constant outside component to prevent re-render resets
 const DEFAULT_SERVICES: string[] = [];
 
+// Standard Market Rate for Student App/Management
+const PRICE_PER_STUDENT = 3.50; 
+
 export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedPlan, preselectedServices = DEFAULT_SERVICES }) => {
   const [formData, setFormData] = useState<LeadForm>({
     name: '',
     email: '',
     phone: '',
     message: '',
+    pricePerStudent: '',
     selectedServices: preselectedServices
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  // School Plan specific states
+  const [schoolPricingMode, setSchoolPricingMode] = useState<'fixed' | 'students'>('fixed');
+  const [studentCount, setStudentCount] = useState<number>(100);
 
   // Reset form ONLY when the modal opens or the plan actually changes
   useEffect(() => {
@@ -32,11 +40,15 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
         email: '',
         phone: '',
         message: '',
+        pricePerStudent: '',
         selectedServices: preselectedServices
       });
       setErrors({});
       setShowSuccess(false);
       setIsSubmitting(false);
+      // Reset School specifics
+      setSchoolPricingMode('fixed');
+      setStudentCount(100);
     }
   }, [isOpen, selectedPlan, preselectedServices]);
 
@@ -61,6 +73,17 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
       const services = getCustomServiceBreakdown();
       return services.reduce((acc, curr) => acc + (curr?.price || 0), 0);
     }
+    
+    // School Plan Dynamic Pricing Logic
+    if (selectedPlan.id === 'school') {
+      if (schoolPricingMode === 'fixed') {
+        return selectedPlan.basePrice;
+      } else {
+        // En modo "Por Alumno", NO hay precio base. Solo el coste por alumno.
+        return Number((studentCount * PRICE_PER_STUDENT).toFixed(2));
+      }
+    }
+
     return selectedPlan.basePrice;
   };
 
@@ -71,20 +94,37 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     setIsSubmitting(true);
 
     const total = calculateTotal();
-    const servicesList = selectedPlan.id === 'custom' 
-      ? getCustomServiceBreakdown().map(s => s?.label).join(', ')
-      : selectedPlan.features.join(', ');
+    let servicesList = selectedPlan.features.join(', ');
+
+    if (selectedPlan.id === 'custom') {
+       servicesList = getCustomServiceBreakdown().map(s => s?.label).join(', ');
+    }
+
+    // Dynamic Plan Description
+    let planTitleFull = selectedPlan.title;
+    let extraDetails = "";
+
+    if (selectedPlan.id === 'school') {
+       if (schoolPricingMode === 'fixed') {
+          planTitleFull += " (Tarifa Plana Anual)";
+       } else {
+          planTitleFull += ` (Por Alumno: ${studentCount} alumnos)`;
+          extraDetails = `Modo Pago por Uso: ${studentCount} alumnos x ${PRICE_PER_STUDENT}€ (Sin cuota base)`;
+       }
+    }
 
     // Datos estructurados para el email
     const emailPayload = {
-      _subject: `Nuevo Cliente APG: ${formData.name} - Plan ${selectedPlan.title}`,
+      _subject: `Nuevo Cliente APG: ${formData.name} - ${planTitleFull}`,
       _template: "table",
       _captcha: "false", // Intenta evitar captcha (puede aparecer la primera vez)
-      Plan_Seleccionado: selectedPlan.title,
+      Plan_Seleccionado: planTitleFull,
       Precio_Estimado: `${total}€`,
+      Detalles_Calculo: extraDetails || "Precio Base",
       Nombre_Cliente: formData.name,
       Email_Cliente: formData.email, // FormSubmit usará esto para responder
       Telefono: formData.phone,
+      Precio_Por_Alumno_Manual: formData.pricePerStudent || "No especificado",
       Servicios_Incluidos: servicesList,
       Mensaje_Adicional: formData.message || "Sin mensaje"
     };
@@ -156,8 +196,59 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                     {selectedPlan.title}
                    </h3>
                    <div className="text-3xl font-display font-bold text-sports-lime">{total}€</div>
-                   <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Estimación sin IVA</p>
+                   <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">
+                     {selectedPlan.id === 'school' && schoolPricingMode === 'students' 
+                        ? 'Precio anual total (Sin Base)' 
+                        : selectedPlan.id === 'team'
+                          ? `Precio ${selectedPlan.subtitle}`
+                          : 'Precio base anual (sin IVA)'}
+                   </p>
                 </div>
+
+                {/* SCHOOL PLAN CALCULATOR UI */}
+                {selectedPlan.id === 'school' && (
+                  <div className="bg-sports-navy/50 rounded p-4 border border-white/10 mb-6 shadow-inner">
+                     <label className="block text-xs font-bold text-sports-blue uppercase mb-3">Modo de Pago</label>
+                     <div className="flex rounded border border-white/10 overflow-hidden mb-4">
+                        <button 
+                          onClick={() => setSchoolPricingMode('fixed')}
+                          className={`flex-1 py-2 text-xs font-bold uppercase transition-colors ${schoolPricingMode === 'fixed' ? 'bg-sports-blue text-white' : 'bg-transparent text-gray-400 hover:text-white'}`}
+                        >
+                          Tarifa Plana
+                        </button>
+                        <button 
+                          onClick={() => setSchoolPricingMode('students')}
+                          className={`flex-1 py-2 text-xs font-bold uppercase transition-colors ${schoolPricingMode === 'students' ? 'bg-sports-blue text-white' : 'bg-transparent text-gray-400 hover:text-white'}`}
+                        >
+                          Por Alumno
+                        </button>
+                     </div>
+
+                     {schoolPricingMode === 'students' && (
+                       <div className="animate-fade-in-up">
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase mb-2">Número de Alumnos</label>
+                          <div className="flex items-center gap-3">
+                             <input 
+                               type="number" 
+                               min="1"
+                               value={studentCount}
+                               onChange={(e) => setStudentCount(Math.max(1, parseInt(e.target.value) || 0))}
+                               className="w-full bg-sports-dark border border-gray-600 rounded px-3 py-2 text-white font-bold text-sm focus:border-sports-lime focus:outline-none"
+                             />
+                             <div className="text-xs text-sports-lime whitespace-nowrap font-bold">
+                               x {PRICE_PER_STUDENT.toFixed(2)}€
+                             </div>
+                          </div>
+                       </div>
+                     )}
+                     
+                     <p className="text-[10px] text-gray-500 mt-3 italic">
+                        {schoolPricingMode === 'fixed' 
+                          ? "Recomendado para centros estándar. Tarifa fija sin sorpresas." 
+                          : "Paga solo por lo que usas. Sin coste de alta ni precio base."}
+                     </p>
+                  </div>
+                )}
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 max-h-[30vh] md:max-h-none">
                    <p className="text-sm text-gray-300 mb-6 leading-relaxed font-body">
@@ -221,7 +312,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                           value={formData.name}
                           onChange={e => setFormData(prev => ({...prev, name: e.target.value}))}
                           className={`block w-full border ${errors.name ? 'border-red-500' : 'border-gray-700'} rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm`}
-                          placeholder="Tu nombre"
+                          placeholder={selectedPlan.id === 'school' ? "Nombre del Centro / AMPA" : "Tu nombre"}
                         />
                         {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
                     </div>
@@ -253,6 +344,20 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         {errors.phone && <p className="mt-1 text-xs text-red-400">{errors.phone}</p>}
                       </div>
                     </div>
+
+                    {selectedPlan.id !== 'school' && (
+                        <div>
+                            <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Estimado)</label>
+                            <input
+                              type="text"
+                              name="pricePerStudent"
+                              value={formData.pricePerStudent}
+                              onChange={e => setFormData(prev => ({...prev, pricePerStudent: e.target.value}))}
+                              className="block w-full border border-gray-700 rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm"
+                              placeholder="Ej: 30€ / 50€"
+                            />
+                        </div>
+                    )}
 
                     <div>
                       <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Mensaje (Opcional)</label>

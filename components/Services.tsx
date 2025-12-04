@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import { PLANS, Icons, INDIVIDUAL_SERVICES_RATES } from '../constants';
 import { Plan } from '../types';
@@ -29,16 +31,16 @@ export const Services: React.FC = () => {
               key={plan.id} 
               className={`relative flex flex-col rounded-xl transition-all duration-300 group overflow-hidden ${
                 plan.isRecommended 
-                  ? 'bg-sports-surface border-2 border-sports-blue shadow-[0_0_30px_rgba(23,107,255,0.15)] z-10 transform md:-translate-y-4' 
+                  ? 'bg-[#152a48] border-2 border-sports-lime shadow-[0_0_40px_rgba(120,224,143,0.2)] z-10 transform md:-translate-y-4' 
                   : 'bg-sports-surface border border-white/5 hover:border-sports-lime/50 hover:shadow-lg'
               }`}
             >
               {plan.isRecommended && (
-                <div className="absolute top-0 inset-x-0 h-1 bg-sports-blue"></div>
+                <div className="absolute top-0 inset-x-0 h-1 bg-sports-lime"></div>
               )}
               {plan.isRecommended && (
-                <div className="absolute top-4 right-4 bg-sports-blue text-white px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-sm">
-                   Recomendado
+                <div className="absolute top-4 right-4 bg-sports-lime text-sports-navy px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-sm shadow-lg">
+                   Más Popular
                 </div>
               )}
               
@@ -77,7 +79,7 @@ export const Services: React.FC = () => {
                   onClick={() => handleOpenPlan(plan)}
                   className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-all rounded ${
                     plan.isRecommended
-                        ? 'bg-sports-blue text-white hover:bg-white hover:text-sports-navy' 
+                        ? 'bg-sports-lime text-sports-navy hover:bg-white hover:text-sports-navy' 
                         : 'bg-white/5 border border-white/10 text-white hover:bg-sports-lime hover:text-sports-navy hover:border-sports-lime'
                   }`}
                 >
