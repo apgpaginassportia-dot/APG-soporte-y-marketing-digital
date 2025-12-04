@@ -1,6 +1,8 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { Plan, LeadForm } from '../types';
-import { CUSTOM_SERVICES_LIST } from '../constants';
+import { CUSTOM_SERVICES_LIST, TEAM_SERVICES } from '../constants';
 
 interface PlanModalProps {
   isOpen: boolean;
@@ -65,13 +67,36 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
   };
 
   const getCustomServiceBreakdown = () => {
-    return formData.selectedServices.map(id => CUSTOM_SERVICES_LIST.find(s => s.id === id)).filter(Boolean);
+    if (selectedPlan.id === 'custom') {
+      return formData.selectedServices.map(id => CUSTOM_SERVICES_LIST.find(s => s.id === id)).filter(Boolean);
+    }
+    if (selectedPlan.id === 'team_custom') {
+      return formData.selectedServices.map(id => TEAM_SERVICES.find(s => s.id === id)).filter(Boolean);
+    }
+    return [];
   };
 
   const calculateTotal = () => {
     if (selectedPlan.id === 'custom') {
       const services = getCustomServiceBreakdown();
-      return services.reduce((acc, curr) => acc + (curr?.price || 0), 0);
+      // Fix: Ensure price is treated as number to avoid type errors when services might be inferred as containing items with string prices
+      return services.reduce((acc, curr) => {
+        const p = curr?.price;
+        return acc + (typeof p === 'number' ? p : 0);
+      }, 0);
+    }
+
+    if (selectedPlan.id === 'team_custom') {
+      // Just estimating total number for the header
+      const services = getCustomServiceBreakdown();
+      // Need to extract number from string "250€"
+      return services.reduce((acc, curr) => {
+        // @ts-ignore - We know for team items price is a string in constants, but mapped to number in generic builder
+        // However, here we are fetching raw objects from TEAM_SERVICES constant which has string price
+        const priceStr = curr?.price || "0";
+        const priceNum = parseInt(priceStr.toString().replace(/[^\d]/g, '')) || 0;
+        return acc + priceNum;
+      }, 0);
     }
     
     // School Plan Dynamic Pricing Logic
@@ -100,6 +125,10 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        servicesList = getCustomServiceBreakdown().map(s => s?.label).join(', ');
     }
 
+    if (selectedPlan.id === 'team_custom') {
+       servicesList = getCustomServiceBreakdown().map(s => `${s?.title} (${s?.price}${s?.period})`).join(', ');
+    }
+
     // Dynamic Plan Description
     let planTitleFull = selectedPlan.title;
     let extraDetails = "";
@@ -112,6 +141,10 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
           extraDetails = `Modo Pago por Uso: ${studentCount} alumnos x ${PRICE_PER_STUDENT}€ (Sin cuota base)`;
        }
     }
+    
+    if (selectedPlan.id === 'team') {
+       planTitleFull += ` (${selectedPlan.subtitle})`;
+    }
 
     // Datos estructurados para el email
     const emailPayload = {
@@ -120,7 +153,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
       _captcha: "false", // Intenta evitar captcha (puede aparecer la primera vez)
       Plan_Seleccionado: planTitleFull,
       Precio_Estimado: `${total}€`,
-      Detalles_Calculo: extraDetails || "Precio Base",
+      Detalles_Calculo: extraDetails || "Precio Base / Estimado",
       Nombre_Cliente: formData.name,
       Email_Cliente: formData.email, // FormSubmit usará esto para responder
       Telefono: formData.phone,
@@ -200,8 +233,10 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      {selectedPlan.id === 'school' && schoolPricingMode === 'students' 
                         ? 'Precio anual total (Sin Base)' 
                         : selectedPlan.id === 'team'
-                          ? `Precio ${selectedPlan.subtitle}`
-                          : 'Precio base anual (sin IVA)'}
+                          ? `Precio ${selectedPlan.subtitle}` // e.g. "Precio / temporada"
+                          : selectedPlan.id === 'team_custom'
+                            ? 'Estimación Total (Mixta)'
+                            : 'Precio base anual (sin IVA)'}
                    </p>
                 </div>
 
@@ -255,15 +290,18 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      {selectedPlan.details || selectedPlan.description}
                    </p>
                    
-                   {selectedPlan.id === 'custom' ? (
+                   {/* DYNAMIC LIST FOR AUTOMATION BUILDER OR TEAM SERVICES BUILDER */}
+                   {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom') ? (
                       <div className="bg-sports-navy/50 rounded p-4 border border-white/5 mb-6">
                         <h4 className="text-xs font-bold text-sports-blue uppercase mb-3 pb-2 border-b border-white/10">Desglose de Servicios</h4>
                         <ul className="space-y-0">
-                          {getCustomServiceBreakdown().map((s, idx, arr) => s && (
+                          {getCustomServiceBreakdown().map((s: any, idx, arr) => s && (
                             <li key={idx} className={`${idx !== arr.length - 1 ? 'border-b border-white/5 pb-3 mb-3' : ''}`}>
                                <div className="flex justify-between items-center mb-1">
-                                  <span className="font-bold text-gray-200 text-xs">{s.label}</span>
-                                  <span className="font-bold text-sports-lime text-xs">{s.price}€</span>
+                                  <span className="font-bold text-gray-200 text-xs">{s.label || s.title}</span>
+                                  <span className="font-bold text-sports-lime text-xs">
+                                     {s.price}{s.unit ? `€` : ''}{s.period ? ` ${s.period}` : ''}
+                                  </span>
                                </div>
                                <p className="text-gray-500 text-[10px] leading-snug">{s.description}</p>
                             </li>

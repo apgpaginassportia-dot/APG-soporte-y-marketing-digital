@@ -9,7 +9,7 @@ export interface CustomServiceOption {
 }
 
 export interface Plan {
-  id: 'basic' | 'intermediate' | 'advanced' | 'custom' | 'school' | 'team';
+  id: 'basic' | 'intermediate' | 'advanced' | 'custom' | 'school' | 'team' | 'team_custom';
   title: string;
   priceDisplay: string;
   basePrice: number;
@@ -36,6 +36,7 @@ export interface SchoolServiceItem {
 }
 
 export interface TeamServiceItem {
+  id: string;
   title: string;
   price: string;
   period: string;

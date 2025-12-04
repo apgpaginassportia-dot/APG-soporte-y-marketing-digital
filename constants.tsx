@@ -322,6 +322,7 @@ export const SCHOOL_PLAN_DATA: Plan = {
 // Servicios para Clubes de Fútbol Base (REAL MANAGEMENT SOLUTIONS - UPDATED PRICES)
 export const TEAM_SERVICES: TeamServiceItem[] = [
   {
+    id: 'team_licenses',
     title: "Gestión de Fichas y Licencias",
     price: "250€",
     period: "/ temporada",
@@ -331,6 +332,7 @@ export const TEAM_SERVICES: TeamServiceItem[] = [
     highlight: true
   },
   {
+    id: 'team_squad',
     title: "Confección de Plantillas",
     price: "150€",
     period: "/ temporada",
@@ -340,6 +342,7 @@ export const TEAM_SERVICES: TeamServiceItem[] = [
     highlight: false
   },
   {
+    id: 'team_training',
     title: "Cuadrantes de Entrenamiento",
     price: "60€",
     period: "/ mes",
@@ -349,6 +352,7 @@ export const TEAM_SERVICES: TeamServiceItem[] = [
     highlight: false
   },
   {
+    id: 'team_matches',
     title: "Coordinación de Partidos",
     price: "90€",
     period: "/ mes",
