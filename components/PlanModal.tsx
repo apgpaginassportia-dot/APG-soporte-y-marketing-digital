@@ -255,20 +255,31 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      </div>
 
                      {schoolPricingMode === 'students' && (
-                       <div className="animate-fade-in-up">
-                          <label className="block text-[10px] font-bold text-gray-400 uppercase mb-2">Número de Alumnos</label>
-                          <div className="flex items-center gap-3">
+                       <div className="animate-fade-in-up mt-4 bg-sports-dark/50 p-3 rounded border border-white/5">
+                          <label className="block text-[10px] font-bold text-gray-400 uppercase mb-2">Número de Alumnos (Mínimo 1)</label>
+                          <div className="flex items-center gap-2">
                              <input 
                                type="number" 
                                min="1"
+                               step="1"
                                value={studentCount}
-                               onChange={(e) => setStudentCount(Math.max(1, parseInt(e.target.value) || 0))}
-                               className="w-full bg-sports-dark border border-gray-600 rounded px-3 py-2 text-white font-bold text-sm focus:border-sports-lime focus:outline-none"
+                               onChange={(e) => {
+                                   const val = parseInt(e.target.value);
+                                   // Ensure it is a valid positive number
+                                   if (!isNaN(val)) setStudentCount(Math.max(1, val));
+                               }}
+                               className="w-20 bg-sports-navy border border-gray-600 rounded px-2 py-2 text-white font-bold text-lg focus:border-sports-lime focus:outline-none text-center"
                              />
-                             <div className="text-xs text-sports-lime whitespace-nowrap font-bold">
-                               x {PRICE_PER_STUDENT.toFixed(2)}€
-                             </div>
+                             <span className="text-gray-500 font-bold text-sm">x</span>
+                             <span className="text-gray-300 font-bold text-sm">{PRICE_PER_STUDENT.toFixed(2)}€</span>
+                             <span className="text-gray-500 font-bold text-sm">=</span>
+                             <span className="text-lg font-bold text-sports-lime whitespace-nowrap">
+                                {(studentCount * PRICE_PER_STUDENT).toFixed(2)}€
+                             </span>
                           </div>
+                          <p className="text-[10px] text-gray-500 mt-2 italic">
+                            *Cálculo directo en base a {studentCount} alumnos.
+                          </p>
                        </div>
                      )}
                      

@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { PLANS, Icons, INDIVIDUAL_SERVICES_RATES } from '../constants';
 import { Plan } from '../types';
@@ -15,12 +14,12 @@ export const Services: React.FC = () => {
   };
 
   return (
-    <section id="plans" className="py-24 bg-sports-navy border-t border-white/5">
+    <section id="plans" className="py-24 bg-sports-navy border-t border-white/5 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Servicios Modulares</h2>
-          <p className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight uppercase">
+          <p className="text-4xl md:text-6xl font-display font-bold text-white tracking-tight uppercase drop-shadow-lg">
             Planes de Servicio
           </p>
         </div>
@@ -29,45 +28,47 @@ export const Services: React.FC = () => {
           {PLANS.map((plan) => (
             <div 
               key={plan.id} 
-              className={`relative flex flex-col rounded-xl transition-all duration-300 group overflow-hidden ${
+              className={`relative flex flex-col rounded-2xl transition-all duration-500 group overflow-hidden ${
                 plan.isRecommended 
-                  ? 'bg-[#152a48] border-2 border-sports-lime shadow-[0_0_40px_rgba(120,224,143,0.2)] z-10 transform md:-translate-y-4' 
-                  : 'bg-sports-surface border border-white/5 hover:border-sports-lime/50 hover:shadow-lg'
+                  ? 'bg-[#0f172a] border border-sports-lime/50 shadow-[0_0_50px_rgba(163,230,53,0.15)] z-10 transform md:-translate-y-4' 
+                  : 'bg-sports-surface border border-white/5 hover:border-sports-blue/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]'
               }`}
             >
               {plan.isRecommended && (
-                <div className="absolute top-0 inset-x-0 h-1 bg-sports-lime"></div>
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-sports-lime to-transparent"></div>
               )}
               {plan.isRecommended && (
-                <div className="absolute top-4 right-4 bg-sports-lime text-sports-navy px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-sm shadow-lg">
+                <div className="absolute top-4 right-4 bg-sports-lime text-sports-navy px-3 py-1 text-xs font-bold uppercase tracking-wider rounded shadow-lg animate-pulse-slow">
                    Más Popular
                 </div>
               )}
               
-              <div className="p-8 flex-1 flex flex-col">
+              <div className="p-8 flex-1 flex flex-col relative z-10">
                 <div className="mb-6">
-                  <h3 className="text-2xl font-display font-bold text-white mb-2 uppercase">
+                  <h3 className={`text-2xl font-display font-bold mb-2 uppercase tracking-wide ${plan.isRecommended ? 'text-white' : 'text-gray-200'}`}>
                     {plan.title}
                   </h3>
                   <div className="flex items-baseline gap-1 mt-4">
-                     <span className="text-4xl font-display font-bold text-white">{plan.priceDisplay}</span>
+                     <span className={`text-5xl font-display font-bold ${plan.isRecommended ? 'text-sports-lime' : 'text-white'}`}>
+                        {plan.priceDisplay}
+                     </span>
                   </div>
-                  <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">
-                    Precio base sin servicios adicionales
+                  <p className="text-[10px] text-gray-500 mt-2 uppercase tracking-wide font-bold">
+                    Precio base sin servicios extra
                   </p>
-                  <p className="text-sm text-sports-lime uppercase tracking-widest font-semibold mt-3">
+                  <p className={`text-sm uppercase tracking-widest font-bold mt-4 ${plan.isRecommended ? 'text-white' : 'text-sports-blue'}`}>
                     {plan.subtitle}
                   </p>
                 </div>
 
-                <p className="text-sm mb-8 text-gray-400 leading-relaxed font-body">
+                <p className="text-sm mb-8 text-gray-400 leading-relaxed font-body border-t border-white/5 pt-4">
                   {plan.description}
                 </p>
                 
                 <ul className="space-y-4 mb-8 flex-1">
                   {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-300 font-body">
-                       <span className="mt-0.5 mr-3 flex-shrink-0">
+                    <li key={idx} className="flex items-start text-sm text-gray-300 font-body group-hover:text-white transition-colors">
+                       <span className={`mt-0.5 mr-3 flex-shrink-0 ${plan.isRecommended ? 'text-sports-lime' : 'text-sports-blue'}`}>
                          <Icons.Check />
                        </span>
                        <span>{feature}</span>
@@ -77,15 +78,18 @@ export const Services: React.FC = () => {
                 
                 <button
                   onClick={() => handleOpenPlan(plan)}
-                  className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-all rounded ${
+                  className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-all rounded-lg ${
                     plan.isRecommended
-                        ? 'bg-sports-lime text-sports-navy hover:bg-white hover:text-sports-navy' 
-                        : 'bg-white/5 border border-white/10 text-white hover:bg-sports-lime hover:text-sports-navy hover:border-sports-lime'
+                        ? 'bg-sports-lime text-sports-navy hover:bg-white hover:text-sports-navy shadow-[0_0_20px_rgba(163,230,53,0.3)]' 
+                        : 'bg-white/5 border border-white/10 text-white hover:bg-sports-blue hover:text-white hover:border-sports-blue'
                   }`}
                 >
                   {plan.buttonText}
                 </button>
               </div>
+              
+              {/* Background gradient for depth */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 pointer-events-none"></div>
             </div>
           ))}
         </div>
@@ -98,25 +102,25 @@ export const Services: React.FC = () => {
               <p className="text-gray-400 mt-4 text-sm font-body">Contratación independiente fuera de los planes globales.</p>
             </div>
             
-            <div className="max-w-5xl mx-auto bg-sports-surface rounded-xl border border-white/5 overflow-hidden shadow-lg">
+            <div className="max-w-5xl mx-auto bg-sports-surface rounded-xl border border-white/5 overflow-hidden shadow-2xl">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-sports-navy/50 border-b border-white/10">
-                      <th className="p-5 text-xs md:text-sm font-bold text-white uppercase tracking-wider">Servicio</th>
-                      <th className="p-5 text-xs md:text-sm font-bold text-white uppercase tracking-wider hidden md:table-cell">Descripción</th>
-                      <th className="p-5 text-xs md:text-sm font-bold text-white uppercase tracking-wider text-right">Rango de Precio</th>
+                    <tr className="bg-black/40 border-b border-white/10">
+                      <th className="p-5 text-xs md:text-sm font-bold text-sports-muted uppercase tracking-wider">Servicio</th>
+                      <th className="p-5 text-xs md:text-sm font-bold text-sports-muted uppercase tracking-wider hidden md:table-cell">Descripción</th>
+                      <th className="p-5 text-xs md:text-sm font-bold text-sports-muted uppercase tracking-wider text-right">Rango de Precio</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
                       <tr key={idx} className="hover:bg-white/5 transition-colors group">
-                        <td className="p-5 text-white font-bold text-sm font-display uppercase group-hover:text-sports-blue transition-colors">
+                        <td className="p-5 text-white font-bold text-sm font-display uppercase group-hover:text-sports-blue transition-colors duration-300">
                             {item.service}
                             <div className="md:hidden text-xs text-gray-500 font-body mt-1 font-normal normal-case">{item.description}</div>
                         </td>
                         <td className="p-5 text-gray-400 text-sm font-body hidden md:table-cell">{item.description}</td>
-                        <td className="p-5 text-sports-lime font-bold text-sm font-mono text-right whitespace-nowrap">{item.price}</td>
+                        <td className="p-5 text-sports-lime font-bold text-sm font-mono text-right whitespace-nowrap drop-shadow-md">{item.price}</td>
                       </tr>
                     ))}
                   </tbody>

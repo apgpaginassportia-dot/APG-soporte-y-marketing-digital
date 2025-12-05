@@ -42,8 +42,8 @@ export const Header: React.FC = () => {
                 <span className="font-display font-bold text-2xl skew-x-[10deg] text-white group-hover:text-sports-navy">A</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-display font-bold text-white text-xl tracking-wide uppercase">APG Marketing</span>
-                <span className="text-[10px] text-sports-lime uppercase tracking-[0.2em] font-semibold">Soporte Digital</span>
+                <span className="font-display font-bold text-white text-xl tracking-wide uppercase">APG </span>
+                <span className="text-[10px] text-sports-lime uppercase tracking-[0.2em] font-semibold">Marketing y Soporte Digital</span>
               </div>
             </a>
           </div>

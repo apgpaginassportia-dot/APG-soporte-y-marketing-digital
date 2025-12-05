@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>APG Marketing | Gestión Deportiva Profesional</title>
-    <meta name="description" content="Automatiza la organización de tu torneo. Gestión de inscripciones, logística de autocares y hoteles.">
+    <title>APG Marketing | Gestión de Eventos Deportivos</title>
+    <meta name="description" content="Automatiza la organización de tu torneo, liga o campus. Gestión de inscripciones, logística de viajes y hoteles para cualquier deporte.">
     
     <!-- Tailwind CSS (Mantenemos CDN para simplicidad visual sin configurar PostCSS) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,14 +14,17 @@
           extend: {
             colors: {
               sports: {
-                navy: '#0A1A2F',     // Main Background (Deep Navy)
-                dark: '#050E1A',     // Darker sections
-                surface: '#11223A',  // Cards
-                blue: '#176BFF',     // Sports Blue (Primary Action)
-                lime: '#78E08F',     // Lime Green (Highlights/CTA)
-                gray: '#2E3A45',     // Steel Gray (Secondary UI)
-                text: '#F3F4F6',     // Main Text
-                muted: '#9CA3AF'     // Muted Text
+                navy: '#020617',     // Slate 950 (Fondo Principal - Deep Space)
+                dark: '#000000',     // Pure Black (Contraste Máximo)
+                surface: '#0F172A',  // Slate 900 (Tarjetas Elevadas)
+                surfaceHighlight: '#1E293B', // Slate 800 (Hover states)
+                blue: '#3B82F6',     // Blue 500 (Acción Principal - Electric Blue)
+                blueDark: '#1D4ED8', // Blue 700 (Profundidad)
+                lime: '#A3E635',     // Lime 400 (Atención/Neón - High Energy)
+                limeGlow: '#BEF264', // Lime 300 (Brillo)
+                gray: '#334155',     // Slate 700 (Bordes sutiles)
+                text: '#F1F5F9',     // Slate 100 (Lectura clara)
+                muted: '#94A3B8'     // Slate 400 (Texto secundario)
               }
             },
             fontFamily: {
@@ -29,8 +32,17 @@
               display: ['Oswald', 'sans-serif'],
               body: ['Inter Tight', 'sans-serif'],
             },
-            backgroundImage: {
-              'mesh': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23176BFF' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
+            animation: {
+              'blob': 'blob 7s infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              }
             }
           }
         }
@@ -43,13 +55,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-      body { font-family: 'Montserrat', sans-serif; background-color: #0A1A2F; color: #F3F4F6; }
-      h1, h2, h3, h4, h5, h6 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+      body { font-family: 'Montserrat', sans-serif; background-color: #020617; color: #F1F5F9; }
+      h1, h2, h3, h4, h5, h6 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
       .font-body { font-family: 'Inter Tight', sans-serif; }
       .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-      .custom-scrollbar::-webkit-scrollbar-track { background: #0A1A2F; }
-      .custom-scrollbar::-webkit-scrollbar-thumb { background: #2E3A45; border-radius: 4px; }
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #176BFF; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: #020617; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #3B82F6; }
+      
+      /* Glassmorphism Utilities */
+      .glass-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-image: linear-gradient(to right, #3B82F6, #A3E635);
+      }
     </style>
   <script type="importmap">
 {

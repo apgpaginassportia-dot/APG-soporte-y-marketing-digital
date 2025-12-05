@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Icons } from '../constants';
 
@@ -16,7 +17,7 @@ export const Benefits: React.FC = () => {
                ¿Tu torneo es una fuente de ingresos o de <span className="text-red-500 underline decoration-red-500/30">estrés</span>?
              </h3>
              <p className="text-gray-400 font-body text-lg mb-8 leading-relaxed">
-               Sabemos lo que pasa detrás de escena: teléfonos que no paran de sonar, excel con versiones infinitas y el miedo constante a que un autobús no llegue.
+               Sabemos lo que pasa detrás de escena: teléfonos que no paran de sonar, excels con versiones infinitas y el miedo constante a que un autobús no llegue a tiempo al pabellón o campo.
              </p>
              
              <ul className="space-y-4">
@@ -48,7 +49,7 @@ export const Benefits: React.FC = () => {
                   El Método APG
                 </h3>
                 <p className="text-gray-300 font-body mb-8">
-                  Transformamos el caos en un sistema predecible. Tú pones el fútbol, nosotros ponemos la estructura operativa.
+                  Transformo el caos en un sistema predecible. Tú pones el deporte, yo pongo la estructura operativa.
                 </p>
 
                 <div className="space-y-6">
@@ -56,7 +57,7 @@ export const Benefits: React.FC = () => {
                       <span className="text-sports-lime font-bold text-xl mr-4">01.</span>
                       <div>
                         <h4 className="text-white font-bold uppercase text-sm">Cero Papeles</h4>
-                        <p className="text-gray-500 text-sm mt-1">Digitalización 100% de fichas y pagos.</p>
+                        <p className="text-gray-500 text-sm mt-1">Digitalización 100% de licencias y pagos.</p>
                       </div>
                    </div>
                    <div className="flex items-start">

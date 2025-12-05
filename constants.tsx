@@ -109,7 +109,7 @@ export const Icons = {
 // NEW: METRICS FOR AUTHORITY
 export const METRICS = [
     { label: "Eventos Gestionados", value: "+120", icon: <Icons.Trophy /> },
-    { label: "Jugadores Digitalizados", value: "15k+", icon: <Icons.Users /> },
+    { label: "Participantes", value: "15k+", icon: <Icons.Users /> }, // Generic term
     { label: "Horas Ahorradas/Torneo", value: "200h", icon: <Icons.Clock /> },
     { label: "Errores Administrativos", value: "0%", icon: <Icons.Check /> }
 ];
@@ -119,54 +119,54 @@ export const WORKFLOW_STEPS = [
     { 
         step: "01", 
         title: "Auditoría Express", 
-        desc: "Analizamos tu torneo actual: dónde pierdes dinero y dónde pierdes tiempo.",
+        desc: "Analizo tu evento actual: inscripciones, sedes, logística y cuellos de botella.",
         icon: <Icons.Search />
     },
     { 
         step: "02", 
         title: "Plan de Acción", 
-        desc: "Diseñamos la logística de autobuses, hoteles y el flujo de inscripciones.",
+        desc: "Diseño la logística de transporte, alojamiento y el flujo de la competición.",
         icon: <Icons.Chart />
     },
     { 
         step: "03", 
         title: "Despliegue Tech", 
-        desc: "Implementamos las herramientas de automatización y registro en 48h.",
+        desc: "Implemento las herramientas de automatización y registro en 48h.",
         icon: <Icons.Settings />
     },
     { 
         step: "04", 
         title: "Ejecución & Control", 
-        desc: "Durante el evento, nosotros controlamos el caos. Tú disfrutas del fútbol.",
+        desc: "Durante el evento, yo controlo el caos. Tú disfrutas del deporte.",
         icon: <Icons.Rocket />
     }
 ];
 
-// NEW: TESTIMONIALS (Social Proof)
+// NEW: TESTIMONIALS (Social Proof) - Multideporte
 export const TESTIMONIALS = [
     {
-        quote: "Antes perdía semanas cuadrando autobuses. Con APG, todo fluye solo. He recuperado mi vida los fines de semana.",
+        quote: "Antes perdía semanas cuadrando autobuses para 40 equipos. Con APG, todo fluye solo.",
         author: "Carlos M.",
-        role: "Director de Torneo Internacional"
+        role: "Director Torneo Internacional Basket"
     },
     {
-        quote: "La gestión de los hoteles era una pesadilla de excels. Alicia lo profesionalizó todo desde el día uno.",
+        quote: "La gestión de los hoteles para el campeonato de judo era una pesadilla. Alicia lo profesionalizó.",
         author: "Marta R.",
-        role: "Coordinadora de Club"
+        role: "Coordinadora Federación"
     },
     {
         quote: "La inversión se paga sola solo con lo que ahorras en errores administrativos y multas.",
         author: "Javier P.",
-        role: "Presidente de Escuela de Fútbol"
+        role: "Presidente Club Deportivo"
     }
 ];
 
 // 8 AUTOMATION FOCUSED SERVICES (Adjusted prices for market competitiveness)
 export const CUSTOM_SERVICES_LIST: CustomServiceOption[] = [
-  { id: 'auto_forms', label: 'Registro Inteligente', description: 'Formularios con OCR y validación auto de fichas.', price: 120, unit: 'módulo' },
-  { id: 'ai_calendar', label: 'Calendarios IA', description: 'Generación de cruces y horarios sin conflictos.', price: 190, unit: 'evento' },
+  { id: 'auto_forms', label: 'Registro Inteligente', description: 'Formularios con OCR y validación auto de licencias/fichas.', price: 120, unit: 'módulo' },
+  { id: 'ai_calendar', label: 'Calendarios IA', description: 'Generación de cruces y horarios sin conflictos de pista/campo.', price: 190, unit: 'evento' },
   { id: 'live_results', label: 'Actas Digitales', description: 'Resultados y clasificaciones en tiempo real.', price: 150, unit: 'módulo' },
-  { id: 'push_notifs', label: 'Alertas WhatsApp', description: 'Notificaciones automáticas a delegados y árbitros.', price: 90, unit: 'pack' },
+  { id: 'push_notifs', label: 'Alertas Móviles', description: 'Notificaciones automáticas a delegados y jueces/árbitros.', price: 90, unit: 'pack' },
   { id: 'access_qr', label: 'Control Acceso QR', description: 'Entradas y acreditaciones digitales automatizadas.', price: 120, unit: 'módulo' },
   { id: 'staff_logistics', label: 'Gestión Staff', description: 'Asignación automática de turnos para voluntarios.', price: 80, unit: 'módulo' },
   { id: 'smart_transport', label: 'Rutas Inteligentes', description: 'Optimización automática de rutas de autobús.', price: 250, unit: 'evento' },
@@ -174,10 +174,10 @@ export const CUSTOM_SERVICES_LIST: CustomServiceOption[] = [
 ];
 
 export const INDIVIDUAL_SERVICES_RATES = [
-  { service: 'Gestión de Inscripciones', description: 'Validación de documentación, seguros y control de pagos por equipo.', price: '200€ - 400€' },
-  { service: 'Logística de Autocares', description: 'Diseño de rutas, control de horarios y coordinación con transportistas.', price: '350€ - 600€' },
+  { service: 'Gestión de Inscripciones', description: 'Validación de documentación, seguros y control de plazas.', price: '200€ - 400€' },
+  { service: 'Logística de Transporte', description: 'Diseño de rutas, control de horarios y coordinación de flotas.', price: '350€ - 600€' },
   { service: 'Gestión Hotelera', description: 'Rooming list, asignación de habitaciones y gestión de dietas.', price: '600€ - 1.000€' },
-  { service: 'Coordinación de Sedes', description: 'Gestión de horarios de partidos y coordinación de instalaciones.', price: '250€ - 400€' },
+  { service: 'Coordinación de Sedes', description: 'Gestión de horarios de pistas/campos y coordinación de instalaciones.', price: '250€ - 400€' },
 ];
 
 export const PLANS: Plan[] = [
@@ -188,11 +188,11 @@ export const PLANS: Plan[] = [
     basePrice: 550,
     subtitle: 'Gestión Documental',
     description: 'Evita errores y ahorra horas desde el primer día.',
-    details: 'Digitalización completa de fichas y control documental básico.',
+    details: 'Digitalización completa de fichas/licencias y control documental básico.',
     buttonText: 'Ver detalles',
     features: [
       'Gestión de inscripciones de equipos',
-      'Gestión de inscripciones de jugadores',
+      'Gestión de inscripciones individuales',
       'Diploma Digital de Participación',
       'Revisión documental',
       'Soporte básico'
@@ -204,13 +204,13 @@ export const PLANS: Plan[] = [
     priceDisplay: '1.250€',
     basePrice: 1250,
     subtitle: 'Logística Terrestre',
-    description: 'Planifica rutas sin estrés y sin llamadas de última hora.',
+    description: 'Planifica traslados sin estrés y sin llamadas de última hora.',
     details: 'Incluye todo lo del Plan Básico más una gestión integral de la flota de autobuses y transferencias.',
     isRecommended: true,
     buttonText: 'Ver detalles',
     features: [
       'Todo lo del Plan Básico',
-      'Gestión logística de autocares',
+      'Gestión logística de transporte',
       'Coordinación con empresas',
       'Planificación de rutas y horarios'
     ]
@@ -222,7 +222,7 @@ export const PLANS: Plan[] = [
     basePrice: 2150,
     subtitle: 'Gestión Integral 360°',
     description: 'Despreocúpate por completo de la logística.',
-    details: 'La experiencia definitiva. Incluye gestión de inscripciones, transporte y alojamiento (asignación) para equipos.',
+    details: 'La experiencia definitiva. Incluye gestión de inscripciones, transporte y alojamiento (asignación) para participantes.',
     buttonText: 'Ver detalles',
     features: [
       'Todo lo del Plan Intermedio',
@@ -234,24 +234,24 @@ export const PLANS: Plan[] = [
   }
 ];
 
-// Detalle Profesional de Servicios para Torneos (COPYWRITING IMPROVED)
+// Detalle Profesional de Servicios para Torneos (COPYWRITING IMPROVED - NO PAYMENTS)
 export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
   { 
     title: "Gestión de Inscripciones",
     subtitle: "Oficina Técnica Virtual",
-    description: "Elimina el 90% de los emails. Centralizamos toda la documentación en una nube segura.",
+    description: "Elimino el 90% de los emails. Centralizo toda la documentación en una nube segura.",
     iconName: "Users",
     details: [
         "Plataforma de registro digital.",
         "Validación automática de seguros.",
-        "Control de pagos en tiempo real.",
-        "Listados limpios para arbitraje."
+        "Validación de justificantes (sin acceso a banco).",
+        "Listados limpios para jueces/árbitros."
     ]
   },
   { 
-    title: "Logística de Autocares",
+    title: "Logística de Transporte",
     subtitle: "Control Total de Flotas",
-    description: "Ingeniería de rutas para que ningún equipo llegue tarde al partido. Cero estrés.", 
+    description: "Ingeniería de rutas para que ningún equipo o atleta llegue tarde. Cero estrés.", 
     iconName: "Bus",
     details: [
         "Diseño de rutas eficientes.",
@@ -263,7 +263,7 @@ export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
   { 
     title: "Gestión Hotelera", 
     subtitle: "Experiencia 5 Estrellas",
-    description: "Convertimos el alojamiento en una ventaja competitiva, no en un problema logístico.", 
+    description: "Convierto el alojamiento en una ventaja competitiva, no en un problema logístico.", 
     iconName: "Hotel",
     details: [
         "Rooming lists inteligentes.",
@@ -274,7 +274,7 @@ export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
   },
 ];
 
-// Servicios para Centros Escolares (ACTUALIZADO - Tech & Modern)
+// Servicios para Centros Escolares (ACTUALIZADO - Tech & Modern - NO PAYMENTS)
 export const SCHOOL_SERVICES: SchoolServiceItem[] = [
     {
         title: "Carnet Digital (Wallet)",
@@ -292,73 +292,53 @@ export const SCHOOL_SERVICES: SchoolServiceItem[] = [
         iconName: "SchoolChat"
     },
     {
-        title: "Listados Oficiales",
-        description: "Generación automática de listas de asistencia y registro de socios.",
+        title: "Control Asistencia",
+        description: "Listados automáticos para actividades extraescolares y excursiones.",
         iconName: "SchoolData"
     }
 ];
 
-// Configurador Plan Colegios - ÚNICO PLAN OPTIMIZADO (Market Standard)
+// Configurador Plan Colegios - NO GESTIÓN DE COBROS
 export const SCHOOL_PLAN_DATA: Plan = {
   id: 'school',
   title: "Pack Gestión AMPA 360º",
   priceDisplay: "Desde 290€",
   basePrice: 290,
   subtitle: "Suscripción Flexible",
-  description: "La solución completa para digitalizar tu AMPA. Elige entre tarifa plana anual (fija) o pago flexible por número de alumnos.",
-  details: "Olvídate de las hojas de cálculo y los pagos en efectivo. Con este plan, profesionalizas la gestión del AMPA, ofreciendo a las familias una experiencia moderna (App + Carnet) y a la directiva un control total sobre socios y recibos. Puedes elegir la modalidad que mejor se adapte a tu tesorería.",
-  buttonText: "Solicitar Alta Colegio",
+  description: "La solución completa para digitalizar tu AMPA o Escuela Deportiva. Elige entre tarifa plana anual o pago flexible.",
+  details: "Olvídate de las hojas de cálculo y el papeleo. Con este plan, profesionalizas la gestión, ofreciendo a las familias una experiencia moderna (App + Carnet) y a la directiva un control total sobre socios.",
+  buttonText: "Solicitar Alta Centro",
   features: [
     "Carnet de Socio Digital (Wallet iOS/Android)",
-    "Plataforma de Inscripción Online y Pagos",
+    "Plataforma de Inscripción Online",
     "App de Comunicación Directa con Familias",
-    "Gestión de Recibos y Control de Impagos",
+    "Gestión de Bajas y Altas",
     "Listados Automáticos para Actividades",
     "Soporte Técnico Prioritario para Directiva"
   ],
   isRecommended: true
 };
 
-// Servicios para Clubes de Fútbol Base (REAL MANAGEMENT SOLUTIONS - UPDATED PRICES)
+// Servicios para Clubes (SIMPLIFIED TO 2 CORE SERVICES)
 export const TEAM_SERVICES: TeamServiceItem[] = [
   {
-    id: 'team_licenses',
-    title: "Gestión de Fichas y Licencias",
-    price: "250€",
+    id: 'player_management',
+    title: "Gestión de Jugadores",
+    price: "120€",
     period: "/ temporada",
-    description: "Automatiza la recogida de DNIs, fotos y pagos de mutualidad. Listados listos para la federación.",
-    iconName: "Doc",
-    features: ["Recogida doc. digital", "Diploma Digital Fin de Temporada", "Exportación a Federación"],
+    description: "Base de datos centralizada. Documentación, fichas médicas y seguimiento deportivo en una nube segura.",
+    iconName: "Users",
+    features: ["Digitalización de DNI/Fichas", "Historial médico y deportivo", "Acceso seguro para entrenadores"],
     highlight: true
   },
   {
-    id: 'team_squad',
-    title: "Confección de Plantillas",
-    price: "150€",
-    period: "/ temporada",
-    description: "Organiza tus categorías (A, B, C). Gestiona 'subidas' de jugadores y equilibra los equipos por nivel.",
-    iconName: "Users",
-    features: ["Movimientos entre equipos", "Control de ratios por equipo", "Histórico de categoría"],
-    highlight: false
-  },
-  {
-    id: 'team_training',
-    title: "Cuadrantes de Entrenamiento",
-    price: "60€",
+    id: 'match_calendar',
+    title: "Calendario de Competición",
+    price: "29€",
     period: "/ mes",
-    description: "Optimización matemática de espacios. Cuadra horarios de 20 equipos en un solo campo.",
+    description: "Agenda sincronizada. El sistema avisa automáticamente de cambios y nuevas convocatorias.",
     iconName: "CalendarAI",
-    features: ["Rotación de espacios", "Asignación vestuarios", "Sin solapamientos"],
-    highlight: false
-  },
-  {
-    id: 'team_matches',
-    title: "Coordinación de Partidos",
-    price: "90€",
-    period: "/ mes",
-    description: "Gestión semanal de horarios, transporte y avisos a padres. Todo centralizado.",
-    iconName: "Clock",
-    features: ["Horarios federativos", "Logística de bus", "Convocatorias digitales"],
+    features: ["Sincronización móvil automática", "Avisos de horario", "Notificación de Convocatorias", "Confirmación de Asistencia"],
     highlight: false
   }
 ];

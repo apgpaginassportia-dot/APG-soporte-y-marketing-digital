@@ -14,12 +14,12 @@ export const Footer: React.FC = () => {
                   <span className="skew-x-[10deg]">A</span>
                </div>
                <div className="flex flex-col">
-                  <span className="font-display font-bold text-white text-lg uppercase tracking-wider leading-none">APG Marketing</span>
-                  <span className="text-[10px] text-sports-lime uppercase tracking-widest">Soporte Digital</span>
+                  <span className="font-display font-bold text-white text-lg uppercase tracking-wider leading-none">APG</span>
+                  <span className="text-[10px] text-sports-lime uppercase tracking-widest">Marketing y Soporte Digital</span>
                </div>
              </div>
              <p className="text-gray-500 text-sm max-w-xs leading-relaxed font-body">
-               Llevamos tu torneo al siguiente nivel. Gestión profesional de inscripciones, logística y alojamiento.
+               Llevo tu torneo al siguiente nivel. Gestión profesional de inscripciones, logística y alojamiento.
              </p>
            </div>
 
