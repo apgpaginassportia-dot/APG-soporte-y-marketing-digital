@@ -170,7 +170,6 @@ export const CUSTOM_SERVICES_LIST: CustomServiceOption[] = [
   { id: 'access_qr', label: 'Control Acceso QR', description: 'Entradas y acreditaciones digitales automatizadas.', price: 120, unit: 'módulo' },
   { id: 'staff_logistics', label: 'Gestión Staff', description: 'Asignación automática de turnos para voluntarios.', price: 80, unit: 'módulo' },
   { id: 'smart_transport', label: 'Rutas Inteligentes', description: 'Optimización automática de rutas de autobús.', price: 250, unit: 'evento' },
-  { id: 'digital_awards', label: 'Trofeos Digitales', description: 'Generación y envío automático de diplomas PDF.', price: 50, unit: 'pack' },
 ];
 
 export const INDIVIDUAL_SERVICES_RATES = [
@@ -193,7 +192,6 @@ export const PLANS: Plan[] = [
     features: [
       'Gestión de inscripciones de equipos',
       'Gestión de inscripciones individuales',
-      'Diploma Digital de Participación',
       'Revisión documental',
       'Soporte básico'
     ]
@@ -226,7 +224,6 @@ export const PLANS: Plan[] = [
     buttonText: 'Ver detalles',
     features: [
       'Todo lo del Plan Intermedio',
-      'Diploma Digital Premium',
       'Gestión logística de hoteles (asignación)',
       'Asignación de habitaciones (Rooming)',
       'Hoteles previamente contactados'

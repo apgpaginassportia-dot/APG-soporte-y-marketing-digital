@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { CUSTOM_SERVICES_LIST, Icons } from '../constants';
 
@@ -12,7 +13,6 @@ export const AutomationGrid: React.FC = () => {
       case 'access_qr': return <Icons.QR />;
       case 'staff_logistics': return <Icons.Staff />;
       case 'smart_transport': return <Icons.Bus />;
-      case 'digital_awards': return <Icons.Trophy />;
       default: return <Icons.Check />;
     }
   };
@@ -29,7 +29,7 @@ export const AutomationGrid: React.FC = () => {
             Suite de Automatización
           </h3>
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto font-body text-lg">
-            8 módulos inteligentes diseñados para eliminar el trabajo manual. Elige los que necesitas en nuestro configurador.
+            7 módulos inteligentes diseñados para eliminar el trabajo manual. Elige los que necesitas en nuestro configurador.
           </p>
         </div>
 
