@@ -84,7 +84,7 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
     body.append("_captcha", "false");
     
     body.append("Nombre", formData.name);
-    body.append("Email", formData.email);
+    body.append("email", formData.email); // minúsculas importante
     body.append("Teléfono", formData.phone);
     body.append("Proyecto", formData.project || "No especificado");
     body.append("Tipo", "Auditoría Estratégica");

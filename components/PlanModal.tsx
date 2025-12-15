@@ -143,11 +143,11 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     body.append("_subject", `Nuevo Cliente APG: ${formData.name}`);
     body.append("_template", "table");
     body.append("_captcha", "false"); // Desactivar captcha
-    body.append("_cc", formData.email); // Copia al cliente (opcional, ayuda a verificar)
+    // body.append("_cc", formData.email); // ELIMINADO PARA EVITAR CONFUSIÓN DE DESTINATARIO
 
-    // Datos del formulario
+    // Datos del formulario - 'email' en minúsculas es CLAVE para FormSubmit
     body.append("Nombre", formData.name);
-    body.append("Email", formData.email);
+    body.append("email", formData.email); 
     body.append("Teléfono", formData.phone);
     body.append("Mensaje", formData.message || "Sin mensaje adicional");
     
@@ -438,7 +438,7 @@ Mensaje: ${formData.message || ''}
                         {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
                       </button>
                       <p className="mt-4 text-center text-[10px] text-gray-500 leading-tight">
-                        Se enviará una copia a {formData.email || 'tu correo'}.
+                        Al enviar, los datos se mandarán directamente a alicia.pons.garcia@outlook.es
                       </p>
                     </div>
                  </form>

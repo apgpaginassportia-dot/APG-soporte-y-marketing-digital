@@ -42,7 +42,7 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     body.append("_captcha", "false");
     
     body.append("Nombre", formData.name);
-    body.append("Email", formData.email);
+    body.append("email", formData.email); // Minúsculas para Reply-To
     body.append("Mensaje", formData.message);
     body.append("Origen", "Formulario Contacto Footer");
 
