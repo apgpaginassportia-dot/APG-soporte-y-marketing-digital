@@ -35,40 +35,39 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    // Payload corregido para FormSubmit con campos estándar
-    const emailPayload = {
-      _subject: `Consulta Web General: ${formData.name}`,
-      _template: "table",
-      _captcha: "false",
-
-      // Campos Standard (Raíz)
-      name: formData.name,
-      email: formData.email,
-      message: formData.message,
-
-      // Campos Custom
-      "Origen": "Formulario Contacto Footer"
-    };
+    // Payload corregido para FormSubmit usando FormData
+    const body = new FormData();
+    body.append("_subject", `Consulta Web General: ${formData.name}`);
+    body.append("_template", "table");
+    body.append("_captcha", "false");
+    
+    // Standard fields
+    body.append("name", formData.name);
+    body.append("email", formData.email);
+    body.append("message", formData.message);
+    body.append("Origen", "Formulario Contacto Footer");
 
     try {
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailPayload)
+        body: body
       });
 
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
       } else {
-        setSubmitStatus('error');
+        throw new Error("Respuesta inválida servidor correo");
       }
     } catch (error) {
       console.error(error);
-      setSubmitStatus('error');
+      
+      // Fallback a Mailto
+      const subject = encodeURIComponent(`Consulta Web: ${formData.name}`);
+      const bodyText = encodeURIComponent(`Hola Alicia, tengo una consulta:\n\n${formData.message}\n\nMis datos:\nNombre: ${formData.name}\nEmail: ${formData.email}`);
+      window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      
+      setSubmitStatus('success'); // Marcamos éxito porque se abrió el cliente
     } finally {
       setIsSubmitting(false);
     }

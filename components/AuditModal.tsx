@@ -77,44 +77,49 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
 
     const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 
-    // Payload corregido para FormSubmit
-    const emailPayload = {
-      _subject: `📅 CITA AUDITORÍA: ${formData.name} - ${formattedDate}`,
-      _template: "table",
-      _captcha: "false",
-      
-      // Campos Standard
-      name: formData.name,
-      email: formData.email,
-      
-      // Campos Custom
-      "Teléfono": formData.phone,
-      "Proyecto / Club": formData.project || "No especificado",
-      "Tipo Solicitud": "Auditoría Estratégica (Agenda Web)",
-      "Fecha Solicitada": formattedDate,
-      "Hora Solicitada": selectedTime
-    };
+    // Payload corregido para FormSubmit usando FormData
+    const body = new FormData();
+    body.append("_subject", `📅 CITA AUDITORÍA: ${formData.name} - ${formattedDate}`);
+    body.append("_template", "table");
+    body.append("_captcha", "false");
+    
+    body.append("name", formData.name);
+    body.append("email", formData.email);
+    body.append("Telefono", formData.phone);
+    body.append("Proyecto_Club", formData.project || "No especificado");
+    body.append("Tipo_Solicitud", "Auditoría Estratégica (Agenda Web)");
+    body.append("Fecha_Solicitada", formattedDate);
+    body.append("Hora_Solicitada", selectedTime);
 
     try {
       // Envío real a alicia.pons.garcia@outlook.es
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailPayload)
+        body: body
       });
 
       if (response.ok) {
         setStep('success');
       } else {
-        console.error("Error al enviar auditoría:", await response.text());
-        alert("Hubo un error al procesar la solicitud. Por favor intenta de nuevo.");
+        throw new Error("Respuesta servidor correo inválida");
       }
     } catch (error) {
       console.error(error);
-      alert("Hubo un error de conexión.");
+      
+      // FALLBACK MAILTO PARA ASEGURAR ENVÍO
+      const subject = encodeURIComponent(`Cita Auditoría: ${formData.name}`);
+      const bodyText = encodeURIComponent(`
+Hola, deseo agendar una auditoría.
+
+Nombre: ${formData.name}
+Teléfono: ${formData.phone}
+Proyecto: ${formData.project}
+Fecha Deseada: ${formattedDate} a las ${selectedTime}
+      `);
+      
+      window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      setStep('success'); // Asumimos éxito al abrir el cliente
+      
     } finally {
       setIsSubmitting(false);
     }

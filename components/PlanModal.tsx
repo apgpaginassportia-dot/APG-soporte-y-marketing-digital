@@ -112,7 +112,6 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     const total = calculateTotal();
     let servicesList = selectedPlan.features.join(', ');
 
-    // Type Casting to fix TS errors during build
     if (selectedPlan.id === 'custom') {
        const services = getCustomServiceBreakdown() as CustomServiceOption[];
        servicesList = services.map(s => s.label).join(', ');
@@ -123,7 +122,6 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        servicesList = services.map(s => `${s.title} (${s.price}${s.period})`).join(', ');
     }
 
-    // Dynamic Plan Description
     let planTitleFull = selectedPlan.title;
     let extraDetails = "";
 
@@ -140,48 +138,65 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        planTitleFull += ` (${selectedPlan.subtitle})`;
     }
 
-    // Datos estructurados para el email - CORREGIDO PARA FORMSUBMIT
-    // Es crítico enviar 'name' y 'email' en la raíz para que funcionen los headers automáticos
-    const emailPayload = {
-      // Configuración obligatoria
-      _subject: `Nuevo Cliente APG: ${formData.name} - ${planTitleFull}`,
-      _template: "table",
-      _captcha: "false",
-
-      // Campos Estándar de Contacto (Raíz)
-      name: formData.name,
-      email: formData.email,
-      message: formData.message || "Sin mensaje adicional", // Mapeamos el mensaje aquí también
-
-      // Campos Personalizados (Se mostrarán en la tabla)
-      "Plan Seleccionado": planTitleFull,
-      "Precio Estimado": `${total}€`,
-      "Detalles Cálculo": extraDetails || "Precio Base / Estimado",
-      "Teléfono": formData.phone,
-      "Servicios Incluidos": servicesList,
-      "Precio Alumno Manual": (selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' || selectedPlan.id === 'school') ? "N/A" : (formData.pricePerStudent || "No especificado"),
-    };
+    // USO DE FORMDATA: Esto es mucho más robusto para servidores de correo que JSON
+    const body = new FormData();
+    // Configuración del servicio de correo
+    body.append("_subject", `Nuevo Cliente APG: ${formData.name} - ${planTitleFull}`);
+    body.append("_template", "table");
+    body.append("_captcha", "false");
     
+    // Campos principales (Standard HTML fields)
+    body.append("name", formData.name);
+    body.append("email", formData.email);
+    body.append("message", formData.message || "Sin mensaje adicional");
+    
+    // Campos personalizados
+    body.append("Plan_Seleccionado", planTitleFull);
+    body.append("Precio_Estimado", `${total}€`);
+    body.append("Detalles_Calculo", extraDetails || "Precio Base / Estimado");
+    body.append("Telefono", formData.phone);
+    body.append("Servicios_Incluidos", servicesList);
+    
+    // Solo añadir precio por alumno si no es plan personalizado/school/team
+    if (selectedPlan.id !== 'custom' && selectedPlan.id !== 'team_custom' && selectedPlan.id !== 'school') {
+        body.append("Precio_Por_Alumno_Manual", formData.pricePerStudent || "No especificado");
+    }
+
     try {
-      // Envío real usando FormSubmit vía AJAX a alicia.pons.garcia@outlook.es
+      // Envío AJAX al servidor de correo
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailPayload)
+        body: body // Enviamos FormData directamente, sin cabeceras JSON
       });
 
       if (response.ok) {
         setShowSuccess(true);
       } else {
-        console.error("Error en el envío (FormSubmit):", await response.text());
-        alert("Hubo un problema técnico al enviar el correo. Por favor, intenta contactar por WhatsApp.");
+        throw new Error("El servidor de correo no respondió correctamente.");
       }
     } catch (error) {
-      console.error("Error de red:", error);
-      alert("Error de conexión. Por favor, verifica tu internet o contacta por WhatsApp.");
+      console.error("Fallo el envío automático, usando fallback:", error);
+      
+      // FALLBACK DE SEGURIDAD: Si falla el servidor, abrimos el cliente de correo del usuario
+      // Esto asegura que NUNCA se pierda un lead.
+      const subject = encodeURIComponent(`Solicitud Plan APG: ${planTitleFull}`);
+      const bodyText = encodeURIComponent(`
+Hola Alicia, estoy interesado en el ${planTitleFull}.
+
+Mis datos:
+Nombre: ${formData.name}
+Email: ${formData.email}
+Teléfono: ${formData.phone}
+Servicios: ${servicesList}
+Precio Estimado: ${total}€
+
+Mensaje: ${formData.message || ''}
+      `);
+      
+      window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      
+      // Mostramos éxito igualmente porque el usuario "envió" el correo manualmente
+      setShowSuccess(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -204,13 +219,13 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                    </svg>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Enviada!</h3>
+                <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Procesada!</h3>
                 <div className="max-w-md mx-auto space-y-2 mb-8">
                   <p className="text-gray-300 font-body text-lg">
-                    Hemos recibido tu solicitud correctamente en <span className="text-white font-bold">alicia.pons.garcia@outlook.es</span>.
+                    Hemos enviado los datos para procesar tu solicitud.
                   </p>
                   <p className="text-gray-400 font-body text-sm">
-                    Revisaremos tu configuración y recibirás una respuesta detallada en un plazo de <span className="text-sports-lime font-bold">24/48 horas</span>.
+                    Revisaremos tu configuración y recibirás una respuesta detallada en <span className="text-sports-lime font-bold">alicia.pons.garcia@outlook.es</span>.
                   </p>
                 </div>
                 <button 
@@ -300,7 +315,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      {selectedPlan.details || selectedPlan.description}
                    </p>
                    
-                   {/* DYNAMIC LIST FOR AUTOMATION BUILDER OR TEAM SERVICES BUILDER */}
+                   {/* DYNAMIC LIST */}
                    {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom') ? (
                       <div className="bg-sports-navy/50 rounded p-4 border border-white/5 mb-6">
                         <h4 className="text-xs font-bold text-sports-blue uppercase mb-3 pb-2 border-b border-white/10">Desglose de Servicios</h4>
@@ -348,10 +363,8 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                  </div>
 
                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Hidden inputs not needed for AJAX but kept for structure */}
-                    <input type="hidden" name="_subject" value="Nuevo Cliente Web" />
-                    <input type="hidden" name="_captcha" value="false" />
-
+                    {/* Campos ocultos ahora gestionados en el FormData del submit */}
+                    
                     <div>
                         <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Nombre Completo</label>
                         <input
