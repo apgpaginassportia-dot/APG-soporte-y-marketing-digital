@@ -137,25 +137,25 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        planTitleFull += ` (${selectedPlan.subtitle})`;
     }
 
-    // Configuración JSON estricta para FormSubmit AJAX
+    // Configuración JSON para FormSubmit AJAX
     const emailData = {
       _subject: `Nuevo Cliente APG: ${formData.name}`,
       _template: "table",
-      _captcha: "false", // Desactivar captcha para facilitar conversión
+      _captcha: "false",
       
-      // Datos de contacto estándar
+      // Datos Estándar
       name: formData.name,
       email: formData.email,
       message: formData.message || "Sin mensaje adicional",
       
-      // Datos personalizados del plan
+      // Datos Personalizados
       "Plan Seleccionado": planTitleFull,
       "Precio Estimado": `${total}€`,
       "Teléfono": formData.phone,
       "Detalles Cálculo": extraDetails || "N/A",
       "Servicios Incluidos": servicesList,
       
-      // Solo enviamos este campo si existe valor
+      // Solo incluimos este campo si tiene valor
       ...(formData.pricePerStudent ? { "Precio Alumno (Manual)": formData.pricePerStudent } : {})
     };
 
@@ -172,12 +172,13 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
       if (response.ok) {
         setShowSuccess(true);
       } else {
-        throw new Error("El servidor de correo rechazó la solicitud.");
+        // Si falla el AJAX, lanzamos error para ir al catch
+        throw new Error("Error en la respuesta del servidor de correo.");
       }
     } catch (error) {
       console.error("Error envío:", error);
       
-      // FALLBACK: Si falla el servidor automático, abrimos el cliente de correo del usuario
+      // FALLBACK: Si falla el envío automático, abrimos el cliente de correo
       const subject = encodeURIComponent(`Solicitud Plan APG: ${planTitleFull}`);
       const bodyText = encodeURIComponent(`
 Hola Alicia, deseo contratar el ${planTitleFull}.
@@ -192,6 +193,7 @@ Mensaje: ${formData.message || ''}
       `);
       
       window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      // Mostramos éxito porque el usuario ya tiene el correo abierto
       setShowSuccess(true);
     } finally {
       setIsSubmitting(false);
@@ -400,7 +402,7 @@ Mensaje: ${formData.message || ''}
                       </div>
                     </div>
 
-                    {/* ONLY SHOW FOR SCHOOL PLAN */}
+                    {/* ONLY SHOW FOR SCHOOL PLAN (Fix requested by user) */}
                     {selectedPlan.id === 'school' && (
                         <div>
                             <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Manual/Deseado)</label>

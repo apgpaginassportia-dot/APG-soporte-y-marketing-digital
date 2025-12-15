@@ -77,7 +77,7 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
 
     const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 
-    // Payload JSON estricto
+    // Payload JSON Estricto
     const emailData = {
       _subject: `📅 CITA AUDITORÍA: ${formData.name}`,
       _template: "table",
