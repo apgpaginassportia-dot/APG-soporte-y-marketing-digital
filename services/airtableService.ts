@@ -17,9 +17,19 @@ export interface AirtableContactData {
 }
 
 export const createContact = async (data: AirtableContactData) => {
-  // Verificación de seguridad
+  // Verificación de seguridad detallada para depuración
   if (!AIRTABLE_PAT || !BASE_ID || !TABLE_ID) {
-    console.error("Faltan credenciales de Airtable. Verifica tu archivo .env");
+    console.error("Error de Credenciales Airtable:", {
+      PAT_Existe: !!AIRTABLE_PAT,
+      BaseID_Existe: !!BASE_ID,
+      TableID_Existe: !!TABLE_ID
+    });
+    
+    // Si estamos en desarrollo (localhost), avisar del .env
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+       throw new Error("Faltan las claves en el archivo .env. Revisa la consola (F12) para ver cuál falta.");
+    }
+    
     throw new Error("Error de configuración del sistema. Contacta por WhatsApp.");
   }
 
