@@ -77,29 +77,24 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
 
     const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 
-    // Payload JSON Estricto
-    const emailData = {
-      _subject: `📅 CITA AUDITORÍA: ${formData.name}`,
-      _template: "table",
-      _captcha: "false",
-      
-      name: formData.name,
-      email: formData.email,
-      "Teléfono": formData.phone,
-      "Proyecto": formData.project || "No especificado",
-      "Tipo": "Auditoría Estratégica",
-      "Fecha": formattedDate,
-      "Hora": selectedTime
-    };
+    // FormData construction
+    const body = new FormData();
+    body.append("_subject", `📅 CITA AUDITORÍA: ${formData.name}`);
+    body.append("_template", "table");
+    body.append("_captcha", "false");
+    
+    body.append("Nombre", formData.name);
+    body.append("Email", formData.email);
+    body.append("Teléfono", formData.phone);
+    body.append("Proyecto", formData.project || "No especificado");
+    body.append("Tipo", "Auditoría Estratégica");
+    body.append("Fecha Cita", formattedDate);
+    body.append("Hora Cita", selectedTime);
 
     try {
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailData)
+        body: body
       });
 
       if (response.ok) {

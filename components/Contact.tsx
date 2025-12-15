@@ -35,26 +35,21 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    // Payload JSON estricto para FormSubmit AJAX
-    const emailData = {
-      _subject: `Consulta Web General: ${formData.name}`,
-      _template: "table",
-      _captcha: "false",
-      
-      name: formData.name,
-      email: formData.email,
-      message: formData.message,
-      "Origen": "Formulario Contacto Footer"
-    };
+    // FormData construction
+    const body = new FormData();
+    body.append("_subject", `Consulta Web General: ${formData.name}`);
+    body.append("_template", "table");
+    body.append("_captcha", "false");
+    
+    body.append("Nombre", formData.name);
+    body.append("Email", formData.email);
+    body.append("Mensaje", formData.message);
+    body.append("Origen", "Formulario Contacto Footer");
 
     try {
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailData)
+        body: body
       });
 
       if (response.ok) {

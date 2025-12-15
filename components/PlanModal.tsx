@@ -137,63 +137,63 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        planTitleFull += ` (${selectedPlan.subtitle})`;
     }
 
-    // Configuración JSON para FormSubmit AJAX
-    const emailData = {
-      _subject: `Nuevo Cliente APG: ${formData.name}`,
-      _template: "table",
-      _captcha: "false",
-      
-      // Datos Estándar
-      name: formData.name,
-      email: formData.email,
-      message: formData.message || "Sin mensaje adicional",
-      
-      // Datos Personalizados
-      "Plan Seleccionado": planTitleFull,
-      "Precio Estimado": `${total}€`,
-      "Teléfono": formData.phone,
-      "Detalles Cálculo": extraDetails || "N/A",
-      "Servicios Incluidos": servicesList,
-      
-      // Solo incluimos este campo si tiene valor
-      ...(formData.pricePerStudent ? { "Precio Alumno (Manual)": formData.pricePerStudent } : {})
-    };
+    // Usamos FormData para mayor compatibilidad con FormSubmit
+    const body = new FormData();
+    // Configuración FormSubmit
+    body.append("_subject", `Nuevo Cliente APG: ${formData.name}`);
+    body.append("_template", "table");
+    body.append("_captcha", "false"); // Desactivar captcha
+    body.append("_cc", formData.email); // Copia al cliente (opcional, ayuda a verificar)
+
+    // Datos del formulario
+    body.append("Nombre", formData.name);
+    body.append("Email", formData.email);
+    body.append("Teléfono", formData.phone);
+    body.append("Mensaje", formData.message || "Sin mensaje adicional");
+    
+    // Datos del Plan
+    body.append("Plan Seleccionado", planTitleFull);
+    body.append("Precio Estimado", `${total}€`);
+    body.append("Detalles Cálculo", extraDetails || "N/A");
+    body.append("Servicios Incluidos", servicesList);
+
+    // Solo añadir precio por alumno si se rellenó manualmente en el plan escolar
+    if (selectedPlan.id === 'school' && formData.pricePerStudent) {
+        body.append("Precio Alumno (Manual)", formData.pricePerStudent);
+    }
 
     try {
+      // Usamos el endpoint AJAX para evitar redirecciones, pero con FormData
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(emailData)
+        // NO poner Content-Type header manualmente con FormData, el navegador lo pone con el boundary correcto
+        body: body
       });
 
       if (response.ok) {
         setShowSuccess(true);
       } else {
-        // Si falla el AJAX, lanzamos error para ir al catch
-        throw new Error("Error en la respuesta del servidor de correo.");
+        throw new Error("Error en el servidor de correo.");
       }
     } catch (error) {
-      console.error("Error envío:", error);
+      console.error("Fallo envío automático:", error);
       
-      // FALLBACK: Si falla el envío automático, abrimos el cliente de correo
-      const subject = encodeURIComponent(`Solicitud Plan APG: ${planTitleFull}`);
+      // FALLBACK ROBUSTO: Mailto
+      const subject = encodeURIComponent(`Contratar ${planTitleFull}`);
       const bodyText = encodeURIComponent(`
-Hola Alicia, deseo contratar el ${planTitleFull}.
+Hola Alicia, quiero contratar el ${planTitleFull}.
 
 Mis datos:
 Nombre: ${formData.name}
 Email: ${formData.email}
 Teléfono: ${formData.phone}
-Precio Visto: ${total}€
+Precio web: ${total}€
 
 Mensaje: ${formData.message || ''}
       `);
       
       window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
-      // Mostramos éxito porque el usuario ya tiene el correo abierto
+      // Mostramos éxito porque el usuario ya tiene la acción en su cliente de correo
       setShowSuccess(true);
     } finally {
       setIsSubmitting(false);
@@ -220,10 +220,10 @@ Mensaje: ${formData.message || ''}
                 <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Procesada!</h3>
                 <div className="max-w-md mx-auto space-y-2 mb-8">
                   <p className="text-gray-300 font-body text-lg">
-                    Hemos enviado los datos para procesar tu solicitud.
+                    Hemos recibido tus datos correctamente.
                   </p>
                   <p className="text-gray-400 font-body text-sm">
-                    Revisaremos tu configuración y recibirás una respuesta detallada en <span className="text-sports-lime font-bold">alicia.pons.garcia@outlook.es</span>.
+                    En breve recibirás una respuesta en tu correo <span className="text-sports-lime font-bold">alicia.pons.garcia@outlook.es</span>.
                   </p>
                 </div>
                 <button 
@@ -402,10 +402,10 @@ Mensaje: ${formData.message || ''}
                       </div>
                     </div>
 
-                    {/* ONLY SHOW FOR SCHOOL PLAN (Fix requested by user) */}
+                    {/* ONLY SHOW FOR SCHOOL PLAN - STRICT CONDITION */}
                     {selectedPlan.id === 'school' && (
-                        <div>
-                            <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Manual/Deseado)</label>
+                        <div className="animate-fade-in-up">
+                            <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Opcional)</label>
                             <input
                               type="text"
                               name="pricePerStudent"
@@ -438,7 +438,7 @@ Mensaje: ${formData.message || ''}
                         {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
                       </button>
                       <p className="mt-4 text-center text-[10px] text-gray-500 leading-tight">
-                        Al enviar, los datos se mandarán directamente a alicia.pons.garcia@outlook.es
+                        Se enviará una copia a {formData.email || 'tu correo'}.
                       </p>
                     </div>
                  </form>
