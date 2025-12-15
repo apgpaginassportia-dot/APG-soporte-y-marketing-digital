@@ -92,7 +92,7 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
     body.append("Hora Cita", selectedTime);
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
+      const response = await fetch("https://formsubmit.co/ajax/apgdirecciondeportiva@outlook.es", {
         method: "POST",
         body: body
       });
@@ -109,7 +109,7 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
       const subject = encodeURIComponent(`Cita Auditoría: ${formData.name}`);
       const bodyText = encodeURIComponent(`Hola, deseo agendar una auditoría.\n\nNombre: ${formData.name}\nTeléfono: ${formData.phone}\nProyecto: ${formData.project}\nFecha: ${formattedDate} a las ${selectedTime}`);
       
-      window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      window.location.href = `mailto:apgdirecciondeportiva@outlook.es?subject=${subject}&body=${bodyText}`;
       setStep('success');
       
     } finally {

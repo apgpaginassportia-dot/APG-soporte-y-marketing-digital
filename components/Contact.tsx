@@ -47,7 +47,7 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     body.append("Origen", "Formulario Contacto Footer");
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
+      const response = await fetch("https://formsubmit.co/ajax/apgdirecciondeportiva@outlook.es", {
         method: "POST",
         body: body
       });
@@ -64,7 +64,7 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
       // Fallback a Mailto
       const subject = encodeURIComponent(`Consulta Web: ${formData.name}`);
       const bodyText = encodeURIComponent(`Hola Alicia, tengo una consulta:\n\n${formData.message}\n\nMis datos:\nNombre: ${formData.name}\nEmail: ${formData.email}`);
-      window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      window.location.href = `mailto:apgdirecciondeportiva@outlook.es?subject=${subject}&body=${bodyText}`;
       
       setSubmitStatus('success');
     } finally {
@@ -89,11 +89,11 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
                      </p>
                      
                      <div className="space-y-6">
-                       <a href="mailto:alicia.pons.garcia@outlook.es" className="flex items-center text-sm hover:text-sports-lime transition-colors group">
+                       <a href="mailto:apgdirecciondeportiva@outlook.es" className="flex items-center text-sm hover:text-sports-lime transition-colors group">
                          <div className="w-10 h-10 rounded bg-sports-surface border border-white/5 flex items-center justify-center mr-4 group-hover:bg-sports-lime group-hover:text-sports-navy transition-all">
                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                          </div>
-                         <span className="truncate">alicia.pons.garcia@outlook.es</span>
+                         <span className="truncate">apgdirecciondeportiva@outlook.es</span>
                        </a>
                        <a 
                          href="https://wa.me/34661256504" 

@@ -143,8 +143,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     body.append("_subject", `Nuevo Cliente APG: ${formData.name}`);
     body.append("_template", "table");
     body.append("_captcha", "false"); // Desactivar captcha
-    // body.append("_cc", formData.email); // ELIMINADO PARA EVITAR CONFUSIÓN DE DESTINATARIO
-
+    
     // Datos del formulario - 'email' en minúsculas es CLAVE para FormSubmit
     body.append("Nombre", formData.name);
     body.append("email", formData.email); 
@@ -164,7 +163,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
 
     try {
       // Usamos el endpoint AJAX para evitar redirecciones, pero con FormData
-      const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
+      const response = await fetch("https://formsubmit.co/ajax/apgdirecciondeportiva@outlook.es", {
         method: "POST",
         // NO poner Content-Type header manualmente con FormData, el navegador lo pone con el boundary correcto
         body: body
@@ -192,7 +191,7 @@ Precio web: ${total}€
 Mensaje: ${formData.message || ''}
       `);
       
-      window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
+      window.location.href = `mailto:apgdirecciondeportiva@outlook.es?subject=${subject}&body=${bodyText}`;
       // Mostramos éxito porque el usuario ya tiene la acción en su cliente de correo
       setShowSuccess(true);
     } finally {
@@ -223,7 +222,7 @@ Mensaje: ${formData.message || ''}
                     Hemos recibido tus datos correctamente.
                   </p>
                   <p className="text-gray-400 font-body text-sm">
-                    En breve recibirás una respuesta en tu correo <span className="text-sports-lime font-bold">alicia.pons.garcia@outlook.es</span>.
+                    En breve recibirás una respuesta en tu correo <span className="text-sports-lime font-bold">apgdirecciondeportiva@outlook.es</span>.
                   </p>
                 </div>
                 <button 
@@ -438,7 +437,7 @@ Mensaje: ${formData.message || ''}
                         {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
                       </button>
                       <p className="mt-4 text-center text-[10px] text-gray-500 leading-tight">
-                        Al enviar, los datos se mandarán directamente a alicia.pons.garcia@outlook.es
+                        Al enviar, los datos se mandarán directamente a apgdirecciondeportiva@outlook.es
                       </p>
                     </div>
                  </form>
