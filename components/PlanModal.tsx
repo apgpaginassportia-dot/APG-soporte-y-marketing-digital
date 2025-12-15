@@ -140,20 +140,26 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        planTitleFull += ` (${selectedPlan.subtitle})`;
     }
 
-    // Datos estructurados para el email
+    // Datos estructurados para el email - CORREGIDO PARA FORMSUBMIT
+    // Es crítico enviar 'name' y 'email' en la raíz para que funcionen los headers automáticos
     const emailPayload = {
+      // Configuración obligatoria
       _subject: `Nuevo Cliente APG: ${formData.name} - ${planTitleFull}`,
       _template: "table",
-      _captcha: "false", // Desactivar captcha para mejorar conversión
-      Plan_Seleccionado: planTitleFull,
-      Precio_Estimado: `${total}€`,
-      Detalles_Calculo: extraDetails || "Precio Base / Estimado",
-      Nombre_Cliente: formData.name,
-      Email_Cliente: formData.email, // FormSubmit usará esto para responder
-      Telefono: formData.phone,
-      Precio_Por_Alumno_Manual: (selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' || selectedPlan.id === 'school') ? "N/A" : (formData.pricePerStudent || "No especificado"),
-      Servicios_Incluidos: servicesList,
-      Mensaje_Adicional: formData.message || "Sin mensaje"
+      _captcha: "false",
+
+      // Campos Estándar de Contacto (Raíz)
+      name: formData.name,
+      email: formData.email,
+      message: formData.message || "Sin mensaje adicional", // Mapeamos el mensaje aquí también
+
+      // Campos Personalizados (Se mostrarán en la tabla)
+      "Plan Seleccionado": planTitleFull,
+      "Precio Estimado": `${total}€`,
+      "Detalles Cálculo": extraDetails || "Precio Base / Estimado",
+      "Teléfono": formData.phone,
+      "Servicios Incluidos": servicesList,
+      "Precio Alumno Manual": (selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' || selectedPlan.id === 'school') ? "N/A" : (formData.pricePerStudent || "No especificado"),
     };
     
     try {
@@ -170,7 +176,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
       if (response.ok) {
         setShowSuccess(true);
       } else {
-        console.error("Error en el envío:", await response.text());
+        console.error("Error en el envío (FormSubmit):", await response.text());
         alert("Hubo un problema técnico al enviar el correo. Por favor, intenta contactar por WhatsApp.");
       }
     } catch (error) {
@@ -342,7 +348,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                  </div>
 
                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Hidden inputs for FormSubmit configuration */}
+                    {/* Hidden inputs not needed for AJAX but kept for structure */}
                     <input type="hidden" name="_subject" value="Nuevo Cliente Web" />
                     <input type="hidden" name="_captcha" value="false" />
 

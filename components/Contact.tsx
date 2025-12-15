@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 
 interface ContactProps {
@@ -36,13 +35,19 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Payload corregido para FormSubmit con campos estándar
     const emailPayload = {
       _subject: `Consulta Web General: ${formData.name}`,
       _template: "table",
       _captcha: "false",
-      Nombre: formData.name,
-      Email: formData.email,
-      Mensaje: formData.message
+
+      // Campos Standard (Raíz)
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+
+      // Campos Custom
+      "Origen": "Formulario Contacto Footer"
     };
 
     try {

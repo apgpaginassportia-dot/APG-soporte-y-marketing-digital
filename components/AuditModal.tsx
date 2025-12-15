@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 
 interface AuditModalProps {
@@ -78,17 +77,22 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
 
     const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 
+    // Payload corregido para FormSubmit
     const emailPayload = {
       _subject: `📅 CITA AUDITORÍA: ${formData.name} - ${formattedDate}`,
       _template: "table",
       _captcha: "false",
-      Nombre: formData.name,
-      Email: formData.email,
-      Telefono: formData.phone,
-      Proyecto_Club: formData.project || "No especificado",
-      Tipo_Solicitud: "Auditoría Estratégica (Agenda Web)",
-      Fecha_Solicitada: formattedDate,
-      Hora_Solicitada: selectedTime
+      
+      // Campos Standard
+      name: formData.name,
+      email: formData.email,
+      
+      // Campos Custom
+      "Teléfono": formData.phone,
+      "Proyecto / Club": formData.project || "No especificado",
+      "Tipo Solicitud": "Auditoría Estratégica (Agenda Web)",
+      "Fecha Solicitada": formattedDate,
+      "Hora Solicitada": selectedTime
     };
 
     try {
