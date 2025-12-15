@@ -1,3 +1,4 @@
+
 services:
   - type: web
     name: apg-marketing-portal
@@ -6,4 +7,10 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: API_KEY
-        sync: false # Debes añadir tu API Key en el dashboard de Render
+        sync: false
+      - key: AIRTABLE_PAT
+        sync: false
+      - key: AIRTABLE_BASE_ID
+        sync: false
+      - key: AIRTABLE_TABLE_ID
+        sync: false
