@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 
 interface AuditModalProps {
@@ -91,7 +92,8 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
     };
 
     try {
-      await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
+      // Envío real a alicia.pons.garcia@outlook.es
+      const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
         headers: { 
           'Content-Type': 'application/json',
@@ -100,10 +102,15 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
         body: JSON.stringify(emailPayload)
       });
 
-      setStep('success');
+      if (response.ok) {
+        setStep('success');
+      } else {
+        console.error("Error al enviar auditoría:", await response.text());
+        alert("Hubo un error al procesar la solicitud. Por favor intenta de nuevo.");
+      }
     } catch (error) {
       console.error(error);
-      alert("Hubo un error al procesar la solicitud. Por favor intenta de nuevo.");
+      alert("Hubo un error de conexión.");
     } finally {
       setIsSubmitting(false);
     }
@@ -130,7 +137,6 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
                <div className="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-sports-lime/10 rounded-full blur-2xl"></div>
                
                <div>
-                 {/* Badge removed as requested */}
                  <h3 className="text-3xl font-display font-bold text-white uppercase leading-tight mb-4 pt-4">
                    Auditoría<br/>Estratégica
                  </h3>

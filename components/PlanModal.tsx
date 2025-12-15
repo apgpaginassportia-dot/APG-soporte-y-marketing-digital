@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { Plan, LeadForm, CustomServiceOption, TeamServiceItem } from '../types';
 import { CUSTOM_SERVICES_LIST, TEAM_SERVICES } from '../constants';
@@ -145,20 +144,20 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     const emailPayload = {
       _subject: `Nuevo Cliente APG: ${formData.name} - ${planTitleFull}`,
       _template: "table",
-      _captcha: "false", // Intenta evitar captcha (puede aparecer la primera vez)
+      _captcha: "false", // Desactivar captcha para mejorar conversión
       Plan_Seleccionado: planTitleFull,
       Precio_Estimado: `${total}€`,
       Detalles_Calculo: extraDetails || "Precio Base / Estimado",
       Nombre_Cliente: formData.name,
       Email_Cliente: formData.email, // FormSubmit usará esto para responder
       Telefono: formData.phone,
-      Precio_Por_Alumno_Manual: formData.pricePerStudent || "No especificado",
+      Precio_Por_Alumno_Manual: (selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' || selectedPlan.id === 'school') ? "N/A" : (formData.pricePerStudent || "No especificado"),
       Servicios_Incluidos: servicesList,
       Mensaje_Adicional: formData.message || "Sin mensaje"
     };
     
     try {
-      // Envío real usando FormSubmit vía AJAX
+      // Envío real usando FormSubmit vía AJAX a alicia.pons.garcia@outlook.es
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
         headers: { 
@@ -202,7 +201,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                 <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Enviada!</h3>
                 <div className="max-w-md mx-auto space-y-2 mb-8">
                   <p className="text-gray-300 font-body text-lg">
-                    Hemos enviado los detalles a tu correo y al equipo de soporte.
+                    Hemos recibido tu solicitud correctamente en <span className="text-white font-bold">alicia.pons.garcia@outlook.es</span>.
                   </p>
                   <p className="text-gray-400 font-body text-sm">
                     Revisaremos tu configuración y recibirás una respuesta detallada en un plazo de <span className="text-sports-lime font-bold">24/48 horas</span>.
@@ -228,7 +227,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                      {selectedPlan.id === 'school' && schoolPricingMode === 'students' 
                         ? 'Precio anual total (Sin Base)' 
                         : selectedPlan.id === 'team'
-                          ? `Precio ${selectedPlan.subtitle}` // e.g. "Precio / temporada"
+                          ? `Precio ${selectedPlan.subtitle}` 
                           : selectedPlan.id === 'team_custom'
                             ? 'Estimación Total (Mixta)'
                             : 'Precio base anual (sin IVA)'}
@@ -265,7 +264,6 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                                value={studentCount}
                                onChange={(e) => {
                                    const val = parseInt(e.target.value);
-                                   // Ensure it is a valid positive number
                                    if (!isNaN(val)) setStudentCount(Math.max(1, val));
                                }}
                                className="w-20 bg-sports-navy border border-gray-600 rounded px-2 py-2 text-white font-bold text-lg focus:border-sports-lime focus:outline-none text-center"
@@ -344,7 +342,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                  </div>
 
                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Hidden inputs for FormSubmit configuration if fallback is needed, though we use AJAX */}
+                    {/* Hidden inputs for FormSubmit configuration */}
                     <input type="hidden" name="_subject" value="Nuevo Cliente Web" />
                     <input type="hidden" name="_captcha" value="false" />
 
@@ -389,7 +387,8 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                       </div>
                     </div>
 
-                    {selectedPlan.id !== 'school' && (
+                    {/* Logic to hide Price Per Student input on Custom/School/TeamCustom plans */}
+                    {selectedPlan.id !== 'school' && selectedPlan.id !== 'custom' && selectedPlan.id !== 'team_custom' && (
                         <div>
                             <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Estimado)</label>
                             <input
@@ -424,7 +423,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
                         {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
                       </button>
                       <p className="mt-4 text-center text-[10px] text-gray-500 leading-tight">
-                        Al enviar, aceptas que procesemos tus datos para gestionar esta solicitud.
+                        Al enviar, los datos se mandarán directamente a alicia.pons.garcia@outlook.es
                       </p>
                     </div>
                  </form>

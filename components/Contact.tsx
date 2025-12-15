@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 
 interface ContactProps {
@@ -149,7 +150,7 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
                        </svg>
                     </div>
                     <h4 className="text-2xl font-bold text-white mb-2 uppercase">¡Mensaje Enviado!</h4>
-                    <p className="text-sports-muted">Gracias por contactar. Te responderemos en breve.</p>
+                    <p className="text-sports-muted">Gracias por contactar. Te responderemos en breve a tu correo.</p>
                     <button onClick={() => setSubmitStatus('idle')} className="mt-8 text-sports-lime underline text-sm hover:text-white">Enviar otro mensaje</button>
                   </div>
                 ) : (
