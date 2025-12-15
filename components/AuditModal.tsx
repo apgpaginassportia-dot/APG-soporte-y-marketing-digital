@@ -82,6 +82,7 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
     body.append("_subject", `📅 CITA AUDITORÍA: ${formData.name}`);
     body.append("_template", "table");
     body.append("_captcha", "false");
+    body.append("_honey", ""); // Honeypot anti-spam
     
     body.append("Nombre", formData.name);
     body.append("email", formData.email); // minúsculas importante
@@ -92,8 +93,12 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
     body.append("Hora Cita", selectedTime);
 
     try {
+      // Usamos el endpoint AJAX con header Accept application/json
       const response = await fetch("https://formsubmit.co/ajax/apgdirecciondeportiva@outlook.es", {
         method: "POST",
+        headers: { 
+            'Accept': 'application/json'
+        },
         body: body
       });
 
@@ -333,6 +338,11 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
                     </p>
                     <div className="text-xl font-bold text-white mb-6 bg-sports-blue/20 border border-sports-blue/30 px-6 py-3 rounded-lg">
                         {selectedDate?.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric' })} a las {selectedTime}
+                    </div>
+                    <div className="bg-sports-blue/10 border border-sports-blue p-4 rounded-lg mb-6">
+                        <p className="text-gray-300 font-body text-xs">
+                            <span className="text-white font-bold">NOTA:</span> Si es la primera vez, revisa tu carpeta de SPAM por si acaso.
+                        </p>
                     </div>
                     <p className="text-gray-500 text-xs mb-8">
                        Te hemos enviado un correo de confirmación. Te contactaremos por teléfono si necesitamos algún dato previo.

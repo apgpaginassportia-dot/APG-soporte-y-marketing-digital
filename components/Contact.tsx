@@ -40,6 +40,7 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     body.append("_subject", `Consulta Web General: ${formData.name}`);
     body.append("_template", "table");
     body.append("_captcha", "false");
+    body.append("_honey", ""); // Honeypot anti-spam
     
     body.append("Nombre", formData.name);
     body.append("email", formData.email); // Minúsculas para Reply-To
@@ -47,8 +48,12 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
     body.append("Origen", "Formulario Contacto Footer");
 
     try {
+      // Usamos el endpoint AJAX con header Accept application/json
       const response = await fetch("https://formsubmit.co/ajax/apgdirecciondeportiva@outlook.es", {
         method: "POST",
+        headers: { 
+            'Accept': 'application/json'
+        },
         body: body
       });
 
@@ -154,6 +159,11 @@ export const Contact: React.FC<ContactProps> = ({ onConsultAI }) => {
                     </div>
                     <h4 className="text-2xl font-bold text-white mb-2 uppercase">¡Mensaje Enviado!</h4>
                     <p className="text-sports-muted">Gracias por contactar. Te responderemos en breve a tu correo.</p>
+                    <div className="bg-sports-blue/10 border border-sports-blue p-4 rounded-lg mt-4 w-full">
+                        <p className="text-gray-300 font-body text-xs">
+                            <span className="text-white font-bold">NOTA:</span> Si es la primera vez, revisa tu carpeta de SPAM.
+                        </p>
+                    </div>
                     <button onClick={() => setSubmitStatus('idle')} className="mt-8 text-sports-lime underline text-sm hover:text-white">Enviar otro mensaje</button>
                   </div>
                 ) : (

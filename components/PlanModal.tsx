@@ -143,6 +143,7 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     body.append("_subject", `Nuevo Cliente APG: ${formData.name}`);
     body.append("_template", "table");
     body.append("_captcha", "false"); // Desactivar captcha
+    body.append("_honey", ""); // Honeypot anti-spam
     
     // Datos del formulario - 'email' en minúsculas es CLAVE para FormSubmit
     body.append("Nombre", formData.name);
@@ -162,10 +163,12 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     }
 
     try {
-      // Usamos el endpoint AJAX para evitar redirecciones, pero con FormData
+      // Usamos el endpoint AJAX con header Accept application/json
       const response = await fetch("https://formsubmit.co/ajax/apgdirecciondeportiva@outlook.es", {
         method: "POST",
-        // NO poner Content-Type header manualmente con FormData, el navegador lo pone con el boundary correcto
+        headers: { 
+            'Accept': 'application/json'
+        },
         body: body
       });
 
@@ -217,10 +220,18 @@ Mensaje: ${formData.message || ''}
                    </svg>
                 </div>
                 <h3 className="text-2xl font-display font-bold text-white mb-4 uppercase tracking-wide">¡Solicitud Procesada!</h3>
-                <div className="max-w-md mx-auto space-y-2 mb-8">
+                <div className="max-w-md mx-auto space-y-4 mb-8">
                   <p className="text-gray-300 font-body text-lg">
                     Hemos recibido tus datos correctamente.
                   </p>
+                  <div className="bg-sports-blue/10 border border-sports-blue p-4 rounded-lg">
+                    <p className="text-gray-300 font-body text-sm font-bold">
+                        IMPORTANTE:
+                    </p>
+                    <p className="text-gray-400 font-body text-xs mt-1">
+                        Si es tu primera solicitud, revisa tu carpeta de <span className="text-white font-bold">SPAM / CORREO NO DESEADO</span> para confirmar la recepción.
+                    </p>
+                  </div>
                   <p className="text-gray-400 font-body text-sm">
                     En breve recibirás una respuesta en tu correo <span className="text-sports-lime font-bold">apgdirecciondeportiva@outlook.es</span>.
                   </p>
