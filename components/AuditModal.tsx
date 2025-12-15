@@ -77,48 +77,45 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
 
     const formattedDate = selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
 
-    // Payload corregido para FormSubmit usando FormData
-    const body = new FormData();
-    body.append("_subject", `📅 CITA AUDITORÍA: ${formData.name} - ${formattedDate}`);
-    body.append("_template", "table");
-    body.append("_captcha", "false");
-    
-    body.append("name", formData.name);
-    body.append("email", formData.email);
-    body.append("Telefono", formData.phone);
-    body.append("Proyecto_Club", formData.project || "No especificado");
-    body.append("Tipo_Solicitud", "Auditoría Estratégica (Agenda Web)");
-    body.append("Fecha_Solicitada", formattedDate);
-    body.append("Hora_Solicitada", selectedTime);
+    // Payload JSON estricto
+    const emailData = {
+      _subject: `📅 CITA AUDITORÍA: ${formData.name}`,
+      _template: "table",
+      _captcha: "false",
+      
+      name: formData.name,
+      email: formData.email,
+      "Teléfono": formData.phone,
+      "Proyecto": formData.project || "No especificado",
+      "Tipo": "Auditoría Estratégica",
+      "Fecha": formattedDate,
+      "Hora": selectedTime
+    };
 
     try {
-      // Envío real a alicia.pons.garcia@outlook.es
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        body: body
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailData)
       });
 
       if (response.ok) {
         setStep('success');
       } else {
-        throw new Error("Respuesta servidor correo inválida");
+        throw new Error("Respuesta inválida servidor");
       }
     } catch (error) {
       console.error(error);
       
-      // FALLBACK MAILTO PARA ASEGURAR ENVÍO
+      // Fallback a Mailto
       const subject = encodeURIComponent(`Cita Auditoría: ${formData.name}`);
-      const bodyText = encodeURIComponent(`
-Hola, deseo agendar una auditoría.
-
-Nombre: ${formData.name}
-Teléfono: ${formData.phone}
-Proyecto: ${formData.project}
-Fecha Deseada: ${formattedDate} a las ${selectedTime}
-      `);
+      const bodyText = encodeURIComponent(`Hola, deseo agendar una auditoría.\n\nNombre: ${formData.name}\nTeléfono: ${formData.phone}\nProyecto: ${formData.project}\nFecha: ${formattedDate} a las ${selectedTime}`);
       
       window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
-      setStep('success'); // Asumimos éxito al abrir el cliente
+      setStep('success');
       
     } finally {
       setIsSubmitting(false);

@@ -95,7 +95,6 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
       if (schoolPricingMode === 'fixed') {
         return selectedPlan.basePrice;
       } else {
-        // En modo "Por Alumno", NO hay precio base. Solo el coste por alumno.
         return Number((studentCount * PRICE_PER_STUDENT).toFixed(2));
       }
     }
@@ -138,64 +137,61 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        planTitleFull += ` (${selectedPlan.subtitle})`;
     }
 
-    // USO DE FORMDATA: Esto es mucho más robusto para servidores de correo que JSON
-    const body = new FormData();
-    // Configuración del servicio de correo
-    body.append("_subject", `Nuevo Cliente APG: ${formData.name} - ${planTitleFull}`);
-    body.append("_template", "table");
-    body.append("_captcha", "false");
-    
-    // Campos principales (Standard HTML fields)
-    body.append("name", formData.name);
-    body.append("email", formData.email);
-    body.append("message", formData.message || "Sin mensaje adicional");
-    
-    // Campos personalizados
-    body.append("Plan_Seleccionado", planTitleFull);
-    body.append("Precio_Estimado", `${total}€`);
-    body.append("Detalles_Calculo", extraDetails || "Precio Base / Estimado");
-    body.append("Telefono", formData.phone);
-    body.append("Servicios_Incluidos", servicesList);
-    
-    // Solo añadir precio por alumno si no es plan personalizado/school/team
-    if (selectedPlan.id !== 'custom' && selectedPlan.id !== 'team_custom' && selectedPlan.id !== 'school') {
-        body.append("Precio_Por_Alumno_Manual", formData.pricePerStudent || "No especificado");
-    }
+    // Configuración JSON estricta para FormSubmit AJAX
+    const emailData = {
+      _subject: `Nuevo Cliente APG: ${formData.name}`,
+      _template: "table",
+      _captcha: "false", // Desactivar captcha para facilitar conversión
+      
+      // Datos de contacto estándar
+      name: formData.name,
+      email: formData.email,
+      message: formData.message || "Sin mensaje adicional",
+      
+      // Datos personalizados del plan
+      "Plan Seleccionado": planTitleFull,
+      "Precio Estimado": `${total}€`,
+      "Teléfono": formData.phone,
+      "Detalles Cálculo": extraDetails || "N/A",
+      "Servicios Incluidos": servicesList,
+      
+      // Solo enviamos este campo si existe valor
+      ...(formData.pricePerStudent ? { "Precio Alumno (Manual)": formData.pricePerStudent } : {})
+    };
 
     try {
-      // Envío AJAX al servidor de correo
       const response = await fetch("https://formsubmit.co/ajax/alicia.pons.garcia@outlook.es", {
         method: "POST",
-        body: body // Enviamos FormData directamente, sin cabeceras JSON
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailData)
       });
 
       if (response.ok) {
         setShowSuccess(true);
       } else {
-        throw new Error("El servidor de correo no respondió correctamente.");
+        throw new Error("El servidor de correo rechazó la solicitud.");
       }
     } catch (error) {
-      console.error("Fallo el envío automático, usando fallback:", error);
+      console.error("Error envío:", error);
       
-      // FALLBACK DE SEGURIDAD: Si falla el servidor, abrimos el cliente de correo del usuario
-      // Esto asegura que NUNCA se pierda un lead.
+      // FALLBACK: Si falla el servidor automático, abrimos el cliente de correo del usuario
       const subject = encodeURIComponent(`Solicitud Plan APG: ${planTitleFull}`);
       const bodyText = encodeURIComponent(`
-Hola Alicia, estoy interesado en el ${planTitleFull}.
+Hola Alicia, deseo contratar el ${planTitleFull}.
 
 Mis datos:
 Nombre: ${formData.name}
 Email: ${formData.email}
 Teléfono: ${formData.phone}
-Servicios: ${servicesList}
-Precio Estimado: ${total}€
+Precio Visto: ${total}€
 
 Mensaje: ${formData.message || ''}
       `);
       
       window.location.href = `mailto:alicia.pons.garcia@outlook.es?subject=${subject}&body=${bodyText}`;
-      
-      // Mostramos éxito igualmente porque el usuario "envió" el correo manualmente
       setShowSuccess(true);
     } finally {
       setIsSubmitting(false);
@@ -363,8 +359,6 @@ Mensaje: ${formData.message || ''}
                  </div>
 
                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Campos ocultos ahora gestionados en el FormData del submit */}
-                    
                     <div>
                         <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Nombre Completo</label>
                         <input
@@ -406,17 +400,17 @@ Mensaje: ${formData.message || ''}
                       </div>
                     </div>
 
-                    {/* Logic to hide Price Per Student input on Custom/School/TeamCustom plans */}
-                    {selectedPlan.id !== 'school' && selectedPlan.id !== 'custom' && selectedPlan.id !== 'team_custom' && (
+                    {/* ONLY SHOW FOR SCHOOL PLAN */}
+                    {selectedPlan.id === 'school' && (
                         <div>
-                            <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Estimado)</label>
+                            <label className="block text-xs font-bold text-sports-lime uppercase mb-2">Precio por alumno (Manual/Deseado)</label>
                             <input
                               type="text"
                               name="pricePerStudent"
                               value={formData.pricePerStudent}
                               onChange={e => setFormData(prev => ({...prev, pricePerStudent: e.target.value}))}
                               className="block w-full border border-gray-700 rounded bg-sports-dark text-white py-3 px-4 focus:outline-none focus:border-sports-blue transition-all placeholder-gray-600 font-body text-sm"
-                              placeholder="Ej: 30€ / 50€"
+                              placeholder="Ej: 30€ (Si difiere del cálculo automático)"
                             />
                         </div>
                     )}
