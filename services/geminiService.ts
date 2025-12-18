@@ -1,13 +1,8 @@
 
-
 import { GoogleGenAI } from "@google/genai";
 
 // Shim process for TypeScript in environments where @types/node is missing
 declare var process: any;
-
-// Safe initialization that doesn't crash if key is missing (handled in UI)
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
 
 const SYSTEM_INSTRUCTION = `
 Eres el asistente virtual de "APG Marketing y Soporte Digital".
@@ -31,13 +26,12 @@ export const sendMessageToGemini = async (
   history: { role: 'user' | 'model'; text: string }[],
   newMessage: string
 ): Promise<string> => {
-  if (!apiKey) {
-    return "Lo siento, la clave API no está configurada en esta demo. Por favor contacta directamente con soporte.";
-  }
+  // Inicializamos el cliente directamente con la clave del entorno
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   try {
     const chat = ai.chats.create({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
       },
@@ -48,9 +42,10 @@ export const sendMessageToGemini = async (
     });
 
     const result = await chat.sendMessage({ message: newMessage });
+    // Accedemos a .text como propiedad (no como método) según las guías
     return result.text || "Lo siento, no te he entendido bien. ¿Puedes repetirlo?";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "Ups, he tenido un pequeño fallo de conexión. ¿Me lo repites?";
+    return "Lo siento, he tenido un problema al procesar tu solicitud. ¿Podemos intentarlo de nuevo en un momento?";
   }
 };
