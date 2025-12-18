@@ -18,10 +18,11 @@ export const Services: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Servicios Modulares</h2>
+          <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Gestión de Competiciones</h2>
           <p className="text-4xl md:text-6xl font-display font-bold text-white tracking-tight uppercase drop-shadow-lg">
-            Planes de Servicio
+            Planes para Organizadores de Torneos
           </p>
+          <p className="text-gray-400 mt-4 font-body">Soluciones integrales diseñadas específicamente para empresas y entidades que gestionan eventos deportivos.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
@@ -53,9 +54,6 @@ export const Services: React.FC = () => {
                         {plan.priceDisplay}
                      </span>
                   </div>
-                  <p className="text-[10px] text-gray-500 mt-2 uppercase tracking-wide font-bold">
-                    Precio base sin servicios extra
-                  </p>
                   <p className={`text-sm uppercase tracking-widest font-bold mt-4 ${plan.isRecommended ? 'text-white' : 'text-sports-blue'}`}>
                     {plan.subtitle}
                   </p>
@@ -99,7 +97,7 @@ export const Services: React.FC = () => {
             <div className="text-center mb-12">
               <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Tarifas Individuales</h2>
               <h3 className="text-3xl font-display font-bold text-white uppercase">Servicios a la Carta</h3>
-              <p className="text-gray-400 mt-4 text-sm font-body">Contratación independiente fuera de los planes globales.</p>
+              <p className="text-gray-400 mt-4 text-sm font-body">Contratación independiente fuera de los planes globales para eventos deportivos.</p>
             </div>
             
             <div className="max-w-5xl mx-auto bg-sports-surface rounded-xl border border-white/5 overflow-hidden shadow-2xl">

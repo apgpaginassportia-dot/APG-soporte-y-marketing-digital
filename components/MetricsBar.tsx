@@ -22,12 +22,12 @@ const AnimatedNumber: React.FC<{ value: string }> = ({ value }) => {
     }
 
     return () => observer.disconnect();
-  }, [hasAnimated]);
+  }, [hasAnimated, value]);
 
   const startAnimation = () => {
     setHasAnimated(true);
     
-    // Extraer el número, el prefijo y el sufijo
+    // Extraer el número, el prefijo y el sufijo para animar solo la parte numérica
     const numberMatch = value.match(/\d+/);
     if (!numberMatch) {
       setDisplayValue(value);
@@ -39,13 +39,13 @@ const AnimatedNumber: React.FC<{ value: string }> = ({ value }) => {
     const suffix = value.split(numberMatch[0])[1];
     
     let startTimestamp: number | null = null;
-    const duration = 2000; // 2 segundos de animación
+    const duration = 2000; // 2 segundos de duración solicitados
 
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const progress = Math.min((timestamp - startTimestamp) / duration, 1);
       
-      // Función de easing (easeOutExpo)
+      // Función de easing: ease-out-expo (rápido al principio, suave al final)
       const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       const currentCount = Math.floor(easeProgress * target);
       
@@ -69,7 +69,7 @@ const AnimatedNumber: React.FC<{ value: string }> = ({ value }) => {
 export const MetricsBar: React.FC = () => {
   return (
     <div className="bg-sports-blue relative z-20 -mt-10 mx-4 md:mx-0 md:mt-0 border-y border-white/10 shadow-2xl">
-      <div className="max-w-7xl auto">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
           {METRICS.map((metric, idx) => (
             <div key={idx} className="p-6 md:p-8 flex flex-col items-center justify-center text-center group hover:bg-white/5 transition-colors">
