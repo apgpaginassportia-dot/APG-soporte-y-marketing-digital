@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
   <head>
@@ -6,7 +7,7 @@
     <title>APG Marketing | Gestión de Eventos Deportivos</title>
     <meta name="description" content="Automatiza la organización de tu torneo, liga o campus. Gestión de inscripciones, logística de viajes y hoteles para cualquier deporte.">
     
-    <!-- Tailwind CSS (Mantenemos CDN para simplicidad visual sin configurar PostCSS) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -14,17 +15,17 @@
           extend: {
             colors: {
               sports: {
-                navy: '#020617',     // Slate 950 (Fondo Principal - Deep Space)
-                dark: '#000000',     // Pure Black (Contraste Máximo)
-                surface: '#0F172A',  // Slate 900 (Tarjetas Elevadas)
-                surfaceHighlight: '#1E293B', // Slate 800 (Hover states)
-                blue: '#3B82F6',     // Blue 500 (Acción Principal - Electric Blue)
-                blueDark: '#1D4ED8', // Blue 700 (Profundidad)
-                lime: '#A3E635',     // Lime 400 (Atención/Neón - High Energy)
-                limeGlow: '#BEF264', // Lime 300 (Brillo)
-                gray: '#334155',     // Slate 700 (Bordes sutiles)
-                text: '#F1F5F9',     // Slate 100 (Lectura clara)
-                muted: '#94A3B8'     // Slate 400 (Texto secundario)
+                navy: '#020617',     // Slate 950
+                dark: '#000000',     // Pure Black
+                surface: '#0F172A',  // Slate 900
+                surfaceHighlight: '#1E293B', // Slate 800
+                blue: '#3B82F6',     // Blue 500
+                blueDark: '#1D4ED8', // Blue 700
+                lime: '#A3E635',     // Lime 400
+                limeGlow: '#BEF264', // Lime 300
+                gray: '#334155',     // Slate 700
+                text: '#F1F5F9',     // Slate 100
+                muted: '#94A3B8'     // Slate 400
               }
             },
             fontFamily: {
@@ -33,15 +34,25 @@
               body: ['Inter Tight', 'sans-serif'],
             },
             animation: {
-              'blob': 'blob 7s infinite',
+              'blob': 'blob 10s infinite',
               'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'fade-in-up': 'fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
               blob: {
                 '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '33%': { transform: 'translate(40px, -60px) scale(1.15)' },
+                '66%': { transform: 'translate(-30px, 30px) scale(0.9)' },
                 '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              },
+              'fade-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' }
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' }
               }
             }
           }
@@ -55,20 +66,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-      body { font-family: 'Montserrat', sans-serif; background-color: #020617; color: #F1F5F9; }
+      body { 
+        font-family: 'Montserrat', sans-serif; 
+        background-color: #020617; 
+        color: #F1F5F9;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
       h1, h2, h3, h4, h5, h6 { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
       .font-body { font-family: 'Inter Tight', sans-serif; }
+      
+      /* Scrollbar Optimization */
       .custom-scrollbar::-webkit-scrollbar { width: 6px; }
       .custom-scrollbar::-webkit-scrollbar-track { background: #020617; }
       .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
       .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #3B82F6; }
       
-      /* Glassmorphism Utilities */
+      /* GPU Accelerated Animations */
+      .will-change-transform { will-change: transform; }
+      .will-change-opacity { will-change: opacity; }
+      
+      /* Glassmorphism Optimization */
       .glass-card {
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.03);
       }
       
       .text-gradient {
@@ -77,6 +100,13 @@
         -webkit-text-fill-color: transparent;
         background-image: linear-gradient(to right, #3B82F6, #A3E635);
       }
+
+      /* Content visibility for performance */
+      section {
+        content-visibility: auto;
+        contain-intrinsic-size: 0 500px;
+      }
+      #hero { content-visibility: visible; }
     </style>
   <script type="importmap">
 {
@@ -93,7 +123,6 @@
 </head>
   <body class="bg-sports-navy text-sports-text antialiased selection:bg-sports-blue selection:text-white">
     <div id="root"></div>
-    <!-- Entry Point para Vite -->
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

@@ -14,22 +14,22 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-[95vh] flex items-center bg-sports-navy overflow-hidden">
+    <div id="hero" className="relative min-h-[95vh] flex items-center bg-sports-navy overflow-hidden">
       {/* Dynamic Background Effects */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent z-10"></div>
       
-      {/* Animated Blobs */}
-      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sports-blue/20 rounded-full blur-[100px] animate-blob mix-blend-screen pointer-events-none"></div>
-      <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-indigo-600/20 rounded-full blur-[80px] animate-blob animation-delay-2000 mix-blend-screen pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-sports-lime/10 rounded-full blur-[120px] animate-blob animation-delay-4000 pointer-events-none"></div>
+      {/* Animated Blobs with Hardware Acceleration */}
+      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-sports-blue/20 rounded-full blur-[100px] animate-blob will-change-transform mix-blend-screen pointer-events-none"></div>
+      <div className="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-indigo-600/20 rounded-full blur-[80px] animate-blob animation-delay-2000 will-change-transform mix-blend-screen pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-sports-lime/10 rounded-full blur-[120px] animate-blob animation-delay-4000 will-change-transform pointer-events-none"></div>
       
-      {/* Mesh Grid Overlay */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+      {/* Mesh Grid Overlay - Optimized opacity */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.12] pointer-events-none"></div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 z-20">
-        <div className="max-w-4xl">
+        <div className="max-w-4xl animate-fade-in-up">
           {/* Trust Badge with Glow */}
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-sports-surface/80 border border-sports-lime/20 mb-8 backdrop-blur-md animate-fade-in-up shadow-[0_0_15px_rgba(163,230,53,0.1)]">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-sports-surface/80 border border-sports-lime/20 mb-8 backdrop-blur-md shadow-[0_0_15px_rgba(163,230,53,0.1)]">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sports-lime opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-sports-lime"></span>

@@ -42,7 +42,7 @@ export const AIChat: React.FC = () => {
     <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end">
       {/* Ventana de Chat */}
       {isOpen && (
-        <div className="mb-4 w-80 sm:w-96 bg-sports-surface rounded-2xl shadow-2xl border border-white/10 overflow-hidden flex flex-col animate-fade-in-up" style={{ maxHeight: '500px', height: '70vh' }}>
+        <div className="mb-4 w-80 sm:w-96 bg-sports-surface rounded-2xl shadow-2xl border border-white/10 overflow-hidden flex flex-col animate-fade-in-up will-change-transform" style={{ maxHeight: '500px', height: '70vh' }}>
           {/* Header */}
           <div className="bg-sports-navy p-4 flex justify-between items-center border-b border-white/5">
              <div className="flex items-center gap-2">
