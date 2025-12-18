@@ -12,7 +12,6 @@ import { CustomBuilder } from './components/CustomBuilder';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
-import { AIChat } from './components/AIChat';
 
 function App() {
   return (
@@ -43,7 +42,6 @@ function App() {
       </main>
       <Footer />
       <ScrollToTop />
-      <AIChat />
     </div>
   );
 }
