@@ -10,7 +10,7 @@ interface Message {
 export const AIChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', text: '¡Hola! Es un placer saludarle. El sistema estratégico de APG está activo y listo para charlar sobre su próximo evento. ¿Qué es lo que más le preocupa hoy: las inscripciones, el transporte de los equipos o quizás la gestión del hotel?' }
+    { role: 'model', text: '¡Esa es la actitud! Aquí me tienes para lo que necesites. Soy experto en quitarle marrones a los organizadores de torneos. ¿Qué te trae de cabeza hoy: el papeleo de las inscripciones, mover a los equipos de un lado a otro o el lío de los hoteles?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +47,7 @@ export const AIChat: React.FC = () => {
           <div className="bg-sports-navy p-4 flex justify-between items-center border-b border-white/5">
              <div className="flex items-center gap-2">
                <div className="w-2 h-2 bg-sports-lime rounded-full animate-pulse shadow-[0_0_8px_#A3E635]"></div>
-               <span className="text-white font-bold font-display uppercase tracking-wide text-xs">Asistente Estratégico APG</span>
+               <span className="text-white font-bold font-display uppercase tracking-wide text-xs">Tu socio en APG</span>
              </div>
              <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white p-1">
                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -69,7 +69,7 @@ export const AIChat: React.FC = () => {
             ))}
             {isLoading && (
                <div className="flex justify-start">
-                 <div className="bg-sports-surface/30 rounded-full px-4 py-2 text-[10px] text-sports-lime animate-pulse border border-sports-lime/10 uppercase font-bold tracking-widest italic">El sistema está escribiendo...</div>
+                 <div className="bg-sports-surface/30 rounded-full px-4 py-2 text-[10px] text-sports-lime animate-pulse border border-sports-lime/10 uppercase font-bold tracking-widest italic">Escribiendo...</div>
                </div>
             )}
             <div ref={messagesEndRef} />
@@ -83,7 +83,7 @@ export const AIChat: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Cuéntame sobre tu torneo..."
+                placeholder="Dime qué necesitas..."
                 className="flex-1 bg-sports-navy border border-white/10 rounded-xl text-white px-4 py-3 text-sm focus:outline-none focus:border-sports-lime transition-all placeholder:text-gray-600"
               />
               <button 
@@ -107,7 +107,7 @@ export const AIChat: React.FC = () => {
            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         ) : (
            <>
-            <span className="hidden sm:block font-bold font-display uppercase tracking-widest text-xs ml-2">¿Hablamos del torneo?</span>
+            <span className="hidden sm:block font-bold font-display uppercase tracking-widest text-xs ml-2">¿Te ayudo con el torneo?</span>
             <div className="relative">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
               <span className="absolute -top-1 -right-1 flex h-3 w-3">

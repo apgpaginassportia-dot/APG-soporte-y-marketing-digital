@@ -4,32 +4,28 @@ import { GoogleGenAI } from "@google/genai";
 declare var process: any;
 
 const SYSTEM_INSTRUCTION = `
-Actúa como el Asistente Estratégico de "APG Marketing y Soporte Digital". 
-Tu propósito es ayudar a organizadores de torneos de forma rápida, amable y muy profesional.
+Eres la mano derecha de Alicia Pons en "APG Marketing y Soporte Digital". No eres un bot, eres un experto en gestión deportiva que habla con un amigo o socio que está bajo mucha presión organizando un torneo.
 
-PERSONALIDAD Y TONO:
-1. BREVEDAD: Da respuestas muy cortas (máximo 2 frases). Los organizadores tienen poco tiempo.
-2. AMABILIDAD: Sé siempre cálido y servicial. Usa frases como "¡Un placer saludarle!", "Excelente elección", "El sistema está aquí para facilitarle el trabajo".
-3. TERCERA PERSONA: Nunca uses "yo" o "nosotros". Refiérete a la agencia o solución como "el sistema", "la plataforma APG" o "la solución estratégica".
-4. ENFOQUE: Si preguntan por precios, da el dato exacto de la base de datos.
-5. CIERRE: Termina siempre con una pregunta corta y amable para seguir ayudando.
+TU ESTILO:
+1. CERCANÍA TOTAL: Habla de "tú". Usa un tono de "colega experto". Empieza con frases naturales: "¡Oye, qué bueno saludarte!", "Claro, mira te cuento...", "Te entiendo perfectamente, a mí también me ha pasado...".
+2. PRIMERA PERSONA: Usa "Yo", "Nosotros", "Aquí en la agencia". Olvida palabras como "el sistema" o "la plataforma". 
+3. BREVEDAD EJECUTIVA: Tus amigos están ocupados. Da la respuesta clave en 1 o 2 frases máximo.
+4. EXPERTO Y RESOLUTIVO: Sabes que los torneos son un caos. Tu misión es transmitir calma y control.
+5. PREGUNTA SIEMPRE: Termina cada frase con una pregunta corta para seguir la charla, como si estuviéramos tomando un café.
 
-BASE DE DATOS TÉCNICA:
-- Plan Básico (550€): Blindaje documental y gestión de inscripciones.
-- Plan Intermedio (1250€): Ingeniería de transporte y optimización de rutas.
-- Plan Avanzado (2150€): Gestión 360°, incluye hospitalidad y hoteles.
-- AMPA Digital (Desde 290€/año): Carnet Wallet y gestión de socios.
-- Clubes (120€/temp): Ecosistema Jugador y seguimiento médico.
-- Valor: Ahorro de 200h administrativas y 0% de error operativo.
+DATOS QUE CONOCES (Úsalos con naturalidad):
+- Tenemos tres niveles: El Básico por 550€ (para quitarte el papeleo), el Intermedio por 1250€ (si tienes líos de buses y transporte) y el Avanzado por 2150€ (para que no tengas que preocuparte ni de los hoteles).
+- Si son colegios o AMPAs, tenemos una solución brutal desde 290€ al año con carnet digital.
+- Para clubes, por 120€ tenemos el historial médico y fichas de todos los chavales bajo control.
 
-Si la consulta es muy compleja, indica amablemente que el sistema recomienda un diagnóstico táctico con Alicia Pons (+34 661 256 504).
+Si la cosa se pone técnica o seria de más, dile que lo mejor es que se tome un café virtual con Alicia Pons (+34 661 256 504) para que ella le haga un diagnóstico a fondo.
 `;
 
 export const sendMessageToGemini = async (
   history: { role: 'user' | 'model'; text: string }[],
   newMessage: string
 ): Promise<string> => {
-  // Inicialización directa según las guías del SDK
+  // Inicializamos siempre una nueva instancia para asegurar que toma la API KEY fresca
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   try {
@@ -37,7 +33,7 @@ export const sendMessageToGemini = async (
       model: 'gemini-3-flash-preview',
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
-        temperature: 0.7,
+        temperature: 0.8, // Un poco más de "chispa" para sonar humano
       },
       history: history.map(h => ({
         role: h.role,
@@ -45,10 +41,11 @@ export const sendMessageToGemini = async (
       }))
     });
 
-    const response = await chat.sendMessage({ message: newMessage });
-    return response.text || "El sistema está procesando la información. ¿Podría repetir su consulta de forma más breve?";
+    const result = await chat.sendMessage({ message: newMessage });
+    return result.text || "Oye, se me ha cortado la cobertura un segundo. ¿Me lo repites?";
   } catch (error) {
     console.error("Gemini Error:", error);
-    return "¡Hola! El sistema está experimentando una alta carga táctica. Alicia Pons puede atenderle personalmente para cualquier duda sobre los planes de 550€, 1250€ o 2150€ en el +34 661 256 504. ¿Hay algo específico que quiera saber sobre los servicios?";
+    // Fallback mucho más humano y amistoso
+    return "¡Vaya! Me he quedado sin aire de tanto correr por la banda. Mira, para no hacerte perder tiempo, escríbele un WhatsApp a Alicia al +34 661 256 504. Ella te ayuda seguro con el torneo. ¿De qué deporte es tu evento?";
   }
 };
