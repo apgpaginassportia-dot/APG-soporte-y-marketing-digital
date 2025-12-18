@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { CUSTOM_SERVICES_LIST, Icons } from '../constants';
 import { PlanModal } from './PlanModal';
@@ -55,7 +56,7 @@ export const CustomBuilder: React.FC = () => {
                  Configurador Personalizado
               </h3>
               <p className="text-gray-400 mt-4 max-w-2xl font-body">
-                Selecciona entre {MIN_SERVICES} y {MAX_SERVICES} módulos de automatización. Precio calculado en tiempo real.
+                Selecciona entre {MIN_SERVICES} y {MAX_SERVICES} módulos de automatización. El sistema recalcula el presupuesto al instante.
               </p>
             </div>
 
@@ -80,10 +81,12 @@ export const CustomBuilder: React.FC = () => {
                       <span className={`font-display font-bold text-base uppercase ${isSelected ? 'text-white' : 'text-gray-300'}`}>
                         {service.label}
                       </span>
-                      <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors ${
-                        isSelected ? 'bg-sports-blue border-sports-blue text-white' : 'border-gray-600 group-hover:border-sports-lime text-transparent group-hover:text-sports-lime'
+                      <div className={`w-5 h-5 rounded flex items-center justify-center border transition-all duration-300 ${
+                        isSelected 
+                          ? 'bg-sports-blue border-sports-blue text-white scale-110' 
+                          : 'border-gray-600 group-hover:border-sports-lime'
                       }`}>
-                        <Icons.Check />
+                        {isSelected && <Icons.Check />}
                       </div>
                     </div>
                     
@@ -115,7 +118,7 @@ export const CustomBuilder: React.FC = () => {
 
                {selectedServices.length === 0 ? (
                  <div className="text-center py-12 text-gray-500 text-sm flex flex-col items-center font-body">
-                   <span className="italic">Añade módulos para calcular tu presupuesto.</span>
+                   <span className="italic">La plataforma espera la selección de módulos para iniciar el cálculo.</span>
                  </div>
                ) : (
                  <div className="space-y-4 mb-8">
@@ -150,7 +153,7 @@ export const CustomBuilder: React.FC = () => {
                <div className="space-y-4">
                  {!isValid && (
                    <div className="text-xs text-orange-400 bg-orange-400/10 p-3 rounded border border-orange-400/20 font-body">
-                     ⚠️ Selecciona entre {MIN_SERVICES} y {MAX_SERVICES} servicios para continuar.
+                     ⚠️ El sistema requiere entre {MIN_SERVICES} y {MAX_SERVICES} servicios para validar el pack.
                    </div>
                  )}
                  <button

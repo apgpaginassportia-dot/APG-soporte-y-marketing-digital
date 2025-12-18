@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { AuditModal } from './AuditModal';
 
@@ -36,21 +35,21 @@ export const Hero: React.FC = () => {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-sports-lime"></span>
             </span>
             <span className="text-sports-lime font-bold text-xs tracking-[0.2em] uppercase font-display">
-              Operaciones Deportivas 360°
+              Gestión Élite de Eventos
             </span>
           </div>
           
           {/* Main Headline - High Impact */}
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-display font-bold text-white mb-8 leading-[0.9] tracking-tight uppercase drop-shadow-2xl">
-            Tu evento deportivo, <br />
+            Tu torneo merece <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sports-blue via-indigo-400 to-sports-lime">
-              en piloto automático
+              resultados de élite
             </span>
           </h1>
           
           {/* Subheadline - Clear Value Prop */}
           <p className="mt-8 max-w-2xl text-lg md:text-xl text-sports-text/80 font-light leading-relaxed font-body border-l-4 border-sports-lime pl-6 bg-gradient-to-r from-sports-surface/50 to-transparent py-2 rounded-r-lg">
-            Elimina el caos administrativo. Se digitalizan inscripciones, optimiza la logística y gestiona el alojamiento para cualquier disciplina deportiva.
+            Deja de apagar fuegos administrativos. Digitaliza inscripciones, optimiza traslados y delega la logística en manos profesionales. **Tú pones el juego, yo pongo el sistema.**
           </p>
           
           {/* CTAs with improved aesthetics */}
@@ -60,7 +59,7 @@ export const Hero: React.FC = () => {
               className="group relative flex items-center justify-center px-8 py-5 bg-gradient-to-r from-sports-blue to-sports-blueDark text-white font-display font-bold text-lg uppercase tracking-wider rounded-lg transition-all hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:scale-[1.02]"
             >
               <div className="absolute inset-0 bg-white/20 group-hover:translate-x-full duration-700 transition-transform skew-x-12 opacity-0 group-hover:opacity-100 ease-in-out"></div>
-              <span className="mr-2 relative">Solicitar Auditoría Gratis</span>
+              <span className="mr-2 relative">Reservar Auditoría Gratis</span>
               <svg className="w-5 h-5 relative transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </button>
             
@@ -68,7 +67,7 @@ export const Hero: React.FC = () => {
               onClick={scrollToPlans}
               className="group flex items-center justify-center px-8 py-5 border border-white/10 bg-sports-surface/50 backdrop-blur-sm text-white font-display font-bold text-lg uppercase tracking-wider rounded-lg hover:bg-sports-surface hover:border-sports-lime hover:text-sports-lime transition-all duration-300"
             >
-              Ver Planes y Precios
+              Explorar Soluciones
             </button>
           </div>
 

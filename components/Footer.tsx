@@ -39,9 +39,9 @@ export const Footer: React.FC = () => {
                  </a>
                </li>
                <li>
-                 <a href="mailto:apgdirecciondeportiva@outlook.es" className="text-gray-400 hover:text-sports-lime transition-colors flex items-center gap-3 text-sm font-body">
+                 <a href="mailto:alicia.pons.garcia@outlook.es" className="text-gray-400 hover:text-sports-lime transition-colors flex items-center gap-3 text-sm font-body">
                    <span className="w-1.5 h-1.5 bg-sports-lime rounded-full"></span>
-                   apgdirecciondeportiva@outlook.es
+                   alicia.pons.garcia@outlook.es
                  </a>
                </li>
              </ul>

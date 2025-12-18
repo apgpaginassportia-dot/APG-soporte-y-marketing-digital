@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Benefits } from './components/Benefits';
@@ -12,18 +11,10 @@ import { SchoolServices } from './components/SchoolServices';
 import { CustomBuilder } from './components/CustomBuilder';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
-import { AIChat } from './components/AIChat';
 import { ScrollToTop } from './components/ScrollToTop';
+import { AIChat } from './components/AIChat';
 
 function App() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [externalChatMessage, setExternalChatMessage] = useState<string | null>(null);
-
-  const handleConsultAI = (message: string) => {
-    setIsChatOpen(true);
-    setExternalChatMessage(message);
-  };
-
   return (
     <div className="min-h-screen bg-sports-navy text-sports-text overflow-x-hidden selection:bg-sports-blue selection:text-white">
       <Header />
@@ -48,16 +39,11 @@ function App() {
         
         {/* 7. INTERACCIÓN & CIERRE */}
         <CustomBuilder />    {/* Configurador */}
-        <Contact onConsultAI={handleConsultAI} />
+        <Contact />
       </main>
       <Footer />
-      <AIChat 
-        isOpen={isChatOpen} 
-        onToggle={() => setIsChatOpen(!isChatOpen)}
-        externalMessage={externalChatMessage}
-        onMessageHandled={() => setExternalChatMessage(null)}
-      />
       <ScrollToTop />
+      <AIChat />
     </div>
   );
 }
