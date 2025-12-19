@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { PLANS, Icons, INDIVIDUAL_SERVICES_RATES } from '../constants';
+import { PLANS, INDIVIDUAL_SERVICES_RATES } from '../constants';
 import { Plan } from '../types';
 import { PlanModal } from './PlanModal';
 
