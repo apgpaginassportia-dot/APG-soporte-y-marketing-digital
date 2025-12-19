@@ -13,6 +13,15 @@ export const Services: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  const getPlanIconColor = (id: string) => {
+    switch (id) {
+      case 'basic': return 'text-green-500';
+      case 'intermediate': return 'text-blue-500';
+      case 'advanced': return 'text-red-500';
+      default: return 'text-sports-lime';
+    }
+  };
+
   return (
     <section id="plans" className="py-24 bg-sports-navy border-t border-white/5 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,68 +40,86 @@ export const Services: React.FC = () => {
               key={plan.id} 
               className={`relative flex flex-col rounded-2xl transition-all duration-500 group overflow-hidden ${
                 plan.isRecommended 
-                  ? 'bg-[#0f172a] border border-sports-lime/50 shadow-[0_0_50px_rgba(163,230,53,0.15)] z-10 transform md:-translate-y-4' 
-                  : 'bg-sports-surface border border-white/5 hover:border-sports-blue/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]'
+                  ? 'bg-[#0f172a] border border-sports-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.1)] z-10 transform md:-translate-y-4' 
+                  : 'bg-sports-surface border border-white/5 hover:border-white/20'
               }`}
             >
               {plan.isRecommended && (
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-sports-lime to-transparent"></div>
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-sports-blue to-transparent"></div>
               )}
-              {plan.isRecommended && (
-                <div className="absolute top-4 right-4 bg-sports-lime text-sports-navy px-3 py-1 text-xs font-bold uppercase tracking-wider rounded shadow-lg animate-pulse-slow">
-                   Más Popular
+              {plan.recommendationLabel && (
+                <div className="absolute top-4 right-4 bg-sports-blue text-white px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded shadow-lg">
+                   {plan.recommendationLabel}
                 </div>
               )}
               
               <div className="p-8 flex-1 flex flex-col relative z-10">
                 <div className="mb-6">
-                  <h3 className={`text-2xl font-display font-bold mb-2 uppercase tracking-wide ${plan.isRecommended ? 'text-white' : 'text-gray-200'}`}>
-                    {plan.title}
-                  </h3>
-                  <div className="flex flex-col mt-4">
-                     <div className="flex items-baseline gap-2">
-                        <span className={`text-5xl font-display font-bold ${plan.isRecommended ? 'text-sports-lime' : 'text-white'}`}>
-                           {plan.priceDisplay}
-                        </span>
-                        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Un único pago</span>
-                     </div>
-                     {plan.monthlyPriceDisplay && (
-                       <div className="mt-2 flex items-center gap-2">
-                          <span className="text-sports-blue font-bold text-lg font-display">o {plan.monthlyPriceDisplay}</span>
-                          <span className="bg-sports-blue/10 text-sports-blue text-[9px] px-1.5 py-0.5 rounded border border-sports-blue/20 font-bold uppercase tracking-tighter">Suscripción Anual</span>
-                       </div>
-                     )}
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className={`w-3 h-3 rounded-full ${getPlanIconColor(plan.id)}`}></div>
+                    <h3 className="text-2xl font-display font-bold text-white uppercase tracking-wide">
+                      {plan.title} {plan.tagline && <span className="text-gray-500">— {plan.tagline}</span>}
+                    </h3>
                   </div>
-                  <p className={`text-sm uppercase tracking-widest font-bold mt-6 ${plan.isRecommended ? 'text-white' : 'text-sports-blue'}`}>
-                    {plan.subtitle}
-                  </p>
+                  
+                  <p className="text-sports-blue font-bold text-sm uppercase tracking-wider mb-2">{plan.subtitle}</p>
+                  <p className="text-gray-300 text-sm font-body mb-6 leading-relaxed italic border-l-2 border-white/10 pl-4">{plan.description}</p>
+
+                  <div className="mb-6 pt-4 border-t border-white/5">
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Incluye:</p>
+                    <ul className="space-y-3">
+                      {plan.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start text-xs text-gray-400 font-body group-hover:text-white transition-colors">
+                           <span className="text-sports-lime mt-0.5 mr-2">✔</span>
+                           <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-white/10">
+                    <div className="flex items-baseline gap-2 mb-4">
+                       <span className="text-gray-500 text-2xl">💰</span>
+                       <span className="text-4xl font-display font-bold text-white">{plan.priceDisplay}</span>
+                       <span className="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">por torneo</span>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="bg-black/20 p-4 rounded-lg border border-white/5">
+                         <div className="flex items-center gap-2 mb-3">
+                           <span className="text-lg">💳</span>
+                           <p className="text-[10px] font-bold text-sports-blue uppercase tracking-widest">Pago fraccionado por hitos:</p>
+                         </div>
+                         <div className="space-y-2">
+                            {plan.milestones?.map((m, idx) => (
+                              <div key={idx} className="flex justify-between text-[11px] font-body">
+                                <span className="text-white font-bold">{m.amount}</span>
+                                <span className="text-gray-500">{m.label}</span>
+                              </div>
+                            ))}
+                         </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <p className="text-sm mb-8 text-gray-400 leading-relaxed font-body border-t border-white/5 pt-4">
-                  {plan.description}
-                </p>
-                
-                <ul className="space-y-4 mb-8 flex-1">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-300 font-body group-hover:text-white transition-colors">
-                       <span className={`mt-0.5 mr-3 flex-shrink-0 ${plan.isRecommended ? 'text-sports-lime' : 'text-sports-blue'}`}>
-                         <Icons.Check />
-                       </span>
-                       <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                
-                <button
-                  onClick={() => handleOpenPlan(plan)}
-                  className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-all rounded-lg ${
-                    plan.isRecommended
-                        ? 'bg-sports-lime text-sports-navy hover:bg-white hover:text-sports-navy shadow-[0_0_20px_rgba(163,230,53,0.3)]' 
-                        : 'bg-white/5 border border-white/10 text-white hover:bg-sports-blue hover:text-white hover:border-sports-blue'
-                  }`}
-                >
-                  {plan.buttonText}
-                </button>
+                <div className="mt-auto pt-6">
+                  {plan.footerLabel && (
+                    <p className="text-[10px] text-gray-500 italic mb-4 text-center font-body">
+                      👉 {plan.footerLabel}
+                    </p>
+                  )}
+                  <button
+                    onClick={() => handleOpenPlan(plan)}
+                    className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-all rounded-lg ${
+                      plan.isRecommended
+                          ? 'bg-sports-blue text-white hover:bg-white hover:text-sports-navy shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
+                          : 'bg-white/5 border border-white/10 text-white hover:bg-sports-blue hover:text-white hover:border-sports-blue'
+                    }`}
+                  >
+                    [{plan.buttonText}]
+                  </button>
+                </div>
               </div>
               
               {/* Background gradient for depth */}

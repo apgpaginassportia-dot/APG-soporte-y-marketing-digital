@@ -9,6 +9,11 @@ export interface CustomServiceOption {
   unit: string;
 }
 
+export interface Milestone {
+  amount: string;
+  label: string;
+}
+
 export interface Plan {
   id: 'basic' | 'intermediate' | 'advanced' | 'custom' | 'school' | 'team' | 'team_custom';
   title: string;
@@ -17,9 +22,13 @@ export interface Plan {
   basePrice: number;
   subtitle: string;
   description: string; // Short description for Card
+  tagline?: string;    // Subtitle above description
   details?: string;    // Long description for Modal
   features: string[];
+  milestones?: Milestone[];
   isRecommended?: boolean;
+  recommendationLabel?: string;
+  footerLabel?: string;
   buttonText: string;
 }
 

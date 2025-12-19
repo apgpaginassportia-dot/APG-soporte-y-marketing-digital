@@ -68,7 +68,7 @@ export const Icons = {
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
   ),
   SchoolData: () => (
-    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
   ),
   QR: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM6 8V4h2M4 8h2M6 20h2m-2-4h2m6 0h2M6 8H4m0 0V4m2 16H4m0 0v-4m12 0h2m-2 4h2" /><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /></svg>
@@ -163,53 +163,68 @@ export const PLANS: Plan[] = [
   {
     id: 'basic',
     title: 'Plan Básico',
+    tagline: 'Control Documental',
     priceDisplay: '550€',
-    monthlyPriceDisplay: '49€/mes',
     basePrice: 550,
-    subtitle: 'Control Documental',
-    description: 'La base sólida. Elimina el 100% del caos administrativo inicial.',
-    details: 'Digitalización completa de fichas/licencias y oficina técnica virtual.',
-    buttonText: 'Quiero este plan',
+    subtitle: 'Gestión administrativa integral',
+    description: 'Elimina el 100% del caos administrativo previo al evento.',
+    footerLabel: 'Ideal para torneos de un solo fin de semana o sede única.',
+    buttonText: 'Reservar este plan',
     features: [
       'Gestión digital de inscripciones',
-      'Validación automática de documentos',
+      'Validación automática de documentación',
       'Dashboard de control para el staff',
-      'Soporte técnico directo'
+      'Soporte técnico durante el torneo'
+    ],
+    milestones: [
+      { amount: '165€', label: 'al confirmar el torneo' },
+      { amount: '220€', label: '60 días antes' },
+      { amount: '165€', label: 'la semana del evento' }
     ]
   },
   {
     id: 'intermediate',
     title: 'Plan Intermedio',
+    tagline: 'Flujo Logístico',
     priceDisplay: '1.250€',
-    monthlyPriceDisplay: '115€/mes',
     basePrice: 1250,
-    subtitle: 'Flujo Logístico',
-    description: 'Para torneos con movilidad. Nadie se queda en tierra.',
-    details: 'Añade una ingeniería de transporte completa para delegaciones y equipos.',
+    subtitle: 'Cuando el torneo se mueve, la logística manda',
+    description: 'Para eventos con desplazamientos y horarios complejos.',
     isRecommended: true,
-    buttonText: 'Elegir el más popular',
+    recommendationLabel: 'El más elegido para torneos multi-sede',
+    buttonText: 'Elegir este plan',
     features: [
       'Todo lo del Plan Básico',
       'Optimización de rutas de transporte',
       'Coordinación de flotas en tiempo real',
       'Planificación horaria sin fisuras'
+    ],
+    milestones: [
+      { amount: '375€', label: 'al confirmar el torneo' },
+      { amount: '500€', label: '60 días antes' },
+      { amount: '375€', label: 'la semana del evento' }
     ]
   },
   {
     id: 'advanced',
     title: 'Plan Avanzado',
+    tagline: 'Gestión Integral Élite',
     priceDisplay: '2.150€',
-    monthlyPriceDisplay: '195€/mes',
     basePrice: 2150,
-    subtitle: 'Gestión Integral Élite',
-    description: 'Tu única misión es entregar el trofeo. Del resto me encargo yo.',
-    details: 'La solución 360°. Control total de inscripciones, transporte y alojamiento estratégico.',
-    buttonText: 'Subir de nivel',
+    subtitle: 'Tú entregas el trofeo. Yo me encargo del resto.',
+    description: 'Gestión completa para torneos de varios días o alta complejidad.',
+    footerLabel: 'Pensado para eventos con alojamiento y logística crítica.',
+    buttonText: 'Elegir este plan',
     features: [
       'Todo lo del Plan Intermedio',
-      'Hospitalidad: Rooming List integral',
+      'Rooming List integral',
       'Gestión de dietas y alojamientos',
       'Asignación estratégica de hoteles'
+    ],
+    milestones: [
+      { amount: '645€', label: 'al confirmar el torneo' },
+      { amount: '860€', label: '60 días antes' },
+      { amount: '645€', label: 'la semana del evento' }
     ]
   }
 ];
