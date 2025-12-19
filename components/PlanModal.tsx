@@ -130,8 +130,8 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     }
 
     // Construimos el resumen detallado
-    const detallesStr = `PRECIO ESTIMADO: ${total}€
-${extraDetails ? `INFO EXTRA: ${extraDetails}\n` : ''}${selectedPlan.id === 'school' && formData.pricePerStudent ? `PRECIO MANUAL ALUMNO: ${formData.pricePerStudent}\n` : ''}
+    const detallesStr = `PRECIO ESTIMADO PAGO ÚNICO: ${total}€
+${selectedPlan.monthlyPriceDisplay ? `OPCIÓN SUSCRIPCIÓN MENSUAL: ${selectedPlan.monthlyPriceDisplay}\n` : ''}${extraDetails ? `INFO EXTRA: ${extraDetails}\n` : ''}${selectedPlan.id === 'school' && formData.pricePerStudent ? `PRECIO MANUAL ALUMNO: ${formData.pricePerStudent}\n` : ''}
 SERVICIOS INCLUIDOS:
 ${servicesList}`;
 
@@ -173,7 +173,14 @@ ${servicesList}`;
                     {selectedPlan.title}
                    </h3>
                    <div className="text-3xl font-display font-bold text-sports-lime">{total}€</div>
-                   <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Estimación</p>
+                   <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-wide">Pago Único</p>
+                   {selectedPlan.monthlyPriceDisplay && (
+                      <div className="mt-4 p-3 bg-sports-navy/50 rounded border border-sports-blue/30">
+                        <p className="text-[10px] text-sports-blue font-bold uppercase tracking-wider mb-1">O mensualidad de:</p>
+                        <div className="text-2xl font-display font-bold text-white">{selectedPlan.monthlyPriceDisplay}</div>
+                        <p className="text-[9px] text-gray-500 mt-1">Suscripción anual recomendada para eventos recurrentes.</p>
+                      </div>
+                   )}
                 </div>
 
                 {/* SCHOOL PLAN CALCULATOR UI */}
@@ -227,7 +234,6 @@ ${servicesList}`;
                    <p className="text-sm text-gray-300 mb-6 leading-relaxed font-body">
                      {selectedPlan.details || selectedPlan.description}
                    </p>
-                   {/* Features List omitted for brevity but logic is same */}
                    <ul className="space-y-2">
                       {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' ? getCustomServiceBreakdown() : selectedPlan.features).map((f: any, idx) => (
                           <li key={idx} className="text-xs text-gray-400 flex gap-2">

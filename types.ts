@@ -1,3 +1,4 @@
+
 import { ReactNode } from 'react';
 
 export interface CustomServiceOption {
@@ -12,6 +13,7 @@ export interface Plan {
   id: 'basic' | 'intermediate' | 'advanced' | 'custom' | 'school' | 'team' | 'team_custom';
   title: string;
   priceDisplay: string;
+  monthlyPriceDisplay?: string;
   basePrice: number;
   subtitle: string;
   description: string; // Short description for Card

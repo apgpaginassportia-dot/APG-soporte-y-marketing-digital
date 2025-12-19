@@ -49,12 +49,21 @@ export const Services: React.FC = () => {
                   <h3 className={`text-2xl font-display font-bold mb-2 uppercase tracking-wide ${plan.isRecommended ? 'text-white' : 'text-gray-200'}`}>
                     {plan.title}
                   </h3>
-                  <div className="flex items-baseline gap-1 mt-4">
-                     <span className={`text-5xl font-display font-bold ${plan.isRecommended ? 'text-sports-lime' : 'text-white'}`}>
-                        {plan.priceDisplay}
-                     </span>
+                  <div className="flex flex-col mt-4">
+                     <div className="flex items-baseline gap-2">
+                        <span className={`text-5xl font-display font-bold ${plan.isRecommended ? 'text-sports-lime' : 'text-white'}`}>
+                           {plan.priceDisplay}
+                        </span>
+                        <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Un único pago</span>
+                     </div>
+                     {plan.monthlyPriceDisplay && (
+                       <div className="mt-2 flex items-center gap-2">
+                          <span className="text-sports-blue font-bold text-lg font-display">o {plan.monthlyPriceDisplay}</span>
+                          <span className="bg-sports-blue/10 text-sports-blue text-[9px] px-1.5 py-0.5 rounded border border-sports-blue/20 font-bold uppercase tracking-tighter">Suscripción Anual</span>
+                       </div>
+                     )}
                   </div>
-                  <p className={`text-sm uppercase tracking-widest font-bold mt-4 ${plan.isRecommended ? 'text-white' : 'text-sports-blue'}`}>
+                  <p className={`text-sm uppercase tracking-widest font-bold mt-6 ${plan.isRecommended ? 'text-white' : 'text-sports-blue'}`}>
                     {plan.subtitle}
                   </p>
                 </div>
