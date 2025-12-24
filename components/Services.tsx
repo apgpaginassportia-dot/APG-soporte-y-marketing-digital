@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { PLANS, INDIVIDUAL_SERVICES_RATES } from '../constants';
 import { Plan } from '../types';
@@ -7,159 +6,191 @@ import { PlanModal } from './PlanModal';
 export const Services: React.FC = () => {
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [expandedService, setExpandedService] = useState<number | null>(null);
   
   const handleOpenPlan = (plan: Plan) => {
     setSelectedPlan(plan);
     setIsModalOpen(true);
   };
 
-  const getPlanIconColor = (id: string) => {
+  const toggleMobileService = (index: number) => {
+    setExpandedService(expandedService === index ? null : index);
+  };
+
+  const getPlanAccentColor = (id: string) => {
     switch (id) {
-      case 'basic': return 'text-green-500';
-      case 'intermediate': return 'text-blue-500';
-      case 'advanced': return 'text-red-500';
-      default: return 'text-sports-lime';
+      case 'basic': return 'border-sports-border';
+      case 'intermediate': return 'border-sports-primary';
+      case 'advanced': return 'border-sports-accent';
+      default: return 'border-sports-border';
     }
   };
 
   return (
-    <section id="plans" className="py-24 bg-sports-navy border-t border-white/5 relative">
+    <section id="plans" className="py-24 bg-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Gestión de Competiciones</h2>
-          <p className="text-4xl md:text-6xl font-display font-bold text-white tracking-tight uppercase drop-shadow-lg">
-            Planes para Organizadores de Torneos
+        <div className="text-center max-w-4xl mx-auto mb-16">
+          <h2 className="text-sports-primary font-bold tracking-[0.2em] uppercase text-xs mb-3">Escalabilidad Operativa</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-extrabold text-sports-dark uppercase tracking-tight mb-6">
+            Planes de Gestión Profesional
+          </h2>
+          <p className="text-sports-gray font-body text-lg max-w-2xl mx-auto leading-relaxed">
+            Soluciones estructuradas para organizadores que exigen eficiencia, control y una experiencia de usuario superior.
           </p>
-          <p className="text-gray-400 mt-4 font-body">Soluciones integrales diseñadas específicamente para empresas y entidades que gestionan eventos deportivos.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
+        {/* Horizontal Card Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
           {PLANS.map((plan) => (
             <div 
               key={plan.id} 
-              className={`relative flex flex-col rounded-2xl transition-all duration-500 group overflow-hidden ${
-                plan.isRecommended 
-                  ? 'bg-[#0f172a] border border-sports-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.1)] z-10 transform md:-translate-y-4' 
-                  : 'bg-sports-surface border border-white/5 hover:border-white/20'
+              className={`flex flex-col bg-white border-2 rounded-[2rem] transition-all duration-300 hover:shadow-2xl overflow-hidden ${getPlanAccentColor(plan.id)} ${
+                plan.isRecommended ? 'ring-4 ring-sports-primary/5 scale-105 z-10' : 'scale-100'
               }`}
             >
-              {plan.isRecommended && (
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-sports-blue to-transparent"></div>
-              )}
               {plan.recommendationLabel && (
-                <div className="absolute top-4 right-4 bg-sports-blue text-white px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded shadow-lg">
+                <div className="bg-sports-primary text-white text-center py-2.5 text-[10px] font-bold uppercase tracking-widest">
                    {plan.recommendationLabel}
                 </div>
               )}
-              
-              <div className="p-8 flex-1 flex flex-col relative z-10">
-                <div className="mb-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className={`w-3 h-3 rounded-full ${getPlanIconColor(plan.id)}`}></div>
-                    <h3 className="text-2xl font-display font-bold text-white uppercase tracking-wide">
-                      {plan.title} {plan.tagline && <span className="text-gray-500">— {plan.tagline}</span>}
-                    </h3>
-                  </div>
-                  
-                  <p className="text-sports-blue font-bold text-sm uppercase tracking-wider mb-2">{plan.subtitle}</p>
-                  <p className="text-gray-300 text-sm font-body mb-6 leading-relaxed italic border-l-2 border-white/10 pl-4">{plan.description}</p>
 
-                  <div className="mb-6 pt-4 border-t border-white/5">
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Incluye:</p>
-                    <ul className="space-y-3">
-                      {plan.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start text-xs text-gray-400 font-body group-hover:text-white transition-colors">
-                           <span className="text-sports-lime mt-0.5 mr-2">✔</span>
-                           <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-white/10">
-                    <div className="flex items-baseline gap-2 mb-4">
-                       <span className="text-gray-500 text-2xl">💰</span>
-                       <span className="text-4xl font-display font-bold text-white">{plan.priceDisplay}</span>
-                       <span className="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">por torneo</span>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="bg-black/20 p-4 rounded-lg border border-white/5">
-                         <div className="flex items-center gap-2 mb-3">
-                           <span className="text-lg">💳</span>
-                           <p className="text-[10px] font-bold text-sports-blue uppercase tracking-widest">Pago fraccionado por hitos:</p>
-                         </div>
-                         <div className="space-y-2">
-                            {plan.milestones?.map((m, idx) => (
-                              <div key={idx} className="flex justify-between text-[11px] font-body">
-                                <span className="text-white font-bold">{m.amount}</span>
-                                <span className="text-gray-500">{m.label}</span>
-                              </div>
-                            ))}
-                         </div>
-                      </div>
-                    </div>
+              <div className="p-10 flex flex-col h-full">
+                <div className="mb-8">
+                  <h3 className="text-2xl font-display font-bold text-sports-dark uppercase mb-1">
+                    {plan.title}
+                  </h3>
+                  <p className="text-sports-primary text-[10px] font-bold uppercase tracking-wider mb-6">
+                    {plan.tagline}
+                  </p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-5xl font-display font-extrabold text-sports-dark">{plan.priceDisplay}</span>
+                    <span className="text-sm text-sports-gray font-bold uppercase">/ base</span>
                   </div>
                 </div>
 
-                <div className="mt-auto pt-6">
-                  {plan.footerLabel && (
-                    <p className="text-[10px] text-gray-500 italic mb-4 text-center font-body">
-                      👉 {plan.footerLabel}
-                    </p>
-                  )}
-                  <button
-                    onClick={() => handleOpenPlan(plan)}
-                    className={`w-full py-4 px-4 font-bold text-sm uppercase tracking-wide transition-all rounded-lg ${
-                      plan.isRecommended
-                          ? 'bg-sports-blue text-white hover:bg-white hover:text-sports-navy shadow-[0_0_20px_rgba(59,130,246,0.3)]' 
-                          : 'bg-white/5 border border-white/10 text-white hover:bg-sports-blue hover:text-white hover:border-sports-blue'
-                    }`}
-                  >
-                    [{plan.buttonText}]
-                  </button>
+                <p className="text-sports-gray text-sm font-body leading-relaxed mb-10 flex-1">
+                  {plan.description}
+                </p>
+
+                <div className="space-y-4 mb-10">
+                  {plan.features.slice(0, 5).map((feature, idx) => (
+                    <div key={idx} className="flex items-start text-xs text-sports-dark font-medium">
+                       <span className="text-sports-success mr-3 font-bold text-base">✓</span>
+                       <span className="leading-snug">{feature}</span>
+                    </div>
+                  ))}
                 </div>
+
+                <button
+                  onClick={() => handleOpenPlan(plan)}
+                  className={`w-full py-5 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all ${
+                    plan.id === 'advanced' 
+                      ? 'bg-sports-accent text-sports-dark hover:bg-lime-400 shadow-xl shadow-lime-200' 
+                      : plan.isRecommended
+                        ? 'bg-sports-primary text-white hover:bg-indigo-700 shadow-xl shadow-indigo-100'
+                        : 'bg-slate-100 text-sports-dark hover:bg-sports-primary hover:text-white'
+                  }`}
+                >
+                  {plan.buttonText}
+                </button>
               </div>
-              
-              {/* Background gradient for depth */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 pointer-events-none"></div>
             </div>
           ))}
         </div>
 
-        {/* Pricing Table Section */}
-        <div id="services-table" className="pt-16 border-t border-white/5 scroll-mt-24">
+        {/* Individual Services Section */}
+        <div id="services-table" className="pt-20 border-t border-sports-border">
             <div className="text-center mb-12">
-              <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Tarifas Individuales</h2>
-              <h3 className="text-3xl font-display font-bold text-white uppercase">Servicios a la Carta</h3>
-              <p className="text-gray-400 mt-4 text-sm font-body">Contratación independiente fuera de los planes globales para eventos deportivos.</p>
+              <h2 className="text-sports-primary font-bold tracking-[0.2em] uppercase text-xs mb-3">Módulos Flexibles</h2>
+              <h3 className="text-2xl md:text-4xl font-display font-bold text-sports-dark uppercase tracking-tight">Servicios Individuales</h3>
+              <p className="mt-2 text-sports-gray text-base font-body">Configura tu propia operativa seleccionando módulos específicos.</p>
             </div>
             
-            <div className="max-w-5xl mx-auto bg-sports-surface rounded-xl border border-white/5 overflow-hidden shadow-2xl">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-black/40 border-b border-white/10">
-                      <th className="p-5 text-xs md:text-sm font-bold text-sports-muted uppercase tracking-wider">Servicio</th>
-                      <th className="p-5 text-xs md:text-sm font-bold text-sports-muted uppercase tracking-wider hidden md:table-cell">Descripción</th>
-                      <th className="p-5 text-xs md:text-sm font-bold text-sports-muted uppercase tracking-wider text-right">Rango de Precio</th>
+            <div className="hidden md:block max-w-5xl mx-auto bg-white border border-sports-border rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-sports-border">
+                    <th className="p-8 text-[11px] font-bold text-sports-gray uppercase tracking-widest">Servicio</th>
+                    <th className="p-8 text-[11px] font-bold text-sports-gray uppercase tracking-widest">Descripción</th>
+                    <th className="p-8 text-[11px] font-bold text-sports-gray uppercase tracking-widest text-right">Inversión</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-sports-border">
+                  {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
+                    <tr key={idx} className="hover:bg-indigo-50/20 transition-colors group">
+                      <td className="p-8 text-sports-dark font-bold text-sm uppercase group-hover:text-sports-primary transition-colors">
+                          {item.service}
+                      </td>
+                      <td className="p-8 text-sports-gray text-xs leading-relaxed font-body">{item.description}</td>
+                      <td className="p-8 text-sports-dark font-bold text-sm text-right whitespace-nowrap">
+                        <span className="bg-indigo-50 text-sports-primary px-4 py-1.5 rounded-full text-xs border border-indigo-100">{item.price}</span>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-white/5 transition-colors group">
-                        <td className="p-5 text-white font-bold text-sm font-display uppercase group-hover:text-sports-blue transition-colors duration-300">
-                            {item.service}
-                            <div className="md:hidden text-xs text-gray-500 font-body mt-1 font-normal normal-case">{item.description}</div>
-                        </td>
-                        <td className="p-5 text-gray-400 text-sm font-body hidden md:table-cell">{item.description}</td>
-                        <td className="p-5 text-sports-lime font-bold text-sm font-mono text-right whitespace-nowrap drop-shadow-md">{item.price}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Cards View */}
+            <div className="md:hidden space-y-4 max-w-md mx-auto">
+              {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
+                <div 
+                  key={idx} 
+                  className={`bg-white border-2 rounded-2xl overflow-hidden transition-all duration-300 ${expandedService === idx ? 'border-sports-primary shadow-lg' : 'border-sports-border'}`}
+                >
+                  <button 
+                    onClick={() => toggleMobileService(idx)}
+                    className="w-full p-6 text-left flex justify-between items-center group"
+                  >
+                    <div className="flex-1 pr-4">
+                      <h4 className={`text-sm font-bold uppercase tracking-wide transition-colors ${expandedService === idx ? 'text-sports-primary' : 'text-sports-dark'}`}>
+                        {item.service}
+                      </h4>
+                      <div className="mt-1 flex items-baseline gap-2">
+                        <span className="text-[10px] text-sports-gray uppercase font-bold">Desde:</span>
+                        <span className="text-sm font-bold text-sports-primary">{item.price}</span>
+                      </div>
+                    </div>
+                    <div className={`transition-transform duration-300 ${expandedService === idx ? 'rotate-180 text-sports-primary' : 'text-sports-muted'}`}>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </button>
+                  
+                  <div 
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedService === idx ? 'max-h-52 opacity-100' : 'max-h-0 opacity-0'}`}
+                  >
+                    <div className="px-6 pb-6 pt-0 border-t border-slate-50">
+                      <p className="text-xs text-sports-gray leading-relaxed font-body py-4">
+                        {item.description}
+                      </p>
+                      <button 
+                        onClick={() => handleOpenPlan({
+                          id: 'custom',
+                          title: item.service,
+                          priceDisplay: item.price,
+                          basePrice: 0,
+                          subtitle: 'Servicio Individual',
+                          description: item.description,
+                          features: [item.description],
+                          buttonText: 'Solicitar Información'
+                        })}
+                        className="w-full mt-2 py-4 bg-sports-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-sports-dark transition-colors"
+                      >
+                        Más Detalles
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="mt-12 text-center">
+              <p className="text-[10px] text-sports-muted uppercase font-bold tracking-[0.2em]">
+                * IVA no incluido. Consultar para eventos fuera de temporada.
+              </p>
             </div>
         </div>
 

@@ -1,14 +1,13 @@
-
 import React from 'react';
 import { WORKFLOW_STEPS } from '../constants';
 
 export const Workflow: React.FC = () => {
   return (
-    <section className="py-24 bg-sports-dark border-t border-white/5">
+    <section className="py-24 bg-sports-bg border-t border-sports-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-           <h2 className="text-sports-lime font-bold tracking-[0.2em] uppercase text-xs mb-3">Metodología Probada</h2>
-           <h3 className="text-3xl md:text-5xl font-display font-bold text-white uppercase">Cómo Trabajamos</h3>
+           <h2 className="text-sports-primary font-bold tracking-[0.2em] uppercase text-xs mb-3">Tu Socio Estratégico</h2>
+           <h3 className="text-3xl md:text-4xl font-display font-bold text-sports-dark uppercase tracking-tight">Metodología APG</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -16,23 +15,23 @@ export const Workflow: React.FC = () => {
              <div key={idx} className="relative group">
                 {/* Connector Line (Desktop) */}
                 {idx !== WORKFLOW_STEPS.length - 1 && (
-                  <div className="hidden md:block absolute top-8 left-1/2 w-full h-px bg-white/10 group-hover:bg-sports-blue/50 transition-colors"></div>
+                  <div className="hidden md:block absolute top-7 left-1/2 w-full h-[1px] bg-sports-border"></div>
                 )}
                 
                 <div className="relative flex flex-col items-center text-center">
-                   <div className="w-16 h-16 rounded-2xl bg-sports-surface border border-white/10 flex items-center justify-center text-sports-blue text-2xl font-bold mb-6 z-10 group-hover:bg-sports-blue group-hover:text-white group-hover:shadow-[0_0_20px_rgba(23,107,255,0.4)] transition-all duration-300">
+                   <div className="w-14 h-14 rounded-xl bg-white border border-sports-border flex items-center justify-center text-sports-primary text-xl font-bold mb-6 z-10 group-hover:bg-sports-primary group-hover:text-white group-hover:shadow-lg group-hover:-translate-y-1 transition-all duration-300">
                      {step.icon}
                    </div>
                    
-                   <span className="text-sports-lime font-bold text-5xl opacity-10 absolute -top-4 font-display select-none">
+                   <span className="text-slate-200/50 font-bold text-6xl absolute -top-6 font-display select-none -z-0 group-hover:text-sports-primary/5 transition-colors">
                      {step.step}
                    </span>
                    
-                   <h4 className="text-white font-bold font-display uppercase text-lg mb-3">
+                   <h4 className="text-sports-dark font-bold font-display uppercase text-sm mb-3 relative z-10">
                      {step.title}
                    </h4>
                    
-                   <p className="text-gray-400 text-sm font-body leading-relaxed px-2">
+                   <p className="text-sports-gray text-xs font-body leading-relaxed px-2">
                      {step.desc}
                    </p>
                 </div>

@@ -1,35 +1,33 @@
-
-
 import React from 'react';
 import { Icons } from '../constants';
 
 export const Benefits: React.FC = () => {
   return (
-    <section id="benefits" className="py-24 bg-sports-dark relative overflow-hidden">
+    <section id="benefits" className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid md:grid-cols-2 gap-16 items-center">
           
-          {/* Left: The Pain (Agitation) */}
-          <div>
-             <h2 className="text-red-500 font-bold tracking-[0.2em] uppercase text-xs mb-3">La Realidad Actual</h2>
-             <h3 className="text-3xl md:text-4xl font-display font-bold text-white uppercase mb-6 leading-tight">
-               ¿Tu torneo es una fuente de ingresos o de <span className="text-red-500 underline decoration-red-500/30">estrés</span>?
+          {/* Left: The Pain */}
+          <div className="animate-slide-up">
+             <h2 className="text-indigo-500 font-bold tracking-[0.2em] uppercase text-xs mb-4">Optimización Real</h2>
+             <h3 className="text-3xl md:text-5xl font-display font-extrabold text-sports-dark uppercase mb-8 leading-tight">
+               ¿Tu torneo es una fuente de ingresos o de <span className="text-indigo-600 italic">caos</span> constante?
              </h3>
-             <p className="text-gray-400 font-body text-lg mb-8 leading-relaxed">
-               Sabemos lo que pasa detrás de escena: teléfonos que no paran de sonar, excels con versiones infinitas y el miedo constante a que un autobús no llegue a tiempo al pabellón o campo.
+             <p className="text-sports-gray font-body text-lg mb-10 leading-relaxed">
+               Organizar un torneo de fútbol de élite exige precisión. El descontrol en inscripciones o la falta de coordinación logística daña la imagen de tu marca y agota a tu equipo.
              </p>
              
-             <ul className="space-y-4">
+             <ul className="space-y-5">
                {[
-                 "Inscripciones duplicadas y documentación perdida.",
-                 "Equipos enfadados por fallos en el hotel.",
-                 "Horas perdidas cuadrando rutas manualmente.",
-                 "Errores humanos que cuestan dinero."
+                 "Inscripciones duplicadas y pagos sin trazabilidad.",
+                 "Logística de flotas sin rutas ni horarios dinámicos.",
+                 "Gestión de hospitalidad con errores en el check-in.",
+                 "Carga administrativa que paraliza a tu staff técnico."
                ].map((item, i) => (
-                 <li key={i} className="flex items-center text-gray-400 font-body">
-                   <div className="w-8 h-8 rounded bg-red-500/10 flex items-center justify-center text-red-500 mr-4 flex-shrink-0">
-                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                 <li key={i} className="flex items-center text-sports-dark font-body text-sm font-semibold">
+                   <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 mr-4 flex-shrink-0 border border-indigo-100">
+                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
                    </div>
                    {item}
                  </li>
@@ -37,41 +35,41 @@ export const Benefits: React.FC = () => {
              </ul>
           </div>
 
-          {/* Right: The Solution (Value Prop) */}
+          {/* Right: The Solution */}
           <div className="relative">
-             <div className="absolute inset-0 bg-sports-blue/5 blur-3xl rounded-full"></div>
-             <div className="relative bg-sports-surface border border-sports-blue/30 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(23,107,255,0.1)]">
-                <div className="w-16 h-16 bg-sports-blue rounded-xl flex items-center justify-center text-white mb-8 shadow-lg transform -rotate-6">
+             <div className="absolute inset-0 bg-indigo-500/10 blur-3xl rounded-full translate-x-10 translate-y-10"></div>
+             <div className="relative bg-white border border-sports-border rounded-[2.5rem] p-10 md:p-14 shadow-2xl">
+                <div className="w-16 h-16 bg-sports-accent rounded-2xl flex items-center justify-center text-sports-dark mb-10 shadow-lg shadow-lime-200">
                   <Icons.Check />
                 </div>
                 
-                <h3 className="text-2xl font-display font-bold text-white uppercase mb-4">
+                <h3 className="text-2xl font-display font-bold text-sports-dark uppercase mb-6">
                   El Método APG
                 </h3>
-                <p className="text-gray-300 font-body mb-8">
-                  Transformo el caos en un sistema predecible. Tú pones el deporte, yo pongo la estructura operativa.
+                <p className="text-sports-gray font-body text-base mb-10 leading-relaxed">
+                  Transformamos procesos manuales en flujos digitales de alto rendimiento. Tú pones el deporte, yo pongo el sistema.
                 </p>
 
-                <div className="space-y-6">
-                   <div className="flex items-start">
-                      <span className="text-sports-lime font-bold text-xl mr-4">01.</span>
+                <div className="space-y-8">
+                   <div className="flex items-start group">
+                      <span className="text-sports-primary font-bold text-xl mr-5 group-hover:scale-110 transition-transform">01.</span>
                       <div>
-                        <h4 className="text-white font-bold uppercase text-sm">Cero Papeles</h4>
-                        <p className="text-gray-500 text-sm mt-1">Digitalización 100% de licencias y pagos.</p>
+                        <h4 className="text-sports-dark font-bold uppercase text-xs tracking-widest mb-1">Ecosistema Digital</h4>
+                        <p className="text-sports-gray text-xs font-body">Adiós al papel. Control total desde cualquier dispositivo.</p>
                       </div>
                    </div>
-                   <div className="flex items-start">
-                      <span className="text-sports-lime font-bold text-xl mr-4">02.</span>
+                   <div className="flex items-start group">
+                      <span className="text-sports-primary font-bold text-xl mr-5 group-hover:scale-110 transition-transform">02.</span>
                       <div>
-                        <h4 className="text-white font-bold uppercase text-sm">Logística Blindada</h4>
-                        <p className="text-gray-500 text-sm mt-1">Control milimétrico de transporte y alojamiento.</p>
+                        <h4 className="text-sports-dark font-bold uppercase text-xs tracking-widest mb-1">Logística Inteligente</h4>
+                        <p className="text-sports-gray text-xs font-body">Anticipación quirúrgica de conflictos en transporte.</p>
                       </div>
                    </div>
-                   <div className="flex items-start">
-                      <span className="text-sports-lime font-bold text-xl mr-4">03.</span>
+                   <div className="flex items-start group">
+                      <span className="text-sports-primary font-bold text-xl mr-5 group-hover:scale-110 transition-transform">03.</span>
                       <div>
-                        <h4 className="text-white font-bold uppercase text-sm">Rentabilidad</h4>
-                        <p className="text-gray-500 text-sm mt-1">Optimiza costes y evita fugas de dinero.</p>
+                        <h4 className="text-sports-dark font-bold uppercase text-xs tracking-widest mb-1">Impacto de Marca</h4>
+                        <p className="text-sports-gray text-xs font-body">Percepción de profesionalidad superior para tus partners.</p>
                       </div>
                    </div>
                 </div>
