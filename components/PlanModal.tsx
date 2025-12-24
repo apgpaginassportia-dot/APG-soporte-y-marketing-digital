@@ -50,9 +50,9 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = 'Requerido';
-    if (!formData.email.trim()) newErrors.email = 'Requerido';
-    if (!formData.phone.trim()) newErrors.phone = 'Requerido';
+    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio';
+    if (!formData.email.trim()) newErrors.email = 'El email es obligatorio';
+    if (!formData.phone.trim()) newErrors.phone = 'El teléfono es obligatorio';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -202,10 +202,14 @@ SERVICIOS: ${servicesList}`;
                           required
                           type="text"
                           value={formData.name}
-                          onChange={e => setFormData(prev => ({...prev, name: e.target.value}))}
-                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm"
+                          onChange={e => {
+                            setFormData(prev => ({...prev, name: e.target.value}));
+                            if (errors.name) setErrors(prev => { const n = {...prev}; delete n.name; return n; });
+                          }}
+                          className={`block w-full border ${errors.name ? 'border-red-500/50' : 'border-white/10'} rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm`}
                           placeholder="Ej: CD Real Torneo"
                         />
+                        {errors.name && <p className="text-[10px] text-red-500 mt-1.5 ml-1 font-bold uppercase tracking-widest">{errors.name}</p>}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -215,9 +219,13 @@ SERVICIOS: ${servicesList}`;
                           required
                           type="email"
                           value={formData.email}
-                          onChange={e => setFormData(prev => ({...prev, email: e.target.value}))}
-                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm"
+                          onChange={e => {
+                            setFormData(prev => ({...prev, email: e.target.value}));
+                            if (errors.email) setErrors(prev => { const n = {...prev}; delete n.email; return n; });
+                          }}
+                          className={`block w-full border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm`}
                         />
+                        {errors.email && <p className="text-[10px] text-red-500 mt-1.5 ml-1 font-bold uppercase tracking-widest">{errors.email}</p>}
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-[0.2em]">Teléfono</label>
@@ -225,9 +233,13 @@ SERVICIOS: ${servicesList}`;
                           required
                           type="tel"
                           value={formData.phone}
-                          onChange={e => setFormData(prev => ({...prev, phone: e.target.value}))}
-                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm"
+                          onChange={e => {
+                            setFormData(prev => ({...prev, phone: e.target.value}));
+                            if (errors.phone) setErrors(prev => { const n = {...prev}; delete n.phone; return n; });
+                          }}
+                          className={`block w-full border ${errors.phone ? 'border-red-500/50' : 'border-white/10'} rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm`}
                         />
+                        {errors.phone && <p className="text-[10px] text-red-500 mt-1.5 ml-1 font-bold uppercase tracking-widest">{errors.phone}</p>}
                       </div>
                     </div>
 
