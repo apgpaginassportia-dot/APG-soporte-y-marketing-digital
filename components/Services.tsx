@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { PLANS, INDIVIDUAL_SERVICES_RATES } from '../constants';
 import { Plan } from '../types';
@@ -19,23 +20,23 @@ export const Services: React.FC = () => {
 
   const getPlanAccentColor = (id: string) => {
     switch (id) {
-      case 'basic': return 'border-sports-border';
-      case 'intermediate': return 'border-sports-primary';
-      case 'advanced': return 'border-sports-accent';
-      default: return 'border-sports-border';
+      case 'basic': return 'border-white/10 hover:border-slate-500';
+      case 'intermediate': return 'border-sports-primary shadow-[0_0_30px_rgba(79,70,229,0.1)]';
+      case 'advanced': return 'border-sports-accent shadow-[0_0_30px_rgba(190,242,100,0.1)]';
+      default: return 'border-white/10';
     }
   };
 
   return (
-    <section id="plans" className="py-24 bg-white relative">
+    <section id="plans" className="py-24 bg-sports-bg relative border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-4xl mx-auto mb-16">
-          <h2 className="text-sports-primary font-bold tracking-[0.2em] uppercase text-xs mb-3">Escalabilidad Operativa</h2>
-          <h2 className="text-3xl md:text-5xl font-display font-extrabold text-sports-dark uppercase tracking-tight mb-6">
+          <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-xs mb-3">Escalabilidad Operativa</h2>
+          <h2 className="text-3xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight mb-6">
             Planes de Gestión Profesional
           </h2>
-          <p className="text-sports-gray font-body text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-slate-400 font-body text-lg max-w-2xl mx-auto leading-relaxed">
             Soluciones estructuradas para organizadores que exigen eficiencia, control y una experiencia de usuario superior.
           </p>
         </div>
@@ -45,8 +46,8 @@ export const Services: React.FC = () => {
           {PLANS.map((plan) => (
             <div 
               key={plan.id} 
-              className={`flex flex-col bg-white border-2 rounded-[2rem] transition-all duration-300 hover:shadow-2xl overflow-hidden ${getPlanAccentColor(plan.id)} ${
-                plan.isRecommended ? 'ring-4 ring-sports-primary/5 scale-105 z-10' : 'scale-100'
+              className={`flex flex-col bg-sports-surface/30 backdrop-blur-sm border-2 rounded-[2.5rem] transition-all duration-300 hover:shadow-2xl overflow-hidden ${getPlanAccentColor(plan.id)} ${
+                plan.isRecommended ? 'scale-105 z-10' : 'scale-100'
               }`}
             >
               {plan.recommendationLabel && (
@@ -57,26 +58,26 @@ export const Services: React.FC = () => {
 
               <div className="p-10 flex flex-col h-full">
                 <div className="mb-8">
-                  <h3 className="text-2xl font-display font-bold text-sports-dark uppercase mb-1">
+                  <h3 className="text-2xl font-display font-bold text-white uppercase mb-1">
                     {plan.title}
                   </h3>
-                  <p className="text-sports-primary text-[10px] font-bold uppercase tracking-wider mb-6">
+                  <p className="text-sports-accent text-[10px] font-bold uppercase tracking-wider mb-6">
                     {plan.tagline}
                   </p>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-display font-extrabold text-sports-dark">{plan.priceDisplay}</span>
-                    <span className="text-sm text-sports-gray font-bold uppercase">/ base</span>
+                    <span className="text-5xl font-display font-extrabold text-white">{plan.priceDisplay}</span>
+                    <span className="text-sm text-slate-500 font-bold uppercase">/ base</span>
                   </div>
                 </div>
 
-                <p className="text-sports-gray text-sm font-body leading-relaxed mb-10 flex-1">
+                <p className="text-slate-400 text-sm font-body leading-relaxed mb-10 flex-1">
                   {plan.description}
                 </p>
 
                 <div className="space-y-4 mb-10">
                   {plan.features.slice(0, 5).map((feature, idx) => (
-                    <div key={idx} className="flex items-start text-xs text-sports-dark font-medium">
-                       <span className="text-sports-success mr-3 font-bold text-base">✓</span>
+                    <div key={idx} className="flex items-start text-xs text-slate-300 font-medium">
+                       <span className="text-sports-accent mr-3 font-bold text-base">✓</span>
                        <span className="leading-snug">{feature}</span>
                     </div>
                   ))}
@@ -86,10 +87,10 @@ export const Services: React.FC = () => {
                   onClick={() => handleOpenPlan(plan)}
                   className={`w-full py-5 rounded-2xl font-display font-bold text-xs uppercase tracking-widest transition-all ${
                     plan.id === 'advanced' 
-                      ? 'bg-sports-accent text-sports-dark hover:bg-lime-400 shadow-xl shadow-lime-200' 
+                      ? 'bg-sports-accent text-sports-dark hover:bg-white shadow-xl shadow-lime-500/10' 
                       : plan.isRecommended
-                        ? 'bg-sports-primary text-white hover:bg-indigo-700 shadow-xl shadow-indigo-100'
-                        : 'bg-slate-100 text-sports-dark hover:bg-sports-primary hover:text-white'
+                        ? 'bg-sports-primary text-white hover:bg-white hover:text-sports-dark shadow-xl shadow-indigo-500/10'
+                        : 'bg-white/5 text-white hover:bg-white hover:text-sports-dark border border-white/10'
                   }`}
                 >
                   {plan.buttonText}
@@ -100,31 +101,31 @@ export const Services: React.FC = () => {
         </div>
 
         {/* Individual Services Section */}
-        <div id="services-table" className="pt-20 border-t border-sports-border">
+        <div id="services-table" className="pt-20 border-t border-white/5">
             <div className="text-center mb-12">
-              <h2 className="text-sports-primary font-bold tracking-[0.2em] uppercase text-xs mb-3">Módulos Flexibles</h2>
-              <h3 className="text-2xl md:text-4xl font-display font-bold text-sports-dark uppercase tracking-tight">Servicios Individuales</h3>
-              <p className="mt-2 text-sports-gray text-base font-body">Configura tu propia operativa seleccionando módulos específicos.</p>
+              <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-xs mb-3">Módulos Flexibles</h2>
+              <h3 className="text-2xl md:text-4xl font-display font-bold text-white uppercase tracking-tight">Servicios Individuales</h3>
+              <p className="mt-2 text-slate-400 text-base font-body">Configura tu propia operativa seleccionando módulos específicos.</p>
             </div>
             
-            <div className="hidden md:block max-w-5xl mx-auto bg-white border border-sports-border rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50">
+            <div className="hidden md:block max-w-5xl mx-auto bg-sports-surface/20 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-sports-border">
-                    <th className="p-8 text-[11px] font-bold text-sports-gray uppercase tracking-widest">Servicio</th>
-                    <th className="p-8 text-[11px] font-bold text-sports-gray uppercase tracking-widest">Descripción</th>
-                    <th className="p-8 text-[11px] font-bold text-sports-gray uppercase tracking-widest text-right">Inversión</th>
+                  <tr className="bg-white/5 border-b border-white/10">
+                    <th className="p-8 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Servicio</th>
+                    <th className="p-8 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Descripción</th>
+                    <th className="p-8 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Inversión</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-sports-border">
+                <tbody className="divide-y divide-white/5">
                   {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-indigo-50/20 transition-colors group">
-                      <td className="p-8 text-sports-dark font-bold text-sm uppercase group-hover:text-sports-primary transition-colors">
+                    <tr key={idx} className="hover:bg-white/5 transition-colors group">
+                      <td className="p-8 text-white font-bold text-sm uppercase group-hover:text-sports-accent transition-colors">
                           {item.service}
                       </td>
-                      <td className="p-8 text-sports-gray text-xs leading-relaxed font-body">{item.description}</td>
-                      <td className="p-8 text-sports-dark font-bold text-sm text-right whitespace-nowrap">
-                        <span className="bg-indigo-50 text-sports-primary px-4 py-1.5 rounded-full text-xs border border-indigo-100">{item.price}</span>
+                      <td className="p-8 text-slate-400 text-xs leading-relaxed font-body">{item.description}</td>
+                      <td className="p-8 text-white font-bold text-sm text-right whitespace-nowrap">
+                        <span className="bg-white/5 text-sports-accent px-4 py-1.5 rounded-full text-xs border border-white/10">{item.price}</span>
                       </td>
                     </tr>
                   ))}
@@ -137,22 +138,22 @@ export const Services: React.FC = () => {
               {INDIVIDUAL_SERVICES_RATES.map((item, idx) => (
                 <div 
                   key={idx} 
-                  className={`bg-white border-2 rounded-2xl overflow-hidden transition-all duration-300 ${expandedService === idx ? 'border-sports-primary shadow-lg' : 'border-sports-border'}`}
+                  className={`bg-sports-surface/30 border-2 rounded-2xl overflow-hidden transition-all duration-300 ${expandedService === idx ? 'border-sports-accent shadow-lg' : 'border-white/10'}`}
                 >
                   <button 
                     onClick={() => toggleMobileService(idx)}
                     className="w-full p-6 text-left flex justify-between items-center group"
                   >
                     <div className="flex-1 pr-4">
-                      <h4 className={`text-sm font-bold uppercase tracking-wide transition-colors ${expandedService === idx ? 'text-sports-primary' : 'text-sports-dark'}`}>
+                      <h4 className={`text-sm font-bold uppercase tracking-wide transition-colors ${expandedService === idx ? 'text-sports-accent' : 'text-white'}`}>
                         {item.service}
                       </h4>
                       <div className="mt-1 flex items-baseline gap-2">
-                        <span className="text-[10px] text-sports-gray uppercase font-bold">Desde:</span>
-                        <span className="text-sm font-bold text-sports-primary">{item.price}</span>
+                        <span className="text-[10px] text-slate-500 uppercase font-bold">Desde:</span>
+                        <span className="text-sm font-bold text-sports-accent">{item.price}</span>
                       </div>
                     </div>
-                    <div className={`transition-transform duration-300 ${expandedService === idx ? 'rotate-180 text-sports-primary' : 'text-sports-muted'}`}>
+                    <div className={`transition-transform duration-300 ${expandedService === idx ? 'rotate-180 text-sports-accent' : 'text-slate-600'}`}>
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                       </svg>
@@ -162,8 +163,8 @@ export const Services: React.FC = () => {
                   <div 
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedService === idx ? 'max-h-52 opacity-100' : 'max-h-0 opacity-0'}`}
                   >
-                    <div className="px-6 pb-6 pt-0 border-t border-slate-50">
-                      <p className="text-xs text-sports-gray leading-relaxed font-body py-4">
+                    <div className="px-6 pb-6 pt-0 border-t border-white/5">
+                      <p className="text-xs text-slate-400 leading-relaxed font-body py-4">
                         {item.description}
                       </p>
                       <button 
@@ -177,7 +178,7 @@ export const Services: React.FC = () => {
                           features: [item.description],
                           buttonText: 'Solicitar Información'
                         })}
-                        className="w-full mt-2 py-4 bg-sports-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-sports-dark transition-colors"
+                        className="w-full mt-2 py-4 bg-sports-accent text-sports-dark text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-white transition-colors"
                       >
                         Más Detalles
                       </button>
@@ -188,7 +189,7 @@ export const Services: React.FC = () => {
             </div>
             
             <div className="mt-12 text-center">
-              <p className="text-[10px] text-sports-muted uppercase font-bold tracking-[0.2em]">
+              <p className="text-[10px] text-slate-600 uppercase font-bold tracking-[0.2em]">
                 * IVA no incluido. Consultar para eventos fuera de temporada.
               </p>
             </div>
