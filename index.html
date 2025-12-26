@@ -4,8 +4,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>APG Marketing | Gestión de Torneos de Fútbol y Eventos Deportivos</title>
-    <meta name="description" content="Gestión profesional para organizadores de torneos de fútbol. Logística, administración y soporte digital especializado.">
+    <title>APG Marketing | Ingeniería Operativa para Eventos Deportivos</title>
+    <meta name="description" content="Gestión profesional y soporte digital para organizadores de torneos de fútbol y centros escolares. Operativa de élite sin fricciones.">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,96 +15,104 @@
           extend: {
             colors: {
               sports: {
-                bg: '#020617',       // Slate 950 (Fondo Principal)
-                card: '#0f172a',     // Slate 900
-                primary: '#4f46e5',  // Indigo Moderno
-                secondary: '#06b6d4', // Cyan
-                accent: '#bef264',   // Lima Eléctrico
+                bg: '#050a18',       
+                card: 'rgba(15, 23, 42, 0.4)',     
+                primary: '#6366f1',  
+                secondary: '#0ea5e9', 
+                accent: '#bef264',   
                 lime: '#bef264',     
-                blue: '#4f46e5',     
-                gold: '#eab308',     
                 dark: '#020617',     
                 navy: '#0f172a',     
-                surface: '#1e293b',  // Slate 800
-                gray: '#94a3b8',    
-                muted: '#64748b',    
-                border: 'rgba(255, 255, 255, 0.08)',   
-                success: '#10b981'   
+                surface: '#111827',  
+                border: 'rgba(255, 255, 255, 0.05)',   
+                success: '#10b981',
+                gray: '#94a3b8',
+                muted: '#475569'
               }
             },
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Montserrat', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              display: ['Montserrat', 'system-ui', 'sans-serif'],
             },
             animation: {
               'fade-in': 'fade-in 1s ease-out forwards',
               'slide-up': 'slide-up 0.8s ease-out forwards',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 6s ease-in-out infinite',
             },
             keyframes: {
-              'fade-in': {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' }
-              },
-              'slide-up': {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' }
-              }
+              'fade-in': { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+              'slide-up': { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+              'float': { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } }
             }
           }
         }
       }
     </script>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     
     <style>
       body { 
         font-family: 'Inter', sans-serif; 
-        background-color: #020617; 
-        color: #f8fafc;
-        text-rendering: optimizeLegibility;
+        background-color: #050a18; 
+        color: #f1f5f9;
+        -webkit-font-smoothing: antialiased;
       }
-      h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
+      h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; letter-spacing: -0.02em; }
       
       .glass-card {
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       
-      .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-      .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-      
-      .text-gradient {
-        background: linear-gradient(135deg, #818cf8 0%, #bef264 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .glass-card:hover {
+        border-color: rgba(190, 242, 100, 0.3);
+        background: rgba(15, 23, 42, 0.6);
       }
 
-      section {
-        position: relative;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      .text-glow {
+        text-shadow: 0 0 20px rgba(190, 242, 100, 0.3);
+      }
+
+      .noise-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.03;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/feTurbulence%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      }
+
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: #050a18; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 20px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #bef264; }
+
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
       }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
 </head>
-  <body class="bg-sports-bg text-slate-200 antialiased overflow-x-hidden">
+  <body class="bg-sports-bg antialiased overflow-x-hidden">
+    <div class="noise-bg"></div>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

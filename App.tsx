@@ -1,3 +1,4 @@
+
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Benefits } from './components/Benefits';
@@ -14,7 +15,7 @@ import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   return (
-    <div className="min-h-screen bg-sports-bg text-sports-dark overflow-x-hidden selection:bg-sports-primary selection:text-white">
+    <div className="min-h-screen bg-sports-bg text-slate-200 overflow-x-hidden selection:bg-sports-primary selection:text-white">
       <Header />
       <main>
         {/* 1. ATENCIÓN & AUTORIDAD */}

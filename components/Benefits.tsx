@@ -16,15 +16,15 @@ export const Benefits: React.FC = () => {
                ¿Tu torneo es una fuente de ingresos o de <span className="text-sports-accent italic">caos</span> constante?
              </h3>
              <p className="text-slate-400 font-body text-lg mb-10 leading-relaxed">
-               Organizar un torneo de fútbol de élite exige precisión. El descontrol en inscripciones o la falta de coordinación logística daña la imagen de tu marca y agota a tu equipo.
+               Organizar un torneo de fútbol de élite exige precisión. El descontrol en inscripciones o la falta de coordinación logística daña tu marca y agota a tu equipo. Te ayudo a profesionalizarlo.
              </p>
              
              <ul className="space-y-5">
                {[
-                 "Inscripciones duplicadas y pagos sin trazabilidad.",
-                 "Logística de flotas sin rutas ni horarios dinámicos.",
-                 "Gestión de hospitalidad con errores en el check-in.",
-                 "Carga administrativa que paraliza a tu staff técnico."
+                 "Tus inscripciones duplicadas y pagos sin trazabilidad.",
+                 "Tu logística de flotas sin rutas ni horarios dinámicos.",
+                 "Tu gestión de hospitalidad con errores en el check-in.",
+                 "Tu carga administrativa que paraliza a tu staff técnico."
                ].map((item, i) => (
                  <li key={i} className="flex items-center text-slate-300 font-body text-sm font-semibold">
                    <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-red-400 mr-4 flex-shrink-0 border border-white/10">
@@ -45,17 +45,17 @@ export const Benefits: React.FC = () => {
                 </div>
                 
                 <h3 className="text-2xl font-display font-bold text-white uppercase mb-6">
-                  El Método APG
+                  Mi Método APG
                 </h3>
                 <p className="text-slate-400 font-body text-base mb-10 leading-relaxed">
-                  Transformamos procesos manuales en flujos digitales de alto rendimiento. Tú pones el deporte, yo pongo el sistema.
+                  Transformo tus procesos manuales en flujos digitales de alto rendimiento. Tú pones el deporte, yo pongo el sistema.
                 </p>
 
                 <div className="space-y-8">
                    <div className="flex items-start group">
                       <span className="text-sports-accent font-bold text-xl mr-5 group-hover:scale-110 transition-transform">01.</span>
                       <div>
-                        <h4 className="text-white font-bold uppercase text-xs tracking-widest mb-1">Ecosistema Digital</h4>
+                        <h4 className="text-white font-bold uppercase text-xs tracking-widest mb-1">Mi Ecosistema Digital</h4>
                         <p className="text-slate-500 text-xs font-body">Adiós al papel. Control total desde cualquier dispositivo.</p>
                       </div>
                    </div>
@@ -63,13 +63,13 @@ export const Benefits: React.FC = () => {
                       <span className="text-sports-accent font-bold text-xl mr-5 group-hover:scale-110 transition-transform">02.</span>
                       <div>
                         <h4 className="text-white font-bold uppercase text-xs tracking-widest mb-1">Logística Inteligente</h4>
-                        <p className="text-slate-500 text-xs font-body">Anticipación quirúrgica de conflictos en transporte.</p>
+                        <p className="text-slate-500 text-xs font-body">Anticipo quirúrgicamente cualquier conflicto en el transporte.</p>
                       </div>
                    </div>
                    <div className="flex items-start group">
                       <span className="text-sports-accent font-bold text-xl mr-5 group-hover:scale-110 transition-transform">03.</span>
                       <div>
-                        <h4 className="text-white font-bold uppercase text-xs tracking-widest mb-1">Impacto de Marca</h4>
+                        <h4 className="text-white font-bold uppercase text-xs tracking-widest mb-1">Tu Impacto de Marca</h4>
                         <p className="text-slate-500 text-xs font-body">Percepción de profesionalidad superior para tus partners.</p>
                       </div>
                    </div>

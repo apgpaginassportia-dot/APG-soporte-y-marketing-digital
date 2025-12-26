@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { createContact } from '../services/airtableService';
 
@@ -65,15 +64,36 @@ export const Contact: React.FC = () => {
                     <form className="space-y-5" onSubmit={handleSubmit}>
                       <div>
                         <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Nombre Completo</label>
-                        <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-4 focus:border-sports-accent outline-none transition-all text-sm" placeholder="Ej: Manuel García" />
+                        <input 
+                          required 
+                          type="text" 
+                          value={formData.name} 
+                          onChange={(e) => setFormData({...formData, name: e.target.value})} 
+                          className="w-full bg-white/10 border border-white/20 text-white rounded-xl px-4 py-4 focus:border-sports-accent focus:bg-white/20 outline-none transition-all text-sm placeholder:text-slate-500" 
+                          placeholder="Ej: Manuel García" 
+                        />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Email Corporativo</label>
-                        <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-4 focus:border-sports-accent outline-none transition-all text-sm" placeholder="ejemplo@club.com" />
+                        <input 
+                          required 
+                          type="email" 
+                          value={formData.email} 
+                          onChange={(e) => setFormData({...formData, email: e.target.value})} 
+                          className="w-full bg-white/10 border border-white/20 text-white rounded-xl px-4 py-4 focus:border-sports-accent focus:bg-white/20 outline-none transition-all text-sm placeholder:text-slate-500" 
+                          placeholder="ejemplo@club.com" 
+                        />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Mensaje / Detalles del Evento</label>
-                        <textarea required rows={4} value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-4 focus:border-sports-accent outline-none transition-all resize-none text-sm" placeholder="Cuéntanos un poco sobre tu torneo..."></textarea>
+                        <textarea 
+                          required 
+                          rows={4} 
+                          value={formData.message} 
+                          onChange={(e) => setFormData({...formData, message: e.target.value})} 
+                          className="w-full bg-white/10 border border-white/20 text-white rounded-xl px-4 py-4 focus:border-sports-accent focus:bg-white/20 outline-none transition-all resize-none text-sm placeholder:text-slate-500" 
+                          placeholder="Cuéntanos un poco sobre tu torneo..."
+                        ></textarea>
                       </div>
                       
                       <button type="submit" disabled={isSubmitting} className="w-full bg-sports-accent text-sports-dark font-display font-extrabold py-5 rounded-2xl hover:bg-white transition-all uppercase tracking-widest text-xs disabled:opacity-50 shadow-xl shadow-lime-500/10">

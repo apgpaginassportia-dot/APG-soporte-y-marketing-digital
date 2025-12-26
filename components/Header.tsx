@@ -6,12 +6,21 @@ export const Header: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScrollEvent = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScrollEvent);
+    return () => window.removeEventListener('scroll', handleScrollEvent);
   }, []);
+
+  // Bloquear scroll del body cuando el menú está abierto
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
 
   const navLinks = [
     { name: 'Torneos', id: 'detailed-services' },
@@ -25,15 +34,22 @@ export const Header: React.FC = () => {
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    
+    // Cerramos el menú primero para que la transición de cierre comience
     setIsOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    
+    // Pequeño delay para permitir que el menú empiece a cerrarse antes de hacer scroll
+    // Esto evita saltos visuales si el menú ocupa mucha pantalla
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 150);
   };
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled || isOpen ? 'bg-sports-bg/80 backdrop-blur-xl border-b border-white/5 py-3' : 'bg-transparent py-6'}`}>
+    <header className={`fixed w-full z-[150] transition-all duration-500 ${scrolled || isOpen ? 'bg-sports-bg/90 backdrop-blur-xl border-b border-white/5 py-3' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           <div className="flex items-center">
@@ -66,7 +82,7 @@ export const Header: React.FC = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white hover:text-sports-accent transition-colors p-2"
+              className="text-white hover:text-sports-accent transition-colors p-2 z-[160]"
               aria-label="Toggle menu"
             >
               <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,14 +97,29 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Nav */}
-      <div className={`md:hidden absolute w-full bg-sports-bg border-b border-white/5 shadow-2xl transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
-        <div className="px-6 pt-6 pb-12 space-y-2">
-          {navLinks.map((link) => (
+      {/* Mobile Nav Overlay (Backdrop) */}
+      <div 
+        className={`fixed inset-0 bg-sports-dark/60 backdrop-blur-sm transition-opacity duration-500 md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setIsOpen(false)}
+      />
+
+      {/* Mobile Nav Content */}
+      <div 
+        className={`md:hidden absolute w-full bg-sports-bg/95 border-b border-white/5 shadow-2xl transition-all duration-500 ease-in-out transform ${
+          isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-10 invisible'
+        }`}
+      >
+        <div className="px-6 pt-6 pb-12 space-y-1">
+          {navLinks.map((link, index) => (
             <a
               key={link.name}
               href={`#${link.id}`}
               onClick={(e) => handleScroll(e, link.id)}
+              style={{ 
+                transitionDelay: isOpen ? `${index * 50}ms` : '0ms',
+                transform: isOpen ? 'translateX(0)' : 'translateX(-20px)',
+                opacity: isOpen ? 1 : 0
+              }}
               className="block px-6 py-5 rounded-2xl text-lg font-display font-extrabold uppercase tracking-tight text-white hover:bg-white/5 hover:text-sports-accent transition-all"
             >
               {link.name}

@@ -5,62 +5,61 @@ import { AuditModal } from './AuditModal';
 export const Hero: React.FC = () => {
   const [isAuditOpen, setIsAuditOpen] = useState(false);
 
-  const scrollToPlans = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const element = document.getElementById('plans');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <section id="hero" className="relative min-h-[90vh] flex items-center bg-sports-bg overflow-hidden pt-20 border-b border-white/5">
-      {/* Decorative Blur Elements */}
-      <div className="absolute top-0 right-0 w-2/3 h-full bg-indigo-500/5 skew-x-[-15deg] translate-x-1/2 pointer-events-none"></div>
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-sports-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-sports-accent/10 rounded-full blur-[80px] pointer-events-none"></div>
+    <section id="hero" className="relative min-h-screen flex items-center bg-sports-bg overflow-hidden pt-20">
+      {/* Background elements */}
+      <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse-slow"></div>
+        <div className="absolute -bottom-1/4 left-0 w-[600px] h-[600px] bg-sports-accent/5 rounded-full blur-[100px]"></div>
+      </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 z-20">
-        <div className="max-w-4xl animate-slide-up">
-          
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 shadow-sm">
-            <span className="flex h-2 w-2 rounded-full bg-sports-accent animate-pulse"></span>
-            <span className="text-sports-accent font-bold text-[10px] tracking-[0.2em] uppercase font-display">
-              Operativa de Élite para Torneos
-            </span>
-          </div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-white mb-6 leading-[1.05] tracking-tight">
-            Profesionaliza la Gestión de tu <br />
-            <span className="text-gradient">Torneo de Fútbol</span>
-          </h1>
-          
-          <div className="max-w-2xl border-l-4 border-sports-accent pl-8 py-2 mb-10">
-            <p className="text-lg md:text-xl text-slate-400 font-body font-normal leading-relaxed">
-              Tú te centras en el balón, yo en la logística. Digitalización integral, control de flotas y hospitalidad premium para que tu evento sea inolvidable.
-            </p>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button
-              onClick={() => setIsAuditOpen(true)}
-              className="group flex items-center justify-center px-10 py-5 bg-sports-primary text-white font-display font-bold text-sm uppercase tracking-wider rounded-2xl transition-all hover:bg-sports-accent hover:text-sports-dark shadow-xl shadow-indigo-900/40 active:scale-95"
-            >
-              <span>Agendar Auditoría</span>
-              <svg className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </button>
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-8 animate-slide-up">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-sports-accent animate-pulse"></span>
+              <span className="text-sports-accent font-bold text-[9px] tracking-[0.2em] uppercase">
+                Mi Operativa de alto rendimiento 2025
+              </span>
+            </div>
             
-            <button
-              onClick={scrollToPlans}
-              className="flex items-center justify-center px-10 py-5 border-2 border-white/10 bg-white/5 text-white font-display font-bold text-sm uppercase tracking-wider rounded-2xl hover:border-sports-accent transition-all duration-300 shadow-sm active:scale-95"
-            >
-              Tarifas 2025
-            </button>
-          </div>
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-black text-white mb-8 leading-[0.95] tracking-tighter">
+              Organizar <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-sports-accent/50">es Ganar.</span>
+            </h1>
+            
+            <p className="text-lg md:text-2xl text-slate-400 font-normal leading-relaxed mb-12 max-w-2xl border-l-2 border-sports-accent/30 pl-8">
+              Digitalizo la operativa de tu torneo de fútbol. Control total de inscripciones, transporte y hospitalidad con mi soporte técnico de élite.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-5">
+              <button
+                onClick={() => setIsAuditOpen(true)}
+                className="group relative px-10 py-6 bg-white text-sports-dark font-display font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all hover:bg-sports-accent hover:-translate-y-1 shadow-2xl shadow-white/5"
+              >
+                <span>Solicitar Auditoría Gratuita</span>
+              </button>
+            </div>
 
+            {/* Trust Strip */}
+            <div className="mt-20 pt-10 border-t border-white/5 flex flex-wrap gap-10 opacity-40">
+               <div className="flex flex-col">
+                  <span className="text-2xl font-black text-white">15K</span>
+                  <span className="text-[9px] uppercase font-bold tracking-widest">Atletas</span>
+               </div>
+               <div className="flex flex-col">
+                  <span className="text-2xl font-black text-white">45</span>
+                  <span className="text-[9px] uppercase font-bold tracking-widest">Sedes</span>
+               </div>
+               <div className="flex flex-col">
+                  <span className="text-2xl font-black text-white">24/7</span>
+                  <span className="text-[9px] uppercase font-bold tracking-widest">Mi Soporte</span>
+               </div>
+            </div>
+          </div>
         </div>
       </div>
-
+      
       <AuditModal isOpen={isAuditOpen} onClose={() => setIsAuditOpen(false)} />
     </section>
   );
