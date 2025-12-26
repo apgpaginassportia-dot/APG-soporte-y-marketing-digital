@@ -11,10 +11,9 @@ interface PlanModalProps {
   preselectedServices?: string[];
 }
 
-const DEFAULT_SERVICES: string[] = [];
 const PRICE_PER_STUDENT = 3.50; 
 
-export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedPlan, preselectedServices = DEFAULT_SERVICES }) => {
+export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedPlan, preselectedServices = [] }) => {
   const [formData, setFormData] = useState<LeadForm>({
     name: '',
     email: '',
@@ -88,32 +87,19 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
 
   if (!isOpen || !selectedPlan) return null;
 
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = 'El nombre es obligatorio';
-    if (!formData.email.trim()) newErrors.email = 'El email es obligatorio';
-    if (!formData.phone.trim()) newErrors.phone = 'El teléfono es obligatorio';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!formData.name || !formData.email || !formData.phone) {
+        alert("Por favor, completa los campos obligatorios.");
+        return;
+    }
     setIsSubmitting(true);
 
-    let servicesList = selectedPlan.features.join(', ');
-    if (selectedPlan.id === 'custom') {
-       servicesList = (getCustomServiceBreakdown() as CustomServiceOption[]).map(s => s.label).join(', ');
-    } else if (selectedPlan.id === 'team_custom') {
-       servicesList = (getCustomServiceBreakdown() as TeamServiceItem[]).map(s => `${s.title} (${s.price}${s.period})`).join(', ');
-    }
-
     const detallesStr = `[NUEVA_SOLICITUD_${selectedPlan.id.toUpperCase()}]
-PRECIO FINAL CALCULADO: ${totalPrice}€
-ESTADO INICIAL: REUNIÓN PREVIA (0€)
-NOTIFICAR A: alicia.pons.garcia@outlook.es
-SERVICIOS: ${servicesList}`;
+PROYECTO: ${formData.name}
+PRECIO ESTIMADO: ${totalPrice}€
+FASE ACTUAL: SOLICITUD AUDITORÍA GRATUITA
+NOTIFICAR A: alicia.pons.garcia@outlook.es`;
 
     try {
       await createContact({
@@ -145,53 +131,53 @@ SERVICIOS: ${servicesList}`;
               {/* Summary Side */}
               <div className="md:w-5/12 bg-sports-surface p-10 border-b md:border-b-0 md:border-r border-white/5 flex flex-col order-first">
                 <div className="mb-10">
-                   <h3 className="text-2xl font-display font-extrabold text-white uppercase mb-4">
-                    {selectedPlan.title}
+                   <h3 className="text-2xl font-display font-extrabold text-white uppercase mb-4 leading-tight">
+                    {selectedPlan.id === 'school' ? 'Plan de Mejora Escolar' : selectedPlan.title}
                    </h3>
                    
                    {selectedPlan.id === 'school' ? (
-                      <div className="space-y-6">
-                         <div className="p-5 bg-sports-accent/10 border border-sports-accent/30 rounded-2xl">
-                            <span className="text-[10px] text-sports-accent font-bold uppercase tracking-widest block mb-1">Paso 1: Auditoría Física</span>
+                      <div className="space-y-4">
+                         <div className="p-5 bg-sports-accent/10 border border-sports-accent/30 rounded-2xl relative">
+                            <div className="absolute -top-3 left-4 bg-sports-accent text-sports-dark text-[8px] font-black uppercase px-2 py-0.5 rounded">Paso Actual</div>
+                            <span className="text-[10px] text-sports-accent font-bold uppercase tracking-widest block mb-1">Fase 1: Auditoría Física</span>
                             <div className="flex items-baseline gap-2">
                                <span className="text-3xl font-display font-bold text-white">0€</span>
-                               <span className="text-slate-500 text-[10px] font-bold uppercase">Cita Gratuita</span>
+                               <span className="text-slate-500 text-[10px] font-bold uppercase">Sin Compromiso</span>
                             </div>
                          </div>
-                         <div className="p-5 bg-white/5 border border-white/10 rounded-2xl">
-                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Paso 2: Gestión del Torneo</span>
+                         <div className="p-5 bg-white/5 border border-white/10 rounded-2xl opacity-60">
+                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Fase 2: Gestión Integral</span>
                             <div className="flex items-baseline gap-2">
-                               <span className="text-3xl font-display font-bold text-white">{totalPrice}€</span>
-                               <span className="text-slate-500 text-[10px] font-bold uppercase">Inversión Base</span>
+                               <span className="text-xl font-display font-bold text-white">{totalPrice}€*</span>
+                               <span className="text-slate-600 text-[9px] font-bold uppercase">Estimación Base</span>
                             </div>
                          </div>
                       </div>
                    ) : (
                       <div className="flex items-center gap-3">
                         <div className="text-4xl font-display font-extrabold text-sports-accent">{totalPrice}€</div>
-                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Total</span>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Inversión</span>
                       </div>
                    )}
                 </div>
 
-                {/* Configuration for School (Simplified) */}
                 {selectedPlan.id === 'school' && (
                   <div className="bg-sports-navy/50 rounded-2xl p-6 border border-white/10 mb-8">
-                     <label className="block text-[10px] font-bold text-sports-accent uppercase mb-4 tracking-widest">Tamaño del Evento</label>
+                     <label className="block text-[10px] font-bold text-slate-500 uppercase mb-4 tracking-widest">Tamaño del Centro</label>
                      <div className="flex rounded-xl border border-white/10 overflow-hidden mb-6">
                         <button 
                           type="button"
                           onClick={() => setSchoolPricingMode('fixed')}
-                          className={`flex-1 py-3 text-[10px] font-bold uppercase transition-all ${schoolPricingMode === 'fixed' ? 'bg-sports-primary text-white' : 'text-slate-500'}`}
+                          className={`flex-1 py-3 text-[9px] font-bold uppercase transition-all ${schoolPricingMode === 'fixed' ? 'bg-sports-primary text-white' : 'text-slate-500 hover:text-white'}`}
                         >
                           Hasta 100 pax
                         </button>
                         <button 
                           type="button"
                           onClick={() => setSchoolPricingMode('students')}
-                          className={`flex-1 py-3 text-[10px] font-bold uppercase transition-all ${schoolPricingMode === 'students' ? 'bg-sports-primary text-white' : 'text-slate-500'}`}
+                          className={`flex-1 py-3 text-[9px] font-bold uppercase transition-all ${schoolPricingMode === 'students' ? 'bg-sports-primary text-white' : 'text-slate-500 hover:text-white'}`}
                         >
-                          +100 pax
+                          Ligas (+100)
                         </button>
                      </div>
                      
@@ -201,20 +187,20 @@ SERVICIOS: ${servicesList}`;
                           <input 
                                type="number" 
                                value={studentCount}
-                               onChange={(e) => setStudentCount(parseInt(e.target.value) || 0)}
+                               onChange={(e) => setStudentCount(Math.max(1, parseInt(e.target.value) || 0))}
                                className="w-full bg-sports-dark border border-white/10 rounded-xl px-4 py-3 text-white font-display font-bold focus:border-sports-accent outline-none"
                           />
-                          <p className="text-[9px] text-slate-600 mt-2 italic">* Calculado a {PRICE_PER_STUDENT}€/alumno extra.</p>
                        </div>
                      )}
                   </div>
                 )}
 
-                <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 max-h-[30vh] md:max-h-none">
-                   <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Servicios Seleccionados</h5>
+                <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 max-h-[25vh] md:max-h-none">
+                   <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Servicios Incluidos:</h5>
                    <ul className="space-y-3">
                       {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' ? getCustomServiceBreakdown() : selectedPlan.features).map((f: any, idx) => (
-                          <li key={idx} className="text-xs text-slate-300 font-body leading-relaxed">
+                          <li key={idx} className="text-xs text-slate-400 font-body leading-relaxed flex items-center gap-2">
+                              <span className="w-1 h-1 rounded-full bg-slate-700"></span>
                               {typeof f === 'string' ? f : (f.label || f.title)}
                           </li>
                       ))}
@@ -223,22 +209,23 @@ SERVICIOS: ${servicesList}`;
               </div>
 
               {/* Form Side */}
-              <div className="md:w-7/12 p-10 bg-sports-navy relative">
+              <div className="md:w-7/12 p-10 bg-sports-navy relative flex flex-col justify-center">
                  <button onClick={onClose} className="absolute top-8 right-8 text-slate-500 hover:text-white p-2">✕</button>
                  
-                 <h4 className="text-xl font-display font-extrabold text-white uppercase mb-8 tracking-tight">
-                    {selectedPlan.id === 'school' ? 'Datos del Centro Educativo' : 'Información del Solicitante'}
-                 </h4>
+                 <div className="mb-8">
+                    <h4 className="text-2xl font-display font-extrabold text-white uppercase tracking-tight">Solicitud de Auditoría</h4>
+                    <p className="text-slate-500 text-sm mt-2">Completa estos datos para que Alicia pueda visitarte.</p>
+                 </div>
 
-                 <form onSubmit={handleSubmit} className="space-y-6">
+                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Responsable / Colegio</label>
+                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Responsable / Centro Educativo</label>
                         <input
                           required
                           type="text"
                           value={formData.name}
                           onChange={e => setFormData(prev => ({...prev, name: e.target.value}))}
-                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm"
+                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-accent outline-none transition-all text-sm"
                           placeholder="Ej: Manuel Pons (IES El Deporte)"
                         />
                     </div>
@@ -251,7 +238,7 @@ SERVICIOS: ${servicesList}`;
                           type="email"
                           value={formData.email}
                           onChange={e => setFormData(prev => ({...prev, email: e.target.value}))}
-                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm"
+                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-accent outline-none transition-all text-sm"
                           placeholder="tu@email.com"
                         />
                       </div>
@@ -262,30 +249,33 @@ SERVICIOS: ${servicesList}`;
                           type="tel"
                           value={formData.phone}
                           onChange={e => setFormData(prev => ({...prev, phone: e.target.value}))}
-                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm"
+                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-accent outline-none transition-all text-sm"
                           placeholder="600 000 000"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Notas o Fechas del Evento</label>
+                      <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Breve descripción del evento</label>
                       <textarea
                         value={formData.message}
                         onChange={e => setFormData(prev => ({...prev, message: e.target.value}))}
                         rows={3}
-                        className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm resize-none"
-                        placeholder="Ej: Torneo anual de fin de curso, 3 sedes..."
+                        className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-accent outline-none transition-all text-sm resize-none"
+                        placeholder="Ej: Torneo fin de curso, 3 días, fútbol 7..."
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl hover:bg-white transition-all shadow-xl shadow-lime-900/20 disabled:opacity-30"
+                      className="w-full py-5 bg-sports-accent text-sports-dark font-display font-black uppercase tracking-widest rounded-2xl hover:bg-white transition-all shadow-xl shadow-lime-900/20 disabled:opacity-30"
                     >
-                      {isSubmitting ? 'Sincronizando...' : (selectedPlan.id === 'school' ? 'Reservar Auditoría Gratis (0€)' : 'Confirmar Solicitud')}
+                      {isSubmitting ? 'Registrando...' : (selectedPlan.id === 'school' ? 'Confirmar Auditoría Gratis (0€)' : 'Confirmar Solicitud')}
                     </button>
+                    <p className="text-center text-[9px] text-slate-600 uppercase font-bold tracking-widest">
+                       Tras confirmar, podrás elegir fecha en la agenda de Alicia.
+                    </p>
                  </form>
               </div>
             </div>
@@ -303,11 +293,11 @@ SERVICIOS: ${servicesList}`;
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <h3 className="text-3xl font-display font-extrabold text-white uppercase mb-4 tracking-tight">¡Registrado!</h3>
+                <h3 className="text-3xl font-display font-extrabold text-white uppercase mb-4 tracking-tight">¡Paso 1 Completado!</h3>
                 <p className="text-slate-400 font-body mb-10 leading-relaxed text-sm">
                     {selectedPlan.id === 'school' 
-                       ? 'Tus datos han sido registrados correctamente. Ahora Alicia necesita coordinar la visita a tu centro. Elige el mejor momento en su agenda virtual.'
-                       : 'Alicia Pons ha recibido tu solicitud. Analizaremos tu evento y te contactaremos por correo en las próximas 24 horas.'}
+                       ? 'Hemos recibido tus datos. Para formalizar la auditoría de 0€, solo falta que elijas el día y hora en el calendario de Alicia.'
+                       : 'Alicia Pons ha recibido tu solicitud. Se pondrá en contacto contigo personalmente en menos de 24 horas.'}
                 </p>
                 <div className="space-y-4">
                    {selectedPlan.id === 'school' ? (
@@ -317,14 +307,14 @@ SERVICIOS: ${servicesList}`;
                         rel="noopener noreferrer"
                         className="block w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl hover:bg-white transition-all shadow-xl shadow-lime-900/20"
                       >
-                        Agendar Auditoría (0€)
+                        Abrir Calendly de Alicia
                       </a>
                    ) : (
                       <button 
                          onClick={onClose}
                          className="w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl"
                       >
-                         Entendido
+                         Volver a la Web
                       </button>
                    )}
                    <button 
