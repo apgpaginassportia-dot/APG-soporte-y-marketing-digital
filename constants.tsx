@@ -1,6 +1,9 @@
 
 import { Plan, CustomServiceOption, ServiceCatalogItem, SchoolServiceItem, TeamServiceItem } from './types';
 
+// Configuración de Terceros
+export const CALENDLY_URL = "https://calendly.com/aliciapons/reunion-evaluacion-deportiva";
+
 // Icon Components - Professional Sports Theme
 export const Icons = {
   Check: () => (
@@ -38,14 +41,11 @@ export const Icons = {
   CalendarAI: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2zM12 14v4m-2-2h4" /></svg>
   ),
-  Results: () => (
-    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 01-2 2h2a2 2 0 012-2zm4 0v-2a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2zm4 0V9a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+  QR: () => (
+    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
   ),
   Notification: () => (
     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-  ),
-  QR: () => (
-    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
   ),
 };
 
@@ -214,42 +214,53 @@ export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
 
 export const SCHOOL_SERVICES: SchoolServiceItem[] = [
     {
-        title: "Wallet Digital",
-        description: "AMPA moderna con carnet digital en el móvil de los padres.",
+        title: "Evaluación Previa",
+        description: "Diagnóstico gratuito de las instalaciones y cultura deportiva del centro.",
         iconName: "Search"
     },
     {
-        title: "Registro Express",
-        description: "Inscripciones rápidas y sin formularios infinitos.",
-        iconName: "Users"
+        title: "Live Scoring",
+        description: "Resultados y clasificaciones en tiempo real para alumnos y familias.",
+        iconName: "Star"
     },
     {
-        title: "Notificaciones Pro",
-        description: "Canal de avisos directos y relevantes para las familias.",
+        title: "Control de Campo",
+        description: "Alicia Pons coordina presencialmente el evento: staff, horarios y crisis.",
+        iconName: "Staff"
+    },
+    {
+        title: "Premiación Pro",
+        description: "Ceremonias de clausura de alto impacto con trofeos y marketing interno.",
         iconName: "Trophy"
     },
     {
-        title: "Control de Socios",
-        description: "Gestión centralizada de cuotas y bases de datos segura.",
+        title: "Bóveda Legal",
+        description: "Gestión de seguros y autorizaciones para torneos intercentros.",
         iconName: "Shield"
     }
 ];
 
 export const SCHOOL_PLAN_DATA: Plan = {
   id: 'school',
-  title: "AMPA Digital 360",
-  priceDisplay: "Desde 290€",
-  basePrice: 290,
-  subtitle: "Modernización Escolar",
-  description: "Digitaliza la gestión de tu AMPA. Carnet Wallet, control de socios y avisos directos.",
-  details: "Sustituye el carnet físico por uno digital. Ahorra costes de impresión y mejora la comunicación con las familias.",
-  buttonText: "Digitalizar Mi AMPA",
+  title: "Dirección de Eventos Escolares",
+  priceDisplay: "Desde 450€",
+  basePrice: 450,
+  subtitle: "Del Patio al Estadio Profesional",
+  description: "Transformamos el evento deportivo de tu colegio en una experiencia profesional. Gestión integral llave en mano.",
+  details: "Olvídate del caos operativo. Implementamos tecnología de live scoring, cuadrantes técnicos y dirección de campo presencial. El proceso comienza con una auditoría gratuita de las necesidades de tu centro.",
+  buttonText: "Profesionalizar Mi Torneo Escolar",
   features: [
-    "Carnet Digital Wallet (iOS/Android)",
-    "Gestión de Socios y Cuotas Anuales",
-    "App de Avisos Críticos y Eventos",
-    "Gestión de Autorizaciones Digitales",
-    "Soporte Estratégico a la Directiva"
+    "Reunión de Diagnóstico (0€)",
+    "Configuración de Cuadrantes Técnicos",
+    "Web App de Resultados en Vivo",
+    "Dirección de Staff el día del Evento",
+    "Gestión de Seguros y Bóveda Legal",
+    "Clausura y Entrega de Premios"
+  ],
+  milestones: [
+    { amount: '135€', label: 'Estructura (30%)' },
+    { amount: '180€', label: 'Preparación (40%)' },
+    { amount: '135€', label: 'Ejecución (30%)' }
   ],
   isRecommended: true
 };

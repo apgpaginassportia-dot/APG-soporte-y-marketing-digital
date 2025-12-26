@@ -1,7 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Plan, LeadForm, CustomServiceOption, TeamServiceItem } from '../types';
-import { CUSTOM_SERVICES_LIST, TEAM_SERVICES } from '../constants';
+import { CUSTOM_SERVICES_LIST, TEAM_SERVICES, CALENDLY_URL } from '../constants';
 import { createContact } from '../services/airtableService';
 
 interface PlanModalProps {
@@ -47,6 +47,45 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     }
   }, [isOpen, selectedPlan, preselectedServices]);
 
+  const getCustomServiceBreakdown = () => {
+    if (!selectedPlan) return [];
+    if (selectedPlan.id === 'custom') {
+      return formData.selectedServices.map(id => CUSTOM_SERVICES_LIST.find(s => s.id === id)).filter((s): s is CustomServiceOption => !!s);
+    }
+    if (selectedPlan.id === 'team_custom') {
+      return formData.selectedServices.map(id => TEAM_SERVICES.find(s => s.id === id)).filter((s): s is TeamServiceItem => !!s);
+    }
+    return [];
+  };
+
+  const totalPrice = useMemo(() => {
+    if (!selectedPlan) return 0;
+
+    if (selectedPlan.id === 'custom') {
+      const services = getCustomServiceBreakdown() as CustomServiceOption[];
+      return services.reduce((acc, curr) => acc + (curr.price || 0), 0);
+    }
+
+    if (selectedPlan.id === 'team_custom') {
+      const services = getCustomServiceBreakdown() as TeamServiceItem[];
+      return services.reduce((acc, curr) => {
+        const priceStr = curr.price || "0";
+        const priceNum = parseInt(priceStr.replace(/[^\d]/g, '')) || 0;
+        return acc + priceNum;
+      }, 0);
+    }
+
+    if (selectedPlan.id === 'school') {
+      if (schoolPricingMode === 'fixed') {
+        return selectedPlan.basePrice;
+      } else {
+        return Math.ceil(studentCount * PRICE_PER_STUDENT);
+      }
+    }
+
+    return selectedPlan.basePrice;
+  }, [selectedPlan, schoolPricingMode, studentCount, formData.selectedServices]);
+
   if (!isOpen || !selectedPlan) return null;
 
   const validate = () => {
@@ -58,41 +97,11 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
     return Object.keys(newErrors).length === 0;
   };
 
-  const getCustomServiceBreakdown = () => {
-    if (selectedPlan.id === 'custom') {
-      return formData.selectedServices.map(id => CUSTOM_SERVICES_LIST.find(s => s.id === id)).filter((s): s is CustomServiceOption => !!s);
-    }
-    if (selectedPlan.id === 'team_custom') {
-      return formData.selectedServices.map(id => TEAM_SERVICES.find(s => s.id === id)).filter((s): s is TeamServiceItem => !!s);
-    }
-    return [];
-  };
-
-  const calculateTotal = () => {
-    if (selectedPlan.id === 'custom') {
-      const services = getCustomServiceBreakdown() as CustomServiceOption[];
-      return services.reduce((acc, curr) => acc + (curr.price || 0), 0);
-    }
-    if (selectedPlan.id === 'team_custom') {
-      const services = getCustomServiceBreakdown() as TeamServiceItem[];
-      return services.reduce((acc, curr) => {
-        const priceStr = curr.price || "0";
-        const priceNum = parseInt(priceStr.replace(/[^\d]/g, '')) || 0;
-        return acc + priceNum;
-      }, 0);
-    }
-    if (selectedPlan.id === 'school') {
-      return schoolPricingMode === 'fixed' ? selectedPlan.basePrice : Number((studentCount * PRICE_PER_STUDENT).toFixed(2));
-    }
-    return selectedPlan.basePrice;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setIsSubmitting(true);
 
-    const total = calculateTotal();
     let servicesList = selectedPlan.features.join(', ');
     if (selectedPlan.id === 'custom') {
        servicesList = (getCustomServiceBreakdown() as CustomServiceOption[]).map(s => s.label).join(', ');
@@ -100,8 +109,10 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
        servicesList = (getCustomServiceBreakdown() as TeamServiceItem[]).map(s => `${s.title} (${s.price}${s.period})`).join(', ');
     }
 
-    const detallesStr = `PRECIO ESTIMADO: ${total}€
-${selectedPlan.id === 'school' ? `MODO: ${schoolPricingMode} (${studentCount} alumnos)\n` : ''}
+    const detallesStr = `[NUEVA_SOLICITUD_${selectedPlan.id.toUpperCase()}]
+PRECIO FINAL CALCULADO: ${totalPrice}€
+ESTADO INICIAL: REUNIÓN PREVIA (0€)
+NOTIFICAR A: alicia.pons.garcia@outlook.es
 SERVICIOS: ${servicesList}`;
 
     try {
@@ -121,8 +132,6 @@ SERVICIOS: ${servicesList}`;
     }
   };
 
-  const total = calculateTotal();
-
   return (
     <>
       <div className="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -133,72 +142,79 @@ SERVICIOS: ${servicesList}`;
           <div className="relative inline-block align-bottom bg-sports-navy border border-white/10 rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl w-full">
             
             <div className="flex flex-col md:flex-row min-h-full">
-              {/* Left Panel: Summary */}
+              {/* Summary Side */}
               <div className="md:w-5/12 bg-sports-surface p-10 border-b md:border-b-0 md:border-r border-white/5 flex flex-col order-first">
-                <div className="mb-8">
-                   <h3 className="text-2xl font-display font-extrabold text-white uppercase mb-2">
+                <div className="mb-10">
+                   <h3 className="text-2xl font-display font-extrabold text-white uppercase mb-4">
                     {selectedPlan.title}
                    </h3>
-                   <div className="text-4xl font-display font-extrabold text-sports-accent">{total}€</div>
-                   <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.2em] font-bold font-display">Estimación Base</p>
+                   
+                   {selectedPlan.id === 'school' ? (
+                      <div className="space-y-6">
+                         <div className="p-5 bg-sports-accent/10 border border-sports-accent/30 rounded-2xl">
+                            <span className="text-[10px] text-sports-accent font-bold uppercase tracking-widest block mb-1">Paso 1: Auditoría Física</span>
+                            <div className="flex items-baseline gap-2">
+                               <span className="text-3xl font-display font-bold text-white">0€</span>
+                               <span className="text-slate-500 text-[10px] font-bold uppercase">Cita Gratuita</span>
+                            </div>
+                         </div>
+                         <div className="p-5 bg-white/5 border border-white/10 rounded-2xl">
+                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Paso 2: Gestión del Torneo</span>
+                            <div className="flex items-baseline gap-2">
+                               <span className="text-3xl font-display font-bold text-white">{totalPrice}€</span>
+                               <span className="text-slate-500 text-[10px] font-bold uppercase">Inversión Base</span>
+                            </div>
+                         </div>
+                      </div>
+                   ) : (
+                      <div className="flex items-center gap-3">
+                        <div className="text-4xl font-display font-extrabold text-sports-accent">{totalPrice}€</div>
+                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Total</span>
+                      </div>
+                   )}
                 </div>
 
-                {/* Milestone breakdown in modal */}
-                {selectedPlan.milestones && (
-                  <div className="bg-sports-navy/40 rounded-2xl p-6 border border-white/5 mb-8">
-                    <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Plan de Pagos (3 Cuotas)</h5>
-                    <div className="space-y-3">
-                      {selectedPlan.milestones.map((ms, idx) => (
-                        <div key={idx} className="flex justify-between items-center text-xs">
-                          <span className="text-slate-500 font-medium">{ms.label.split('(')[0]}</span>
-                          <span className="text-white font-bold">{ms.amount}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
+                {/* Configuration for School (Simplified) */}
                 {selectedPlan.id === 'school' && (
-                  <div className="bg-sports-navy/50 rounded-2xl p-6 border border-white/5 mb-8">
-                     <label className="block text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Modelo de Pago</label>
-                     <div className="flex rounded-xl border border-white/10 overflow-hidden mb-4">
+                  <div className="bg-sports-navy/50 rounded-2xl p-6 border border-white/10 mb-8">
+                     <label className="block text-[10px] font-bold text-sports-accent uppercase mb-4 tracking-widest">Tamaño del Evento</label>
+                     <div className="flex rounded-xl border border-white/10 overflow-hidden mb-6">
                         <button 
                           type="button"
                           onClick={() => setSchoolPricingMode('fixed')}
-                          className={`flex-1 py-3 text-[10px] font-bold uppercase tracking-wider transition-all ${schoolPricingMode === 'fixed' ? 'bg-sports-primary text-white' : 'bg-transparent text-slate-500 hover:text-white'}`}
+                          className={`flex-1 py-3 text-[10px] font-bold uppercase transition-all ${schoolPricingMode === 'fixed' ? 'bg-sports-primary text-white' : 'text-slate-500'}`}
                         >
-                          Tarifa Plana
+                          Hasta 100 pax
                         </button>
                         <button 
                           type="button"
                           onClick={() => setSchoolPricingMode('students')}
-                          className={`flex-1 py-3 text-[10px] font-bold uppercase tracking-wider transition-all ${schoolPricingMode === 'students' ? 'bg-sports-primary text-white' : 'bg-transparent text-slate-500 hover:text-white'}`}
+                          className={`flex-1 py-3 text-[10px] font-bold uppercase transition-all ${schoolPricingMode === 'students' ? 'bg-sports-primary text-white' : 'text-slate-500'}`}
                         >
-                          Pago x Alumno
+                          +100 pax
                         </button>
                      </div>
+                     
                      {schoolPricingMode === 'students' && (
-                       <div className="mt-4 animate-fade-in space-y-3">
+                       <div className="animate-fade-in">
+                          <span className="text-[10px] text-slate-500 uppercase font-bold mb-2 block">Número de alumnos:</span>
                           <input 
                                type="number" 
-                               min="1"
                                value={studentCount}
-                               onChange={(e) => setStudentCount(Math.max(1, parseInt(e.target.value) || 0))}
-                               className="w-full bg-sports-dark border border-white/10 rounded-xl px-4 py-3 text-white font-bold focus:border-sports-accent outline-none"
-                               placeholder="Nº Alumnos"
+                               onChange={(e) => setStudentCount(parseInt(e.target.value) || 0)}
+                               className="w-full bg-sports-dark border border-white/10 rounded-xl px-4 py-3 text-white font-display font-bold focus:border-sports-accent outline-none"
                           />
-                          <p className="text-xs text-slate-400 text-center font-bold">x {PRICE_PER_STUDENT}€ por alumno</p>
+                          <p className="text-[9px] text-slate-600 mt-2 italic">* Calculado a {PRICE_PER_STUDENT}€/alumno extra.</p>
                        </div>
                      )}
                   </div>
                 )}
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 max-h-[30vh] md:max-h-none">
-                   <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Servicios Incluidos</h5>
-                   <ul className="space-y-4">
+                   <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Servicios Seleccionados</h5>
+                   <ul className="space-y-3">
                       {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' ? getCustomServiceBreakdown() : selectedPlan.features).map((f: any, idx) => (
-                          <li key={idx} className="text-xs text-slate-300 flex gap-3 font-body">
-                              <span className="text-sports-accent font-bold">✓</span> 
+                          <li key={idx} className="text-xs text-slate-300 font-body leading-relaxed">
                               {typeof f === 'string' ? f : (f.label || f.title)}
                           </li>
                       ))}
@@ -206,80 +222,70 @@ SERVICIOS: ${servicesList}`;
                 </div>
               </div>
 
-              {/* Right Panel: Form */}
+              {/* Form Side */}
               <div className="md:w-7/12 p-10 bg-sports-navy relative">
-                 <button onClick={onClose} className="absolute top-8 right-8 text-slate-500 hover:text-white transition-colors p-2 -mr-2 text-xl">✕</button>
+                 <button onClick={onClose} className="absolute top-8 right-8 text-slate-500 hover:text-white p-2">✕</button>
                  
-                 <h4 className="text-xl font-display font-extrabold text-white uppercase tracking-tight mb-8">Información de Contacto</h4>
+                 <h4 className="text-xl font-display font-extrabold text-white uppercase mb-8 tracking-tight">
+                    {selectedPlan.id === 'school' ? 'Datos del Centro Educativo' : 'Información del Solicitante'}
+                 </h4>
 
                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-[0.2em]">Nombre Completo / Entidad</label>
+                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Responsable / Colegio</label>
                         <input
                           required
                           type="text"
                           value={formData.name}
-                          onChange={e => {
-                            setFormData(prev => ({...prev, name: e.target.value}));
-                            if (errors.name) setErrors(prev => { const n = {...prev}; delete n.name; return n; });
-                          }}
-                          className={`block w-full border ${errors.name ? 'border-red-500/50' : 'border-white/10'} rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm`}
-                          placeholder="Ej: CD Real Torneo"
+                          onChange={e => setFormData(prev => ({...prev, name: e.target.value}))}
+                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm"
+                          placeholder="Ej: Manuel Pons (IES El Deporte)"
                         />
-                        {errors.name && <p className="text-[10px] text-red-500 mt-1.5 ml-1 font-bold uppercase tracking-widest">{errors.name}</p>}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-[0.2em]">Email</label>
+                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Email</label>
                         <input
                           required
                           type="email"
                           value={formData.email}
-                          onChange={e => {
-                            setFormData(prev => ({...prev, email: e.target.value}));
-                            if (errors.email) setErrors(prev => { const n = {...prev}; delete n.email; return n; });
-                          }}
-                          className={`block w-full border ${errors.email ? 'border-red-500/50' : 'border-white/10'} rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm`}
+                          onChange={e => setFormData(prev => ({...prev, email: e.target.value}))}
+                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm"
+                          placeholder="tu@email.com"
                         />
-                        {errors.email && <p className="text-[10px] text-red-500 mt-1.5 ml-1 font-bold uppercase tracking-widest">{errors.email}</p>}
                       </div>
                       <div>
-                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-[0.2em]">Teléfono</label>
+                        <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Teléfono</label>
                         <input
                           required
                           type="tel"
                           value={formData.phone}
-                          onChange={e => {
-                            setFormData(prev => ({...prev, phone: e.target.value}));
-                            if (errors.phone) setErrors(prev => { const n = {...prev}; delete n.phone; return n; });
-                          }}
-                          className={`block w-full border ${errors.phone ? 'border-red-500/50' : 'border-white/10'} rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm`}
+                          onChange={e => setFormData(prev => ({...prev, phone: e.target.value}))}
+                          className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm"
+                          placeholder="600 000 000"
                         />
-                        {errors.phone && <p className="text-[10px] text-red-500 mt-1.5 ml-1 font-bold uppercase tracking-widest">{errors.phone}</p>}
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-[0.2em]">Observaciones Adicionales</label>
+                      <label className="block text-[10px] font-bold text-sports-accent uppercase mb-2 tracking-widest">Notas o Fechas del Evento</label>
                       <textarea
                         value={formData.message}
                         onChange={e => setFormData(prev => ({...prev, message: e.target.value}))}
                         rows={3}
-                        className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:outline-none focus:border-sports-primary transition-all font-body text-sm resize-none"
-                        placeholder="Fechas tentativas, ubicación, nº de equipos..."
+                        className="block w-full border border-white/10 rounded-2xl bg-sports-dark text-white py-4 px-5 focus:border-sports-primary outline-none transition-all text-sm resize-none"
+                        placeholder="Ej: Torneo anual de fin de curso, 3 sedes..."
                       />
                     </div>
 
-                    <div className="pt-4">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl hover:bg-white transition-all duration-300 shadow-xl shadow-lime-900/20 disabled:opacity-30"
-                      >
-                        {isSubmitting ? 'Procesando...' : 'Enviar Solicitud Premium'}
-                      </button>
-                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl hover:bg-white transition-all shadow-xl shadow-lime-900/20 disabled:opacity-30"
+                    >
+                      {isSubmitting ? 'Sincronizando...' : (selectedPlan.id === 'school' ? 'Reservar Auditoría Gratis (0€)' : 'Confirmar Solicitud')}
+                    </button>
                  </form>
               </div>
             </div>
@@ -288,26 +294,46 @@ SERVICIOS: ${servicesList}`;
         </div>
       </div>
 
-      {/* SUCCESS POPUP */}
       {showSuccessPopup && (
          <div className="fixed inset-0 z-[110] flex items-center justify-center px-4 animate-fade-in">
-            <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={onClose}></div>
-            <div className="bg-sports-surface border border-sports-accent rounded-[3rem] p-12 max-w-md w-full relative shadow-[0_0_80px_rgba(190,242,100,0.1)] text-center">
+            <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" onClick={onClose}></div>
+            <div className="bg-sports-surface border border-sports-accent rounded-[3rem] p-12 max-w-md w-full relative text-center shadow-2xl">
                 <div className="w-24 h-24 bg-sports-accent rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl rotate-3">
                     <svg className="w-12 h-12 text-sports-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <h3 className="text-3xl font-display font-extrabold text-white uppercase mb-4 tracking-tight">¡Solicitud Enviada!</h3>
-                <p className="text-slate-400 font-body mb-10 leading-relaxed">
-                    Hemos recibido tus detalles. Alicia Pons revisará la viabilidad operativa y te contactará en menos de 24 horas.
+                <h3 className="text-3xl font-display font-extrabold text-white uppercase mb-4 tracking-tight">¡Registrado!</h3>
+                <p className="text-slate-400 font-body mb-10 leading-relaxed text-sm">
+                    {selectedPlan.id === 'school' 
+                       ? 'Tus datos han sido registrados correctamente. Ahora Alicia necesita coordinar la visita a tu centro. Elige el mejor momento en su agenda virtual.'
+                       : 'Alicia Pons ha recibido tu solicitud. Analizaremos tu evento y te contactaremos por correo en las próximas 24 horas.'}
                 </p>
-                <button 
-                    onClick={onClose}
-                    className="w-full py-5 bg-white text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl hover:bg-sports-accent transition-all"
-                >
-                    Volver a la Web
-                </button>
+                <div className="space-y-4">
+                   {selectedPlan.id === 'school' ? (
+                      <a 
+                        href={CALENDLY_URL} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl hover:bg-white transition-all shadow-xl shadow-lime-900/20"
+                      >
+                        Agendar Auditoría (0€)
+                      </a>
+                   ) : (
+                      <button 
+                         onClick={onClose}
+                         className="w-full py-5 bg-sports-accent text-sports-dark font-display font-extrabold uppercase tracking-widest rounded-2xl"
+                      >
+                         Entendido
+                      </button>
+                   )}
+                   <button 
+                      onClick={onClose}
+                      className="w-full py-4 text-white font-display font-bold uppercase text-[10px] tracking-widest hover:text-sports-accent transition-all"
+                   >
+                      Cerrar y Volver
+                   </button>
+                </div>
             </div>
          </div>
       )}
