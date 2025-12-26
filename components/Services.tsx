@@ -70,12 +70,30 @@ export const Services: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Pagos en 3 veces indicator */}
+                {plan.milestones && (
+                   <div className="mb-8 p-5 bg-white/5 rounded-2xl border border-white/5">
+                      <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-sports-accent"></span>
+                        Pago flexible en 3 cuotas
+                      </p>
+                      <div className="space-y-2">
+                         {plan.milestones.map((ms, idx) => (
+                            <div key={idx} className="flex justify-between items-center text-[10px] font-medium">
+                               <span className="text-slate-400">{ms.label.split('(')[0]}</span>
+                               <span className="text-white font-bold">{ms.amount}</span>
+                            </div>
+                         ))}
+                      </div>
+                   </div>
+                )}
+
                 <p className="text-slate-400 text-sm font-body leading-relaxed mb-10 flex-1">
                   {plan.description}
                 </p>
 
                 <div className="space-y-4 mb-10">
-                  {plan.features.slice(0, 5).map((feature, idx) => (
+                  {plan.features.slice(0, 6).map((feature, idx) => (
                     <div key={idx} className="flex items-start text-xs text-slate-300 font-medium">
                        <span className="text-sports-accent mr-3 font-bold text-base">✓</span>
                        <span className="leading-snug">{feature}</span>

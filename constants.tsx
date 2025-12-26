@@ -102,9 +102,9 @@ export const PLANS: Plan[] = [
       'Soporte administrativo preventa'
     ],
     milestones: [
-      { amount: '165€', label: 'al contratar' },
-      { amount: '220€', label: '60 días antes' },
-      { amount: '165€', label: 'semana del evento' }
+      { amount: '165€', label: 'Reserva de fecha (30%)' },
+      { amount: '220€', label: 'Inicio operativa (40%)' },
+      { amount: '165€', label: 'Cierre de inscripciones (30%)' }
     ]
   },
   {
@@ -127,9 +127,9 @@ export const PLANS: Plan[] = [
       'Acreditaciones digitales para staff y jugadores'
     ],
     milestones: [
-      { amount: '375€', label: 'al contratar' },
-      { amount: '500€', label: '60 días antes' },
-      { amount: '375€', label: 'semana del evento' }
+      { amount: '375€', label: 'Bloqueo y Configuración (30%)' },
+      { amount: '500€', label: 'Desarrollo Logístico (40%)' },
+      { amount: '375€', label: 'Semana del Torneo (30%)' }
     ]
   },
   {
@@ -151,9 +151,9 @@ export const PLANS: Plan[] = [
       'Control de accesos QR y gestión de staff durante el evento'
     ],
     milestones: [
-      { amount: '645€', label: 'al contratar' },
-      { amount: '860€', label: '60 días antes' },
-      { amount: '645€', label: 'semana del evento' }
+      { amount: '645€', label: 'Auditoría y Plan Maestro (30%)' },
+      { amount: '860€', label: 'Gestión Integral (40%)' },
+      { amount: '645€', label: 'Liquidación Final (30%)' }
     ]
   }
 ];

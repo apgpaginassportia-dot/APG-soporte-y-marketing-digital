@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Plan, LeadForm, CustomServiceOption, TeamServiceItem } from '../types';
 import { CUSTOM_SERVICES_LIST, TEAM_SERVICES } from '../constants';
@@ -142,6 +143,21 @@ SERVICIOS: ${servicesList}`;
                    <p className="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.2em] font-bold font-display">Estimación Base</p>
                 </div>
 
+                {/* Milestone breakdown in modal */}
+                {selectedPlan.milestones && (
+                  <div className="bg-sports-navy/40 rounded-2xl p-6 border border-white/5 mb-8">
+                    <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Plan de Pagos (3 Cuotas)</h5>
+                    <div className="space-y-3">
+                      {selectedPlan.milestones.map((ms, idx) => (
+                        <div key={idx} className="flex justify-between items-center text-xs">
+                          <span className="text-slate-500 font-medium">{ms.label.split('(')[0]}</span>
+                          <span className="text-white font-bold">{ms.amount}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {selectedPlan.id === 'school' && (
                   <div className="bg-sports-navy/50 rounded-2xl p-6 border border-white/5 mb-8">
                      <label className="block text-[10px] font-bold text-slate-400 uppercase mb-4 tracking-widest">Modelo de Pago</label>
@@ -178,6 +194,7 @@ SERVICIOS: ${servicesList}`;
                 )}
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 max-h-[30vh] md:max-h-none">
+                   <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Servicios Incluidos</h5>
                    <ul className="space-y-4">
                       {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' ? getCustomServiceBreakdown() : selectedPlan.features).map((f: any, idx) => (
                           <li key={idx} className="text-xs text-slate-300 flex gap-3 font-body">
