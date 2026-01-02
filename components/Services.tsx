@@ -40,7 +40,7 @@ export const Services: React.FC = () => {
                   <div className="flex justify-between items-start mb-6">
                     <span className="text-sports-accent text-[9px] font-black uppercase tracking-[0.2em]">{plan.tagline}</span>
                     {plan.isRecommended && (
-                      <span className="bg-sports-accent text-sports-dark text-[8px] font-black px-2 py-1 rounded-md uppercase">Top Seller</span>
+                      <span className="bg-sports-accent text-sports-dark text-[8px] font-black px-2 py-1 rounded-md uppercase">MÁS SOLICITADO</span>
                     )}
                   </div>
                   <h3 className="text-3xl font-display font-black text-white uppercase mb-2">
@@ -54,7 +54,7 @@ export const Services: React.FC = () => {
 
                 <div className="space-y-4 mb-10 flex-1">
                   {plan.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start text-[11px] text-slate-400 font-semibold group">
+                    <div key={idx} className="flex items-start text-xs text-slate-400 font-semibold group leading-snug">
                        <span className="text-sports-accent mr-3 mt-1 opacity-50 group-hover:opacity-100 transition-opacity">
                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={4}><path d="M5 13l4 4L19 7"/></svg>
                        </span>
@@ -73,8 +73,8 @@ export const Services: React.FC = () => {
                       <div className="grid grid-cols-3 gap-2">
                          {plan.milestones.map((ms, idx) => (
                             <div key={idx} className="flex flex-col">
-                               <span className="text-[9px] text-white font-black">{ms.amount}</span>
-                               <span className="text-[7px] text-slate-500 uppercase font-bold">{ms.label.split(' ')[0]}</span>
+                               <span className="text-sm text-white font-black">{ms.amount}</span>
+                               <span className="text-[9px] text-slate-500 uppercase font-bold">{ms.label.split(' ')[0]}</span>
                             </div>
                          ))}
                       </div>

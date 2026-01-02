@@ -108,15 +108,15 @@ export const CustomBuilder: React.FC = () => {
                    <div className="text-center py-20 text-slate-500 text-xs font-bold uppercase tracking-widest italic opacity-40">Añade módulos</div>
                  ) : (
                    <div className="space-y-4 mb-10">
-                     <ul className="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+                     <ul className="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
                        {selectedServices.map(id => {
                          const s = CUSTOM_SERVICES_LIST.find(srv => srv.id === id);
                          return (
-                           <li key={id} className="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5 group">
-                             <span className="text-[10px] text-white font-black uppercase tracking-wide">{s?.label}</span>
+                           <li key={id} className="flex justify-between items-center bg-white/5 p-5 rounded-2xl border border-white/5 group">
+                             <span className="text-sm text-white font-black uppercase tracking-wide">{s?.label}</span>
                              <div className="flex items-center gap-4">
-                                <span className="text-sports-accent font-black text-xs">{s?.price}€</span>
-                                <button onClick={() => toggleService(id)} className="text-slate-600 hover:text-white transition-colors">✕</button>
+                                <span className="text-sports-accent font-black text-sm">{s?.price}€</span>
+                                <button onClick={() => toggleService(id)} className="text-slate-600 hover:text-white transition-colors p-1">✕</button>
                              </div>
                            </li>
                          )

@@ -147,11 +147,11 @@ export const TeamServices: React.FC = () => {
                             {selectedServices.map(id => {
                                 const s = TEAM_SERVICES.find(srv => srv.id === id);
                                 return s ? (
-                                    <li key={id} className="flex justify-between items-center text-[10px] bg-white/5 p-4 rounded-xl border border-white/5 group">
-                                        <span className="text-white font-black uppercase truncate pr-2">{s.title}</span>
+                                    <li key={id} className="flex justify-between items-center bg-white/5 p-5 rounded-xl border border-white/5 group">
+                                        <span className="text-xs text-white font-black uppercase truncate pr-2">{s.title}</span>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-sports-accent font-black">{s.price}</span>
-                                            <button onClick={(e) => { e.stopPropagation(); toggleService(id); }} className="text-slate-600 hover:text-white transition-colors">✕</button>
+                                            <span className="text-sm text-sports-accent font-black">{s.price}</span>
+                                            <button onClick={(e) => { e.stopPropagation(); toggleService(id); }} className="text-slate-600 hover:text-white transition-colors p-1">✕</button>
                                         </div>
                                     </li>
                                 ) : null;

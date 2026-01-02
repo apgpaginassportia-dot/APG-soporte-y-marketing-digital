@@ -1,4 +1,3 @@
-
 import { Plan, CustomServiceOption, ServiceCatalogItem, SchoolServiceItem, TeamServiceItem } from './types';
 
 // Configuración de Terceros - Solo se mantiene como referencia interna
@@ -87,23 +86,23 @@ export const PLANS: Plan[] = [
   {
     id: 'basic',
     title: 'Básico',
-    tagline: 'Administración Core',
-    priceDisplay: '690€',
-    basePrice: 690,
+    tagline: 'Captación Rápida',
+    priceDisplay: '590€',
+    basePrice: 590,
     subtitle: 'Administración Táctica',
-    description: 'Elimino tu papeleo y centralizo el control de inscripciones de forma profesional.',
-    footerLabel: 'Ideal si tienes staff propio pero necesitas orden.',
+    description: 'Gestión profesional de inscripciones de equipos y jugadores. El primer paso para el orden.',
+    footerLabel: 'Punto de entrada ideal para profesionalizar tu torneo hoy mismo.',
     buttonText: 'Solicitar Auditoría Gratuita',
     features: [
-      'Gestión digital de inscripciones (Mis formularios Pro)',
-      'Validación técnica de fichas de jugadores',
-      'Control manual de validación de pagos',
-      'Dashboard básico de inscritos por categorías'
+      'Gestión de Inscripciones de equipos y jugadores',
+      'Dashboard en tiempo real de inscritos por categoría',
+      'Atención vía WhatsApp a delegados para registros',
+      'Soporte administrativo Alicia Pons'
     ],
     milestones: [
-      { amount: '207€', label: 'Reserva de fecha (30%)' },
-      { amount: '276€', label: 'Inicio operativa (40%)' },
-      { amount: '207€', label: 'Cierre de inscripciones (30%)' }
+      { amount: '177€', label: 'Reserva de fecha (30%)' },
+      { amount: '236€', label: 'Inicio operativa (40%)' },
+      { amount: '177€', label: 'Cierre de inscripciones (30%)' }
     ]
   },
   {
@@ -113,17 +112,16 @@ export const PLANS: Plan[] = [
     priceDisplay: '1.590€',
     basePrice: 1590,
     subtitle: 'Operativa Maestra',
-    description: 'Nada se te pierde, nada se descuadra. Tomo el control operativo de flotas y pagos.',
+    description: 'Nada se te pierde, nada se descuadra. Tomo el control operativo de flotas y coordinación técnica.',
     isRecommended: true,
-    recommendationLabel: 'El que más me piden',
+    recommendationLabel: 'El más equilibrado',
     buttonText: 'Solicitar Auditoría Gratuita',
     features: [
+      'Todo lo del Plan Básico incluido',
       'Seguimiento y control de cobros a los equipos',
-      'Coordino tu transporte (con tus proveedores)',
-      'Planifico tus horarios de partidos y sedes',
-      'Seguimiento documental de inscripciones',
-      'Gestiono la comunicación directa con tus equipos',
-      'Acreditaciones digitales para tu staff'
+      'Coordinación de transporte (con tus proveedores)',
+      'Planificación de horarios de partidos y sedes',
+      'Acreditaciones digitales para staff y participantes'
     ],
     milestones: [
       { amount: '477€', label: 'Configuración inicial (30%)' },
@@ -135,41 +133,40 @@ export const PLANS: Plan[] = [
     id: 'advanced',
     title: 'Avanzado',
     tagline: 'Dirección Operativa',
-    priceDisplay: '2.890€',
-    basePrice: 2890,
+    priceDisplay: '2.950€',
+    basePrice: 2950,
     subtitle: 'Control Total y Partner',
-    description: 'Tu torneo bajo control absoluto. Me hago responsable de la dirección de campo.',
+    description: 'Tu torneo bajo control absoluto. Me hago responsable de la dirección de campo y tesorería.',
     footerLabel: 'Nivel Partner: Máxima seguridad operativa para ti.',
     buttonText: 'Solicitar Auditoría Gratuita',
     features: [
-      'Gestión avanzada de tesorería y pagos',
-      'Diseño tu calendario estratégico de competición',
-      'Gestiono integral de transporte: busco y negocio por ti',
-      'Validación documental técnica avanzada',
-      'Mi dirección logística in-situ el día del evento',
-      'Control de accesos QR y gestión de tu staff'
+      'Todo lo del Plan Intermedio incluido',
+      'Gestión avanzada de tesorería y liquidación final',
+      'Dirección logística presencial in-situ (día del evento)',
+      'Gestión integral de transporte: negociación y cierre',
+      'Control de accesos QR y gestión dinámica de staff'
     ],
     milestones: [
-      { amount: '867€', label: 'Auditoría y Plan Maestro (30%)' },
-      { amount: '1.156€', label: 'Gestión Integral (40%)' },
-      { amount: '867€', label: 'Liquidación Final (30%)' }
+      { amount: '885€', label: 'Auditoría y Plan Maestro (30%)' },
+      { amount: '1.180€', label: 'Gestión Integral (40%)' },
+      { amount: '885€', label: 'Liquidación Final (30%)' }
     ]
   }
 ];
 
 export const INDIVIDUAL_SERVICES_RATES = [
-  { service: 'Gestión de Inscripciones', description: 'Control de plazas, validación de fichas y pagos.', price: '300€ - 500€' },
-  { service: 'Ingeniería de Transporte', description: 'Diseño de flotas, rutas dinámicas y transfers.', price: '450€ - 800€' },
-  { service: 'Hospitalidad Élite', description: 'Gestión de hoteles, Rooming List y dietas.', price: '800€ - 1.500€' },
-  { service: 'Seguridad y Control', description: 'Protocolos de riesgo y acreditaciones.', price: '400€ - 700€' },
+  { service: 'Gestión de Inscripciones', description: 'Control de plazas, validación de fichas y jugadores.', price: '450€ - 750€' },
+  { service: 'Ingeniería de Transporte', description: 'Diseño de flotas, rutas dinámicas y transfers.', price: '600€ - 1.200€' },
+  { service: 'Hospitalidad Élite', description: 'Gestión de hoteles, Rooming List y dietas.', price: '900€ - 2.000€' },
+  { service: 'Seguridad y Control', description: 'Protocolos de riesgo y acreditaciones.', price: '500€ - 900€' },
 ];
 
 export const CUSTOM_SERVICES_LIST: CustomServiceOption[] = [
-  { id: 'admin_base', label: 'Central Administrativa', description: 'Inscripciones sin errores.', price: 250, unit: 'módulo' },
-  { id: 'transport_pro', label: 'Logística de Flotas', description: 'Rutas optimizadas para equipos.', price: 350, unit: 'evento' },
-  { id: 'hotel_master', label: 'Gestión de Alojamiento', description: 'Control de rooming y dietas.', price: 450, unit: 'módulo' },
-  { id: 'vip_access', label: 'Protocolo VIP', description: 'Gestión de ojeadores y prensa.', price: 300, unit: 'módulo' },
-  { id: 'safety_first', label: 'Seguridad y Crisis', description: 'Planes de contingencia deportiva.', price: 280, unit: 'módulo' },
+  { id: 'admin_base', label: 'Central Administrativa', description: 'Inscripciones sin errores.', price: 400, unit: 'módulo' },
+  { id: 'transport_pro', label: 'Logística de Flotas', description: 'Rutas optimizadas para equipos.', price: 550, unit: 'evento' },
+  { id: 'hotel_master', label: 'Gestión de Alojamiento', description: 'Control de rooming y dietas.', price: 750, unit: 'módulo' },
+  { id: 'vip_access', label: 'Protocolo VIP', description: 'Gestión de ojeadores y prensa.', price: 400, unit: 'módulo' },
+  { id: 'safety_first', label: 'Seguridad y Crisis', description: 'Planes de contingencia deportiva.', price: 450, unit: 'módulo' },
 ];
 
 export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
@@ -180,8 +177,8 @@ export const SERVICE_CATALOG_DETAILED: ServiceCatalogItem[] = [
     iconName: "Users",
     details: [
         "Diseño tus formularios de registro personalizados.",
-        "Valido manualmente licencias y pagos.",
-        "Generación de listados oficiales.",
+        "Valido manualmente licencias y fichas de jugadores.",
+        "Generación de listados oficiales de competición.",
         "Gestiono la comunicación con tus delegados."
     ]
   },
@@ -237,8 +234,8 @@ export const SCHOOL_SERVICES: SchoolServiceItem[] = [
 export const SCHOOL_PLAN_DATA: Plan = {
   id: 'school',
   title: "Dirección de Eventos Escolares",
-  priceDisplay: "Desde 550€",
-  basePrice: 550,
+  priceDisplay: "Desde 750€",
+  basePrice: 750,
   subtitle: "Del Patio al Estadio Profesional",
   description: "Transformo el evento deportivo de tu colegio en una experiencia profesional. Gestión llave en mano.",
   details: "Olvídate del caos operativo. Implemento tecnología de live scoring y me encargo de la dirección de campo presencial. Mi proceso comienza con una auditoría gratuita de lo que necesita tu centro.",
@@ -251,9 +248,9 @@ export const SCHOOL_PLAN_DATA: Plan = {
     "Clausura y Entrega de Premios"
   ],
   milestones: [
-    { amount: '165€', label: 'Estructura (30%)' },
-    { amount: '220€', label: 'Preparación (40%)' },
-    { amount: '165€', label: 'Ejecución (30%)' }
+    { amount: '225€', label: 'Estructura (30%)' },
+    { amount: '300€', label: 'Preparación (40%)' },
+    { amount: '225€', label: 'Ejecución (30%)' }
   ],
   isRecommended: true
 };
@@ -262,7 +259,7 @@ export const TEAM_SERVICES: TeamServiceItem[] = [
   {
     id: 'player_management',
     title: "Gestión Deportiva",
-    price: "150€",
+    price: "185€",
     period: "/ temp",
     description: "Mantengo tus fichas de jugadores bajo control total.",
     iconName: "Users",
@@ -272,7 +269,7 @@ export const TEAM_SERVICES: TeamServiceItem[] = [
   {
     id: 'match_day',
     title: "Logística de Partidos",
-    price: "49€",
+    price: "75€",
     period: "/ mes",
     description: "Sincronizo tus horarios y rutas para cada jornada.",
     iconName: "Bus",

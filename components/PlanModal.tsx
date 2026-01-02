@@ -114,12 +114,12 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
         {/* PANEL IZQUIERDO: Resumen y Pagos */}
         <div className="md:w-5/12 bg-sports-surface p-8 md:p-12 border-b md:border-b-0 md:border-r border-white/10 overflow-y-auto custom-scrollbar">
           <div className="mb-10">
-            <span className="text-sports-accent font-bold text-[10px] tracking-widest uppercase block mb-2">Paso 1: Diagnóstico Operativo</span>
+            <span className="text-sports-accent font-bold text-xs tracking-widest uppercase block mb-2">Paso 1: Diagnóstico Operativo</span>
             <h3 className="text-2xl font-display font-black text-white uppercase leading-tight">Auditoría: {selectedPlan.title}</h3>
           </div>
           
           <div className="mb-8 p-8 bg-gradient-to-br from-sports-accent/20 to-transparent border border-sports-accent/20 rounded-[2rem]">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] block mb-2">Inversión del Plan Analizado</span>
+            <span className="text-xs text-slate-400 font-bold uppercase tracking-[0.2em] block mb-2">Inversión del Plan Analizado</span>
             <div className="flex items-baseline gap-2">
               <span className="text-5xl font-display font-black text-sports-accent tracking-tighter">{totalPrice}€</span>
               <span className="text-xs text-slate-400 font-bold uppercase tracking-widest">Base (Sin IVA)</span>
@@ -127,26 +127,26 @@ export const PlanModal: React.FC<PlanModalProps> = ({ isOpen, onClose, selectedP
           </div>
 
           <div className="mb-10 p-6 bg-white/5 border border-white/5 rounded-3xl">
-            <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <h5 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-sports-accent animate-pulse"></span>
               Modelo de Pagos Sugerido
             </h5>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {calculatedMilestones.map((m, idx) => (
-                <div key={idx} className="flex justify-between items-center bg-sports-navy/50 p-3 rounded-xl border border-white/5">
-                  <span className="text-[10px] text-slate-400 font-medium">{m.label}</span>
-                  <span className="text-sm font-display font-bold text-white">{m.amount}€</span>
+                <div key={idx} className="flex justify-between items-center bg-sports-navy/50 p-4 rounded-xl border border-white/5">
+                  <span className="text-xs text-slate-300 font-semibold">{m.label}</span>
+                  <span className="text-lg font-display font-black text-white">{m.amount}€</span>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="space-y-4">
-            <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Módulos a Auditar:</h5>
+            <h5 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Módulos a Auditar:</h5>
             <ul className="space-y-3">
               {(selectedPlan.id === 'custom' || selectedPlan.id === 'team_custom' ? getCustomServiceBreakdown() : selectedPlan.features).map((f: any, idx) => (
-                <li key={idx} className="text-xs text-slate-300 font-body flex items-start gap-3">
-                  <span className="text-sports-accent flex-shrink-0">
+                <li key={idx} className="text-sm text-slate-300 font-body flex items-start gap-3">
+                  <span className="text-sports-accent flex-shrink-0 mt-1">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   </span>
                   <span className="leading-tight">{typeof f === 'string' ? f : (f.label || f.title)}</span>

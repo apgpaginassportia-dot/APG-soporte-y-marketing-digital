@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export const Footer: React.FC = () => {
@@ -73,7 +72,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-slate-600 text-[10px] font-bold font-display uppercase tracking-[0.2em]">© 2025 APG Marketing y Soporte Digital.</p>
+          <p className="text-slate-600 text-[10px] font-bold font-display uppercase tracking-[0.2em]">© 2026 APG Marketing y Soporte Digital.</p>
           <div className="flex gap-8">
             <a href="#" className="text-slate-600 hover:text-slate-400 transition-colors text-[10px] font-bold uppercase tracking-widest">Aviso Legal</a>
             <a href="#" className="text-slate-600 hover:text-slate-400 transition-colors text-[10px] font-bold uppercase tracking-widest">Privacidad</a>

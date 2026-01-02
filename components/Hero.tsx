@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { AuditModal } from './AuditModal';
 
@@ -19,7 +18,7 @@ export const Hero: React.FC = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
               <span className="flex h-1.5 w-1.5 rounded-full bg-sports-accent animate-pulse"></span>
               <span className="text-sports-accent font-bold text-[9px] tracking-[0.2em] uppercase">
-                Mi Operativa de alto rendimiento 2025
+                Mi Operativa de alto rendimiento 2026
               </span>
             </div>
             
@@ -39,22 +38,6 @@ export const Hero: React.FC = () => {
               >
                 <span>Solicitar Auditoría Gratuita</span>
               </button>
-            </div>
-
-            {/* Trust Strip */}
-            <div className="mt-20 pt-10 border-t border-white/5 flex flex-wrap gap-10 opacity-40">
-               <div className="flex flex-col">
-                  <span className="text-2xl font-black text-white">15K</span>
-                  <span className="text-[9px] uppercase font-bold tracking-widest">Atletas</span>
-               </div>
-               <div className="flex flex-col">
-                  <span className="text-2xl font-black text-white">45</span>
-                  <span className="text-[9px] uppercase font-bold tracking-widest">Sedes</span>
-               </div>
-               <div className="flex flex-col">
-                  <span className="text-2xl font-black text-white">24/7</span>
-                  <span className="text-[9px] uppercase font-bold tracking-widest">Mi Soporte</span>
-               </div>
             </div>
           </div>
         </div>
