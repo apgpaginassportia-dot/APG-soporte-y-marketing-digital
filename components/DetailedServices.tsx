@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Icons, SERVICE_CATALOG_DETAILED } from '../constants';
 
@@ -6,16 +5,22 @@ export const DetailedServices: React.FC = () => {
   return (
     <section id="detailed-services" className="py-32 bg-sports-bg relative">
        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
+         <div className="flex flex-col md:flex-row items-start justify-between mb-24 gap-12">
             <div className="max-w-2xl">
-              <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-[10px] mb-4">Core Operativo</h2>
-              <h3 className="text-4xl md:text-6xl font-display font-black text-white uppercase tracking-tighter leading-none">
-                Mi Gestión <span className="text-slate-500">Maestra</span>
+              <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-[10px] mb-4">Ingeniería Operativa</h2>
+              <h3 className="text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter leading-tight">
+                La diferencia entre un <br/><span className="text-slate-500">Evento y un Éxito</span>
               </h3>
+              <p className="text-slate-400 mt-6 text-lg font-medium leading-relaxed">
+                Mi experiencia en la <strong>Madrid Easter Cup 2025</strong>, gestionando más de 150 equipos, me enseñó que la clave está en el engranaje invisible. No te vendo software, te vendo la seguridad de que tu torneo será impecable.
+              </p>
             </div>
-            <p className="text-slate-400 max-w-xs text-sm font-medium border-l border-white/10 pl-6">
-              Servicios modulares que he diseñado para atacar los puntos de fricción más comunes en tus eventos de fútbol.
-            </p>
+            <div className="bg-white/5 border border-white/10 p-8 rounded-3xl max-w-xs">
+              <p className="text-slate-400 text-sm italic font-medium">
+                "No aplico parches genéricos. Diseño la infraestructura administrativa y logística específica que tus deportistas merecen."
+              </p>
+              <p className="text-white font-bold mt-4 text-xs uppercase tracking-widest">— Alicia Pons</p>
+            </div>
          </div>
          
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

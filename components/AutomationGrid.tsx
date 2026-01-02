@@ -5,7 +5,8 @@ import { CUSTOM_SERVICES_LIST, Icons } from '../constants';
 export const AutomationGrid: React.FC = () => {
   const getIcon = (id: string) => {
     switch (id) {
-      case 'admin_base': return <Icons.AutoForm />;
+      // Fix: Using Icons.Check instead of Icons.AutoForm which is not defined
+      case 'admin_base': return <Icons.Check />;
       case 'transport_pro': return <Icons.Bus />;
       case 'hotel_master': return <Icons.Hotel />;
       case 'vip_access': return <Icons.Users />;

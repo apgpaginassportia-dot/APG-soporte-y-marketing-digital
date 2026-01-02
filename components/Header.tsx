@@ -12,7 +12,6 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScrollEvent);
   }, []);
 
-  // Bloquear scroll del body cuando el menú está abierto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -22,22 +21,16 @@ export const Header: React.FC = () => {
   }, [isOpen]);
 
   const navLinks = [
-    { name: 'Torneos', id: 'detailed-services' },
-    { name: 'Servicios', id: 'services-table' },
+    { name: 'Qué hago', id: 'detailed-services' },
     { name: 'Planes', id: 'plans' },
     { name: 'Clubes', id: 'teams' },
     { name: 'Colegios', id: 'schools' },
-    { name: 'Configurador', id: 'builder' },
     { name: 'Contacto', id: 'contact' },
   ];
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    
-    // Cerramos el menú primero para que la transición de cierre comience
     setIsOpen(false);
-    
-    // Pequeño delay para permitir que el menú empiece a cerrarse antes de hacer scroll
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -57,12 +50,11 @@ export const Header: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <span className={`font-display font-black text-3xl tracking-tighter text-white`}>APG</span>
-                <span className="text-[9px] text-sports-accent uppercase tracking-[0.3em] font-extrabold -mt-1">Marketing & Operaciones</span>
+                <span className="text-[9px] text-sports-accent uppercase tracking-[0.3em] font-extrabold -mt-1">Digital & Operaciones</span>
               </div>
             </a>
           </div>
           
-          {/* Desktop Nav */}
           <div className="hidden md:flex space-x-2">
             {navLinks.map((link) => (
               <a
@@ -76,7 +68,6 @@ export const Header: React.FC = () => {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -95,13 +86,11 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Nav Overlay (Backdrop) */}
       <div 
         className={`fixed inset-0 bg-sports-dark/60 backdrop-blur-sm transition-opacity duration-500 md:hidden ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Mobile Nav Content */}
       <div 
         className={`md:hidden absolute w-full bg-sports-bg/95 border-b border-white/5 shadow-2xl transition-all duration-500 ease-in-out transform ${
           isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-10 invisible'

@@ -14,6 +14,11 @@ export interface Milestone {
   label: string;
 }
 
+export interface PlanFeature {
+  label: string;
+  description: string;
+}
+
 export interface Plan {
   id: 'basic' | 'intermediate' | 'advanced' | 'custom' | 'school' | 'team' | 'team_custom';
   title: string;
@@ -24,7 +29,7 @@ export interface Plan {
   description: string; // Short description for Card
   tagline?: string;    // Subtitle above description
   details?: string;    // Long description for Modal
-  features: string[];
+  features: string[] | PlanFeature[];
   milestones?: Milestone[];
   isRecommended?: boolean;
   recommendationLabel?: string;

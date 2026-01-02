@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Icons } from '../constants';
 
@@ -18,7 +19,8 @@ export const VisualServices: React.FC = () => {
          
          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
            {solutions.map((service, idx) => {
-             const IconComponent = Icons[service.iconName as keyof typeof Icons] || Icons.Star;
+             // Fix: Fallback to Icons.Check instead of Icons.Star which is not defined
+             const IconComponent = Icons[service.iconName as keyof typeof Icons] || Icons.Check;
              return (
                <div key={idx} className="group bg-sports-surface p-10 rounded-xl border border-white/5 flex flex-col items-center text-center hover:border-sports-blue transition-all duration-300 hover:-translate-y-1 shadow-lg">
                  <div className="text-sports-blue group-hover:text-sports-lime mb-6 transition-colors transform scale-125">

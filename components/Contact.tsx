@@ -45,7 +45,7 @@ export const Contact: React.FC = () => {
                  <div className="relative z-10">
                    <h3 className="text-3xl font-display font-bold mb-4 uppercase tracking-tight">Contacto</h3>
                    <p className="text-indigo-100 mb-8 font-light text-sm leading-relaxed">
-                     ¿Dudas sobre cómo profesionalizar tu torneo de fútbol? Resolvemos tus inquietudes en menos de 24h.
+                     ¿Dudas sobre cómo profesionalizar tu torneo de fútbol? Resuelvo tus inquietudes en menos de 24h.
                    </p>
                    
                    <div className="space-y-4">

@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { createContact } from '../services/airtableService';
-import { CALENDLY_URL } from '../constants';
 
 interface AuditModalProps {
   isOpen: boolean;
@@ -37,9 +36,9 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
         Nombre: formData.name,
         Email: formData.email,
         Teléfono: formData.phone,
-        Asunto: "SOLICITUD AUDITORÍA ESTRATÉGICA",
+        Asunto: "SOLICITUD CHARLA DIAGNÓSTICO",
         Detalles: `Proyecto: ${formData.project}`,
-        Mensaje: `Interés en auditoría gratuita para el evento: ${formData.project}`
+        Mensaje: `Interés en diagnóstico gratuito para: ${formData.project}`
       });
       setShowSuccessPopup(true);
     } catch (error: any) {
@@ -59,41 +58,52 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
       >
         <div className="md:w-5/12 bg-sports-surface p-12 border-r border-white/5 flex flex-col justify-between">
            <div>
-             <h3 className="text-3xl font-display font-black text-white uppercase leading-tight mb-4">Auditoría Estratégica</h3>
+             <h3 className="text-3xl font-display font-black text-white uppercase leading-tight mb-4">Hablemos de tu Torneo</h3>
              <p className="text-slate-400 text-sm leading-relaxed mb-8">
-               Analizaremos tu estructura operativa actual y detectaremos fugas de recursos. Cita gratuita con Alicia Pons.
+               Reserva una charla de 15 minutos conmigo. Analizaré los puntos críticos de tu organización y te daré mi opinión técnica sobre cómo profesionalizar tu operativa, sin compromiso.
              </p>
+             <ul className="space-y-4 mb-8">
+               <li className="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                  <span className="text-sports-accent">✓</span> Sin coste ni permanencia.
+               </li>
+               <li className="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                  <span className="text-sports-accent">✓</span> Enfoque en ahorro de tiempo real.
+               </li>
+               <li className="flex items-center gap-3 text-xs text-slate-300 font-medium">
+                  <span className="text-sports-accent">✓</span> Análisis basado en mi experiencia en MEC'25.
+               </li>
+             </ul>
            </div>
            <div className="flex items-center gap-3 text-sports-accent">
               <span className="w-2 h-2 rounded-full bg-sports-accent animate-pulse"></span>
-              <span className="text-[10px] font-bold uppercase tracking-widest">Plazas limitadas por semana</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest">Atención directa de Alicia Pons</span>
            </div>
         </div>
 
         <div className="md:w-7/12 p-12 bg-sports-navy relative flex flex-col justify-center">
            <button onClick={onClose} className="absolute top-6 right-6 text-slate-500 hover:text-white p-2">✕</button>
-           <h4 className="text-xl font-display font-bold text-white uppercase mb-8">Tus Datos</h4>
-           <form handleFormSubmit={handleFormSubmit} className="space-y-5" onSubmit={handleFormSubmit}>
+           <h4 className="text-xl font-display font-bold text-white uppercase mb-8">Diagnóstico Gratuito</h4>
+           <form className="space-y-5" onSubmit={handleFormSubmit}>
               <div className="space-y-2">
-                 <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Nombre Responsable</label>
-                 <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm" placeholder="Nombre completo" />
+                 <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Nombre</label>
+                 <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm shadow-inner" placeholder="Tu nombre" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-2">
                     <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Email</label>
-                    <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm" placeholder="tu@email.com" />
+                    <input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm shadow-inner" placeholder="tu@email.com" />
                  </div>
                  <div className="space-y-2">
-                    <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Móvil</label>
-                    <input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm" placeholder="600 000 000" />
+                    <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Teléfono</label>
+                    <input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm shadow-inner" placeholder="600 000 000" />
                  </div>
               </div>
               <div className="space-y-2">
-                 <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Club / Organización</label>
-                 <input type="text" value={formData.project} onChange={e => setFormData({...formData, project: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm" placeholder="Ej: Club Deportivo Madrid" />
+                 <label className="block text-[10px] font-bold text-sports-accent uppercase tracking-widest">Tipo de Evento / Club</label>
+                 <input type="text" value={formData.project} onChange={e => setFormData({...formData, project: e.target.value})} className="w-full bg-sports-dark border border-white/10 rounded-xl px-5 py-4 text-white focus:border-sports-accent outline-none text-sm shadow-inner" placeholder="Ej: Torneo Verano Fútbol" />
               </div>
-              <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-sports-accent text-sports-dark font-display font-black uppercase tracking-widest rounded-2xl hover:bg-white shadow-xl shadow-lime-900/20 disabled:opacity-50 transition-all">
-                 {isSubmitting ? 'Registrando...' : 'Solicitar Auditoría Gratuita'}
+              <button type="submit" disabled={isSubmitting} className="w-full py-5 bg-sports-accent text-sports-dark font-display font-black uppercase tracking-widest rounded-2xl hover:bg-white shadow-xl shadow-lime-900/20 disabled:opacity-50 transition-all active:scale-95">
+                 {isSubmitting ? 'Enviando...' : 'Solicitar Charla de 15 min'}
               </button>
            </form>
         </div>
@@ -102,17 +112,15 @@ export const AuditModal: React.FC<AuditModalProps> = ({ isOpen, onClose }) => {
       {showSuccessPopup && (
          <div className="fixed inset-0 z-[130] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" onClick={onClose}></div>
-            <div className="bg-sports-surface border border-sports-accent rounded-[3rem] p-12 max-w-md w-full relative text-center z-10">
+            <div className="bg-sports-surface border border-sports-accent rounded-[3rem] p-12 max-w-md w-full relative text-center z-10 animate-slide-up">
                 <div className="w-20 h-20 bg-sports-accent rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-lime-500/20">
                     <svg className="w-10 h-10 text-sports-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                 </div>
-                <h3 className="text-3xl font-display font-black text-white uppercase mb-4">¡Solicitud Enviada!</h3>
+                <h3 className="text-3xl font-display font-black text-white uppercase mb-4 tracking-tight">¡Solicitud Recibida!</h3>
                 <p className="text-slate-400 text-sm mb-10 leading-relaxed">
-                    Tus datos han sido registrados correctamente. Alicia Pons revisará tu propuesta y se pondrá en contacto contigo en las próximas 24 horas.
+                    Gracias por confiar en APG Digital. Alicia Pons te contactará personalmente en menos de 24 horas para agendar tu diagnóstico gratuito.
                 </p>
-                <div className="space-y-4">
-                   <button onClick={onClose} className="w-full py-5 bg-white text-sports-dark font-display font-black uppercase tracking-widest rounded-2xl hover:bg-sports-accent transition-all text-xs">Entendido</button>
-                </div>
+                <button onClick={onClose} className="w-full py-5 bg-white text-sports-dark font-display font-black uppercase tracking-widest rounded-2xl hover:bg-sports-accent transition-all text-xs">Cerrar</button>
             </div>
          </div>
       )}

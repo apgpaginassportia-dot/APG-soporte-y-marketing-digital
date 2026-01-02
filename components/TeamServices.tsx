@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { TEAM_SERVICES, Icons, CALENDLY_URL } from '../constants';
 import { PlanModal } from './PlanModal';
@@ -37,13 +36,13 @@ export const TeamServices: React.FC = () => {
     priceDisplay: `${totalEstimated}€`,
     basePrice: totalEstimated,
     subtitle: 'Servicios Combinados',
-    description: 'Selección a medida de servicios administrativos y deportivos para clubes y academias.',
+    description: 'Selección a medida de servicios administrativos y logísticos para liberar la carga operativa de tu staff técnico.',
     features: [],
-    buttonText: 'Solicitar Auditoría Gratuita'
+    buttonText: 'Solicitar Auditoría de Club'
   }), [totalEstimated]);
 
   const ServiceCard: React.FC<{ service: TeamServiceItem }> = ({ service }) => {
-    const IconComponent = Icons[service.iconName as keyof typeof Icons] || Icons.Star;
+    const IconComponent = Icons[service.iconName as keyof typeof Icons] || Icons.Check;
     const isSelected = selectedServices.includes(service.id);
 
     return (
@@ -96,7 +95,7 @@ export const TeamServices: React.FC = () => {
 
             <div className="mt-auto">
                <div className={`w-full py-4 rounded-2xl text-center text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${isSelected ? 'bg-sports-primary text-white shadow-lg' : 'bg-white/5 text-white group-hover:bg-white/10 group-hover:text-sports-accent border border-white/5'}`}>
-                  {isSelected ? 'Añadido al Pack' : 'Añadir al Pack'}
+                  {isSelected ? 'Añadido al Pack' : 'Subcontratar Servicio'}
                </div>
             </div>
         </div>
@@ -110,12 +109,12 @@ export const TeamServices: React.FC = () => {
         
         <div className="flex-1 w-full">
             <div className="mb-16">
-                <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-[10px] mb-4">Gestión de Entidades</h2>
+                <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-[10px] mb-4">Estructura para Entidades</h2>
                 <h3 className="text-4xl md:text-6xl font-display font-black text-white uppercase tracking-tighter leading-none">
                     Clubes y Academias
                 </h3>
                 <p className="mt-6 text-slate-400 max-w-2xl text-lg font-medium leading-relaxed">
-                    Automatización administrativa para clubes. Céntrate en entrenar, yo gestiono los datos para que tu entidad escale sin fricciones operativas.
+                    Céntrate en el entrenamiento y el scouting. Yo me encargo de que la oficina y los viajes de tus equipos funcionen como un club profesional.
                 </p>
             </div>
 
@@ -129,16 +128,16 @@ export const TeamServices: React.FC = () => {
         <div className="hidden xl:block xl:w-96 sticky top-24">
             <div className={`bg-white/5 border rounded-[2.5rem] p-10 backdrop-blur-xl shadow-2xl transition-all duration-500 ${selectedServices.length > 0 ? 'border-white/20' : 'border-white/5'}`}>
                 <div className="flex items-center justify-between mb-8 pb-8 border-b border-white/5">
-                    <h4 className="font-display font-black text-xl text-white uppercase tracking-tighter">Tu Selección</h4>
+                    <h4 className="font-display font-black text-xl text-white uppercase tracking-tighter">Pack Seleccionado</h4>
                     <span className={`text-[10px] font-black px-3 py-1 rounded-full ${selectedServices.length > 0 ? 'bg-sports-accent text-sports-dark' : 'bg-white/10 text-slate-500'}`}>
-                        {selectedServices.length} ITEMS
+                        {selectedServices.length} SERVICIOS
                     </span>
                 </div>
 
                 {selectedServices.length === 0 ? (
                     <div className="text-center py-12 flex flex-col items-center justify-center opacity-50">
                         <p className="text-xs text-slate-500 font-bold uppercase tracking-widest px-4 italic">
-                            Selecciona servicios para configurar tu pack y solicitar auditoría.
+                            Selecciona servicios para profesionalizar tu oficina técnica.
                         </p>
                     </div>
                 ) : (
@@ -159,7 +158,7 @@ export const TeamServices: React.FC = () => {
                         </ul>
                         <div className="border-t border-white/5 pt-8 mt-4">
                             <div className="flex justify-between items-end">
-                                <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Inversión Pack</span>
+                                <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Inversión Estimada</span>
                                 <span className="text-4xl font-display font-black text-white tracking-tighter">{totalEstimated}€</span>
                             </div>
                         </div>
@@ -172,7 +171,7 @@ export const TeamServices: React.FC = () => {
                       disabled={selectedServices.length === 0}
                       className="w-full py-5 bg-white text-sports-dark font-display font-black uppercase tracking-[0.2em] text-[10px] hover:bg-sports-accent transition-all rounded-2xl shadow-2xl shadow-white/5 disabled:opacity-10"
                   >
-                      {selectedServices.length === 0 ? 'Selecciona Módulos' : 'Solicitar Auditoría Gratuita'}
+                      {selectedServices.length === 0 ? 'Personaliza tu Pack' : 'Solicitar Propuesta Club'}
                   </button>
                 </div>
             </div>
@@ -184,7 +183,7 @@ export const TeamServices: React.FC = () => {
        <div className={`fixed bottom-0 left-0 right-0 bg-sports-navy border-t border-white/10 p-6 z-40 xl:hidden transition-transform duration-500 transform shadow-[0_-10px_40px_rgba(0,0,0,0.5)] ${selectedServices.length > 0 ? 'translate-y-0' : 'translate-y-full'}`}>
           <div className="flex items-center justify-between gap-6">
              <div className="flex flex-col">
-                <span className="text-[8px] text-slate-500 uppercase font-black tracking-widest">Total Pack Club</span>
+                <span className="text-[8px] text-slate-500 uppercase font-black tracking-widest">Presupuesto Club</span>
                 <div className="flex items-baseline gap-2">
                    <span className="text-3xl font-display font-black text-white">{totalEstimated}€</span>
                 </div>
@@ -193,7 +192,7 @@ export const TeamServices: React.FC = () => {
                 onClick={handleOpenCart}
                 className="flex-1 py-4 bg-white text-sports-dark font-display font-black text-xs uppercase rounded-xl shadow-xl active:scale-95"
              >
-                Continuar
+                Continuar Solicitud
              </button>
           </div>
        </div>
