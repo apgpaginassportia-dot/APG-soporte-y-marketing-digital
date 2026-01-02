@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 export const Header: React.FC = () => {
@@ -39,7 +38,6 @@ export const Header: React.FC = () => {
     setIsOpen(false);
     
     // Pequeño delay para permitir que el menú empiece a cerrarse antes de hacer scroll
-    // Esto evita saltos visuales si el menú ocupa mucha pantalla
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -49,29 +47,29 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className={`fixed w-full z-[150] transition-all duration-500 ${scrolled || isOpen ? 'bg-sports-bg/90 backdrop-blur-xl border-b border-white/5 py-3' : 'bg-transparent py-6'}`}>
+    <header className={`fixed w-full z-[150] transition-all duration-500 ${scrolled || isOpen ? 'bg-sports-bg/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-14">
+        <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <a href="/" className="flex-shrink-0 flex items-center gap-4 group">
-              <div className="w-11 h-11 bg-sports-primary rounded-2xl flex items-center justify-center text-white transition-all group-hover:rotate-12 group-hover:scale-110 shadow-lg shadow-indigo-900/50">
-                <span className="font-display font-black text-2xl">A</span>
+            <a href="/" className="flex-shrink-0 flex items-center gap-5 group">
+              <div className="w-12 h-12 bg-sports-primary rounded-2xl flex items-center justify-center text-white transition-all group-hover:rotate-12 group-hover:scale-110 shadow-lg shadow-indigo-900/50">
+                <span className="font-display font-black text-3xl">A</span>
               </div>
               <div className="flex flex-col">
-                <span className={`font-display font-black text-2xl tracking-tighter text-white`}>APG</span>
-                <span className="text-[8px] text-sports-accent uppercase tracking-[0.3em] font-extrabold -mt-1">Marketing & Operaciones</span>
+                <span className={`font-display font-black text-3xl tracking-tighter text-white`}>APG</span>
+                <span className="text-[9px] text-sports-accent uppercase tracking-[0.3em] font-extrabold -mt-1">Marketing & Operaciones</span>
               </div>
             </a>
           </div>
           
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-1">
+          <div className="hidden md:flex space-x-2">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={`#${link.id}`}
                 onClick={(e) => handleScroll(e, link.id)}
-                className="px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-sports-accent hover:bg-white/5 transition-all"
+                className="px-5 py-2.5 rounded-xl text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-sports-accent hover:bg-white/5 transition-all"
               >
                 {link.name}
               </a>
@@ -85,7 +83,7 @@ export const Header: React.FC = () => {
               className="text-white hover:text-sports-accent transition-colors p-2 z-[160]"
               aria-label="Toggle menu"
             >
-              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -109,7 +107,7 @@ export const Header: React.FC = () => {
           isOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-10 invisible'
         }`}
       >
-        <div className="px-6 pt-6 pb-12 space-y-1">
+        <div className="px-6 pt-6 pb-12 space-y-2">
           {navLinks.map((link, index) => (
             <a
               key={link.name}
@@ -120,7 +118,7 @@ export const Header: React.FC = () => {
                 transform: isOpen ? 'translateX(0)' : 'translateX(-20px)',
                 opacity: isOpen ? 1 : 0
               }}
-              className="block px-6 py-5 rounded-2xl text-lg font-display font-extrabold uppercase tracking-tight text-white hover:bg-white/5 hover:text-sports-accent transition-all"
+              className="block px-6 py-6 rounded-2xl text-xl font-display font-extrabold uppercase tracking-tight text-white hover:bg-white/5 hover:text-sports-accent transition-all"
             >
               {link.name}
             </a>

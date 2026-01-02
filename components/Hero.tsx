@@ -6,10 +6,10 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center bg-sports-bg overflow-hidden pt-20">
-      {/* Background elements */}
+      {/* Background elements - converted px to rem for scaling */}
       <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse-slow"></div>
-        <div className="absolute -bottom-1/4 left-0 w-[600px] h-[600px] bg-sports-accent/5 rounded-full blur-[100px]"></div>
+        <div className="absolute top-1/4 -right-1/4 w-[50rem] h-[50rem] bg-indigo-500/10 rounded-full blur-[7.5rem] animate-pulse-slow"></div>
+        <div className="absolute -bottom-1/4 left-0 w-[37.5rem] h-[37.5rem] bg-sports-accent/5 rounded-full blur-[6.25rem]"></div>
       </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 z-20">
