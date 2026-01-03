@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Icons } from '../constants';
 
@@ -11,7 +12,7 @@ export const Benefits: React.FC = () => {
           <div className="animate-slide-up">
              <h2 className="text-sports-accent font-bold tracking-[0.2em] uppercase text-xs mb-4">La realidad del organizador</h2>
              <h3 className="text-3xl md:text-5xl font-display font-extrabold text-white uppercase mb-8 leading-tight">
-               Tu móvil no debería ser <span className="text-sports-accent italic">una oficina de bomberos</span>
+               Control total, <span className="text-sports-accent italic">cero caos operativo</span>
              </h3>
              <p className="text-slate-400 font-body text-lg mb-10 leading-relaxed">
                He estado ahí. He visto torneos excelentes empañados por fallos en el registro de jugadores o buses que nunca llegan. Mi trabajo es que el sistema trabaje para ti, no tú para el sistema.

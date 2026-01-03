@@ -6,6 +6,12 @@ import { PlanModal } from './PlanModal';
 export const SchoolServices: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const getMilestones = (price: number) => [
+    { label: 'Reserva', perc: '30%', amount: Math.round(price * 0.3) },
+    { label: 'Inicio', perc: '40%', amount: Math.round(price * 0.4) },
+    { label: 'Cierre', perc: '30%', amount: Math.round(price * 0.3) },
+  ];
+
   return (
     <section id="schools" className="py-32 bg-sports-bg relative overflow-hidden">
       {/* Background decoration */}
@@ -39,11 +45,25 @@ export const SchoolServices: React.FC = () => {
              <div className="absolute inset-0 bg-sports-accent/10 blur-[100px] rounded-full opacity-50"></div>
              <div className="relative glass-card rounded-[3rem] p-10 xl:p-14 border border-white/10 shadow-2xl">
                 <h4 className="text-white font-display font-black text-2xl uppercase mb-8 border-b border-white/5 pb-8">Mi Plan Integral Escolar</h4>
+                
+                {/* Fraccionamiento de Pagos */}
+                <div className="mb-10 p-5 bg-white/5 rounded-2xl border border-white/5">
+                   <div className="grid grid-cols-3 gap-3">
+                      {getMilestones(SCHOOL_PLAN_DATA.basePrice).map((m, i) => (
+                        <div key={i} className="text-center">
+                           <div className="text-[10px] text-sports-accent font-black">{m.perc}</div>
+                           <div className="text-lg font-display font-black text-white">{m.amount}€</div>
+                           <div className="text-[8px] text-slate-500 font-bold uppercase tracking-tight">{m.label}</div>
+                        </div>
+                      ))}
+                   </div>
+                </div>
+
                 <ul className="space-y-6 mb-12">
                    {SCHOOL_PLAN_DATA.features.map((feature, i) => (
                      <li key={i} className="flex items-start text-xs font-semibold group">
                         <span className="w-1.5 h-1.5 rounded-full bg-sports-accent mt-1.5 mr-4 opacity-50 group-hover:opacity-100 transition-opacity"></span>
-                        <span className={feature.includes('0€') ? 'text-sports-accent' : 'text-slate-400'}>{feature}</span>
+                        <span className={typeof feature === 'string' && feature.includes('0€') ? 'text-sports-accent' : 'text-slate-400'}>{typeof feature === 'string' ? feature : feature.label}</span>
                      </li>
                    ))}
                 </ul>

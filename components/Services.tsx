@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { PLANS, INDIVIDUAL_SERVICES_RATES, CALENDLY_URL } from '../constants';
 import { Plan, PlanFeature } from '../types';
@@ -11,6 +12,12 @@ export const Services: React.FC = () => {
     setSelectedPlan(plan);
     setIsModalOpen(true);
   };
+
+  const getMilestones = (price: number) => [
+    { label: 'Reserva', perc: '30%', amount: Math.round(price * 0.3) },
+    { label: 'Inicio', perc: '40%', amount: Math.round(price * 0.4) },
+    { label: 'Cierre', perc: '30%', amount: Math.round(price * 0.3) },
+  ];
 
   return (
     <section id="plans" className="py-32 bg-sports-bg relative border-t border-white/5">
@@ -51,6 +58,20 @@ export const Services: React.FC = () => {
                     <span className="text-5xl font-display font-black text-white tracking-tighter">{plan.priceDisplay}</span>
                     <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Base</span>
                   </div>
+                </div>
+
+                {/* Fraccionamiento de Pagos */}
+                <div className="mb-10 p-5 bg-white/5 rounded-2xl border border-white/5">
+                   <span className="text-[9px] text-slate-500 font-black uppercase tracking-widest block mb-4">Plan de Pagos Sugerido:</span>
+                   <div className="grid grid-cols-3 gap-3">
+                      {getMilestones(plan.basePrice).map((m, i) => (
+                        <div key={i} className="text-center">
+                           <div className="text-[10px] text-sports-accent font-black">{m.perc}</div>
+                           <div className="text-lg font-display font-black text-white">{m.amount}€</div>
+                           <div className="text-[8px] text-slate-500 font-bold uppercase tracking-tight">{m.label}</div>
+                        </div>
+                      ))}
+                   </div>
                 </div>
 
                 <p className="text-slate-400 font-semibold text-sm mb-10 leading-relaxed italic">

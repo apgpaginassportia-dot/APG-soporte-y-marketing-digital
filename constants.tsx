@@ -40,7 +40,7 @@ export const PLANS: Plan[] = [
     priceDisplay: '550€',
     basePrice: 550,
     subtitle: 'Olvídate de revisar DNI por WhatsApp',
-    description: 'Centralizo el registro de jugadores por categorías (Alevín, Infantil, etc.). Valido sus documentos y te entrego listados listos para los árbitros.',
+    description: 'Centralizo el registro de jugadores por categorías. Valido sus documentos y te entrego listados listos para los árbitros.',
     buttonText: 'Digitalizar mi registro',
     features: [
       { label: 'Registro Digital por Categoría', description: 'Formularios inteligentes que separan automáticamente a los jugadores por edad.' },
@@ -56,9 +56,9 @@ export const PLANS: Plan[] = [
     priceDisplay: '1.450€',
     basePrice: 1450,
     subtitle: 'Tu torneo llave en mano',
-    description: 'Incluye TODO lo del Plan Básico más el control total de la logística y la competición in-situ. Yo dirijo el evento, tú disfrutas.',
+    description: 'Incluye TODO lo del Plan Básico más el control total de la logística y la competición in-situ.',
     isRecommended: true,
-    recommendationLabel: 'INCLUYE PLAN BÁSICO',
+    recommendationLabel: 'MÁS SOLICITADO',
     buttonText: 'Hablemos de mi operativa',
     features: [
       { label: 'TODO el Plan Básico Incluido', description: 'Gestión completa de jugadores, categorías, fichas y cobros.' },
@@ -182,7 +182,7 @@ export const TEAM_SERVICES: TeamServiceItem[] = [
     title: "Secretaría Técnica Externa",
     price: "250€",
     period: "/ mes",
-    description: "Libero a tus directores de la gestión de jugadores. Organizo cada ficha por categoría (Alevín, Infantil...) asegurando que la documentación sea técnica y legalmente válida.",
+    description: "Libero a tus directores de la gestión administrativa. Organizo cada ficha por categoría asegurando que la documentación sea válida.",
     iconName: "Shield",
     features: [
       "Control de Registros por Categoría", 
